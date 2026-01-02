@@ -1,0 +1,17 @@
+{{- if .Values.persistence.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Values.persistence.mediaStorageName }}
+  labels:
+    {{- include "kavita.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.mediaStorageNameAccessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.mediaStorageNameSize }}
+  {{- if .Values.persistence.storageClass }}
+  storageClassName: {{ .Values.persistence.storageClass }}
+  {{- end }}
+{{- end }}

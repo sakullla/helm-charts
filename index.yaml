@@ -146,6 +146,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/newapi-0.0.3/newapi-0.0.3.tgz
     version: 0.0.3
+  openlist:
+  - apiVersion: v2
+    appVersion: v4.1.8
+    created: "2026-01-02T14:42:17.675816211Z"
+    description: A Helm chart for Kubernetes
+    digest: 1b44cc656e1b5ea10b3f9418620dc52204a4b92994bc82229fef8351535ee57d
+    name: openlist
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/openlist-0.0.1/openlist-0.0.1.tgz
+    version: 0.0.1
   searxng:
   - apiVersion: v2
     appVersion: 2026.1.2-3d88876a3
@@ -201,4 +212,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-02T14:27:46.137971608Z"
+generated: "2026-01-02T14:42:17.675837641Z"

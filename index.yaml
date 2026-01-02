@@ -56,6 +56,16 @@ entries:
   kavita:
   - apiVersion: v2
     appVersion: 0.8.8
+    created: "2026-01-02T13:40:28.705733501Z"
+    description: A Helm chart for Kubernetes
+    digest: 679b1da73c4e1b0d6fa971d0a74cd959663e5904ca678c0192b0e252c5b7f608
+    name: kavita
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.3/kavita-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 0.8.8
     created: "2026-01-02T13:38:41.764873769Z"
     description: A Helm chart for Kubernetes
     digest: 750f19a557c45de3f07e04f185dd722842f06adc8829d31382ee651c61a898d8
@@ -171,4 +181,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-02T13:38:41.764888026Z"
+generated: "2026-01-02T13:40:28.705762906Z"

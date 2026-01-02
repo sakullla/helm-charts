@@ -8,38 +8,38 @@
     <link href="https://cdn.staticfile.net/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        /* --- 全局背景设定 (高清二次元风景) --- */
+        /* --- 全局背景设定 --- */
         body {
-            /* 背景图：清新的天空与草地，非常唯美 */
-            background-image: url('https://w.wallhaven.cc/full/wq/wallhaven-wqve6r.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+            /* 优先加载你上传的 bg.jpg。
+               如果没上传，就显示后面的 linear-gradient (唯美粉紫渐变) 
+            */
+            background: url('./bg.jpg') center/cover fixed no-repeat, 
+                        linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             font-family: 'Nunito', 'Segoe UI', 'Microsoft YaHei', sans-serif;
             min-height: 100vh;
         }
 
-        /* 遮罩层：增加一点点暗度，让文字更清晰 */
+        /* 遮罩层 */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.15); 
+            background: rgba(255, 255, 255, 0.3); /* 稍微提亮一点 */
             z-index: -1;
         }
 
-        /* --- 主容器 (毛玻璃特效) --- */
+        /* --- 主容器 --- */
         .glass-container {
-            background: rgba(255, 255, 255, 0.75); /* 调低了不透明度，更通透 */
-            backdrop-filter: blur(20px); /* 强力磨砂效果 */
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 25px;
             padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
             margin-top: 50px;
             margin-bottom: 50px;
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
-        /* --- 头像区域 (重点修改) --- */
+        /* --- 头像区域 --- */
         .avatar-container {
             position: relative;
             width: 120px;
@@ -51,73 +51,66 @@
             width: 100%; height: 100%;
             border-radius: 50%;
             border: 4px solid #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            object-fit: cover; /* 保证图片不拉伸 */
             transition: transform 0.5s ease-in-out;
-            cursor: pointer; /* 鼠标放上去变手指 */
+            background-color: white; /* 防止图片透明部分透出 */
         }
         
-        .avatar:hover { 
-            transform: rotate(360deg) scale(1.1); /* 旋转放大 */
-        }
+        .avatar:hover { transform: rotate(15deg) scale(1.1); }
 
-        h1 { color: #2c3e50; font-weight: 800; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(255,255,255,0.5); }
-        .subtitle { color: #555; font-size: 1rem; font-weight: 500; }
+        h1 { color: #4a4a4a; font-weight: 800; letter-spacing: 1px; }
+        .subtitle { color: #666; font-size: 1rem; font-weight: 500; }
 
-        /* --- 命令框美化 --- */
+        /* --- 命令框 --- */
         .cmd-box-wrapper {
-            background: rgba(45, 45, 45, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            position: relative;
+            background: #2d2d2d;
+            border-radius: 12px;
+            padding: 18px;
             margin: 25px auto;
             max-width: 650px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             text-align: left;
-            border: 1px solid rgba(255,255,255,0.1);
         }
         .cmd-text { color: #ff79c6; font-family: 'Consolas', monospace; font-size: 0.95em; word-break: break-all; }
-        .cmd-label { color: #8be9fd; font-size: 0.85em; margin-bottom: 8px; display: block; font-weight: bold;}
+        .cmd-label { color: #8be9fd; font-size: 0.85em; margin-bottom: 5px; display: block; font-weight: bold;}
 
-        /* --- 卡片设计 (二次元风格) --- */
+        /* --- 卡片设计 --- */
         .chart-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             border: none;
             border-radius: 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s;
             overflow: hidden;
             height: 100%;
-            position: relative;
-            border: 1px solid rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         
         .chart-card:hover {
-            transform: translateY(-10px) scale(1.02); 
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3); /* 粉色唯美光晕 */
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 30px rgba(255, 117, 140, 0.25);
         }
 
         .card-header-custom {
-            /* 渐变色改为更少女的粉紫风格 */
-            background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
+            background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%); /* 糖果色渐变 */
             color: white;
             padding: 15px 25px;
             font-weight: 700;
-            font-size: 1.15rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-size: 1.1rem;
         }
 
         .card-body { padding: 25px; }
-        .card-desc { color: #666; font-size: 0.95rem; min-height: 50px; line-height: 1.6; }
+        .card-desc { color: #666; font-size: 0.9rem; min-height: 45px; }
         
         .version-badge {
             background: rgba(255,255,255,0.3);
-            color: white;
-            padding: 4px 10px;
+            color: #fff;
+            padding: 3px 10px;
             border-radius: 12px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             float: right;
-            backdrop-filter: blur(5px);
+            font-weight: normal;
         }
 
         .btn-custom {
@@ -129,15 +122,14 @@
             padding: 10px;
             font-weight: 600;
             transition: 0.3s;
-            box-shadow: 0 4px 6px rgba(255, 117, 140, 0.3);
         }
         .btn-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(255, 117, 140, 0.5);
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
             color: white;
         }
 
-        #loading { color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); font-weight: bold;}
+        #loading { color: #666; font-weight: bold;}
     </style>
 </head>
 <body>
@@ -149,8 +141,8 @@
         <div class="col-lg-10 glass-container">
             
             <div class="text-center">
-                <div class="avatar-container" title="点击更换老婆 (刷新头像)">
-                    <img src="https://api.vvhan.com/api/avatar/acg" class="avatar" alt="Cute Anime Girl" id="avatar-img" onclick="changeAvatar()">
+                <div class="avatar-container">
+                    <img src="./avatar.jpg" class="avatar" alt="Avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
                 </div>
                 
                 <h1>Sakullla's Helm Garden</h1>
@@ -165,8 +157,8 @@
             <hr class="my-5" style="border-top: 2px dashed rgba(0,0,0,0.1);">
 
             <div id="loading" class="text-center py-5">
-                <div class="spinner-border text-light" style="width: 3rem; height: 3rem;" role="status"></div>
-                <h4 class="mt-3">正在召唤 Charts 魔法...</h4>
+                <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status"></div>
+                <h4 class="mt-3">正在加载 Charts...</h4>
             </div>
 
             <div id="error-msg" class="alert alert-danger text-center shadow-sm" style="display:none; border-radius: 15px;"></div>
@@ -174,7 +166,7 @@
             <div class="row g-4" id="chart-list"></div>
             
             <div class="text-center mt-5 text-muted">
-                <p style="font-size: 0.85rem; opacity: 0.8;">Hosted with 💖 by GitHub Pages</p>
+                <p style="font-size: 0.85rem; opacity: 0.7;">Hosted with 💖 by GitHub Pages</p>
             </div>
         </div>
     </div>
@@ -185,10 +177,10 @@
 
 <script>
     $(document).ready(function() {
-        // 1. 自动计算配置
-        const repoUrl = window.location.href.replace(/\/index\.html$/, '').replace(/\/$/, '');
-        const pathSegments = window.location.pathname.split('/').filter(p => p);
-        const repoName = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : 'my-repo';
+        // 🟢 1. 强制设置仓库名和 URL (解决 my-repo 问题)
+        // 你的 URL 固定是这个，不再自动猜测，防止出错
+        const repoName = 'sakullla';
+        const repoUrl = 'https://sakullla.github.io/helm-charts';
         
         const fullCmd = `helm repo add ${repoName} ${repoUrl}`;
         $('#repo-cmd').text(fullCmd);
@@ -207,23 +199,24 @@
             },
             error: function(xhr) {
                 if(xhr.status === 404) {
-                    showError('未找到 index.yaml，请确认 GitHub Action 是否已成功构建 gh-pages 分支。');
+                    showError('未找到 index.yaml 文件');
                 } else {
-                    showError('网络加载失败 (Status: ' + xhr.status + ')');
+                    showError('网络加载失败');
                 }
             }
         });
 
-        // 3. 渲染卡片
+        // 3. 渲染
         function renderCharts(entries, repoName) {
             $('#loading').hide();
             const list = $('#chart-list');
             
             if (!entries || Object.keys(entries).length === 0) {
-                list.html('<div class="col-12 text-center text-muted"><h5>🍃 这里空空如也 (暂无 Charts)</h5></div>');
+                list.html('<div class="col-12 text-center text-muted"><h5>🍃 暂无 Charts</h5></div>');
                 return;
             }
 
+            // 按字母排序
             const sortedKeys = Object.keys(entries).sort();
 
             sortedKeys.forEach(key => {
@@ -238,9 +231,9 @@
                             <span class="version-badge">${chart.version}</span>
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <p class="card-desc">${chart.description || '这是一个神秘的 Chart，没有任何描述...'}</p>
+                            <p class="card-desc">${chart.description || '暂无描述'}</p>
                             <div class="mt-auto">
-                                <p class="text-muted mb-2"><small><i class="fas fa-code-branch me-1"></i>App Ver: ${chart.appVersion || '-'}</small></p>
+                                <p class="text-muted mb-2"><small><i class="fas fa-code-branch me-1"></i>Ver: ${chart.appVersion || '-'}</small></p>
                                 <button class="btn btn-custom" onclick="copyCmd('${installCmd}')">
                                     <i class="fas fa-copy me-1"></i> 复制安装命令
                                 </button>
@@ -258,20 +251,12 @@
         }
     });
 
-    // 复制功能
     function copyCmd(text) {
         navigator.clipboard.writeText(text).then(() => {
-            alert('✨ 命令已复制！快去终端粘贴吧 (●\'◡\'●)\n\n' + text);
+            alert('✨ 复制成功！\n' + text);
         }).catch(err => {
             prompt('复制失败，请手动复制:', text);
         });
-    }
-
-    // 点击头像刷新 (彩蛋功能)
-    function changeAvatar() {
-        const img = document.getElementById('avatar-img');
-        // 加时间戳防止浏览器缓存，强制刷新
-        img.src = 'https://api.vvhan.com/api/avatar/acg?' + new Date().getTime();
     }
 </script>
 </body>

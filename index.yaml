@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   certimate:
   - apiVersion: v2
+    appVersion: v0.4.12
+    created: "2026-01-02T06:18:42.165596492Z"
+    description: A Helm chart for Kubernetes
+    digest: 0993da02f7f32213a80a6f6b8dd8561c47180f38b903e32177eafcac32e138b0
+    name: certimate
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.4/certimate-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
     appVersion: v0.4.10
     created: "2026-01-02T06:12:46.765439109Z"
     description: A Helm chart for Kubernetes
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.3/certimate-0.0.3.tgz
     version: 0.0.3
-generated: "2026-01-02T06:12:46.765451783Z"
+generated: "2026-01-02T06:18:42.165602613Z"

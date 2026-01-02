@@ -255,6 +255,16 @@ entries:
   yamtrack:
   - apiVersion: v2
     appVersion: 0.24.8
+    created: "2026-01-02T11:01:59.288736623Z"
+    description: A Helm chart for Kubernetes
+    digest: 2dd4359550aeba0857b027627d5612bbbf6ef1490795e2b4356f8b6ae0036af7
+    name: yamtrack
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.3/yamtrack-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 0.24.8
     created: "2026-01-02T10:56:59.740018415Z"
     description: A Helm chart for Kubernetes
     digest: e536b579bcfd94ffdd27f0bed618babe57247ed9081d2a1c8717a09636741b23
@@ -273,4 +283,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.1/yamtrack-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-02T10:56:59.740059132Z"
+generated: "2026-01-02T11:01:59.288774804Z"

@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'charts/**' # 只有 charts 目录变动时才触发
+      
+permissions:
+  contents: write
 
 jobs:
   release:

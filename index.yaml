@@ -252,4 +252,15 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.3/vaultwarden-0.0.3.tgz
     version: 0.0.3
-generated: "2026-01-02T10:47:20.754033612Z"
+  yamtrack:
+  - apiVersion: v2
+    appVersion: 0.24.8
+    created: "2026-01-02T10:56:19.624924788Z"
+    description: A Helm chart for Kubernetes
+    digest: e155a907404cd7b6ff268ca4ecfadb697403778db73cdaa86426c650155e9f4b
+    name: yamtrack
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.1/yamtrack-0.0.1.tgz
+    version: 0.0.1
+generated: "2026-01-02T10:56:19.624958491Z"

@@ -105,6 +105,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.4/lobehub-0.0.4.tgz
     version: 0.0.4
+  newapi:
+  - apiVersion: v2
+    appVersion: v0.10.5-bailian.2
+    created: "2026-01-02T10:06:21.847494722Z"
+    description: A Helm chart for Kubernetes
+    digest: b182989fc8aa7285e54e6d16b92cfea4c981e3161452f71640ed80198812462c
+    name: newapi
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/newapi-0.0.1/newapi-0.0.1.tgz
+    version: 0.0.1
   searxng:
   - apiVersion: v2
     appVersion: 2026.1.2-3d88876a3
@@ -149,4 +160,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.3/vaultwarden-0.0.3.tgz
     version: 0.0.3
-generated: "2026-01-02T09:49:25.460811214Z"
+generated: "2026-01-02T10:06:21.847515493Z"

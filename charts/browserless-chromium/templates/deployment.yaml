@@ -41,7 +41,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- range $key, $val := .Values.browserless.env }}
+            {{- range $key, $val := .Values.browserless-chromium.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
             {{- end }}

@@ -105,7 +105,28 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.4/lobehub-0.0.4.tgz
     version: 0.0.4
+  misaka_danmu_server:
+  - apiVersion: v2
+    appVersion: v2.3.7
+    created: "2026-01-02T10:22:29.584851425Z"
+    description: A Helm chart for Kubernetes
+    digest: edaf3dbed06fd13fc8aca199d7c4c7ab764b37f88518fbb9e2f3eb2d8ee01f83
+    name: misaka_danmu_server
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/misaka_danmu_server-0.0.1/misaka_danmu_server-0.0.1.tgz
+    version: 0.0.1
   newapi:
+  - apiVersion: v2
+    appVersion: v0.10.5-bailian.2
+    created: "2026-01-02T10:22:29.724576584Z"
+    description: A Helm chart for Kubernetes
+    digest: d8332a774bac4f3eef66741354a09c704c2653588b1b6182a7830c96d68222da
+    name: newapi
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/newapi-0.0.3/newapi-0.0.3.tgz
+    version: 0.0.3
   - apiVersion: v2
     appVersion: v0.10.5-bailian.2
     created: "2026-01-02T10:10:57.066142437Z"
@@ -170,4 +191,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.3/vaultwarden-0.0.3.tgz
     version: 0.0.3
-generated: "2026-01-02T10:10:57.066167414Z"
+generated: "2026-01-02T10:22:29.724602352Z"

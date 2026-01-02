@@ -191,6 +191,16 @@ entries:
   saveany-bot:
   - apiVersion: v2
     appVersion: 0.46.2
+    created: "2026-01-02T15:28:25.641299216Z"
+    description: A Helm chart for Kubernetes
+    digest: 5f9d942d978bf007f0ff18b6775b60f2d5ac1efbbd7be099dbb199a3357ff093
+    name: saveany-bot
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/saveany-bot-0.0.2/saveany-bot-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 0.46.2
     created: "2026-01-02T15:24:26.592971813Z"
     description: A Helm chart for Kubernetes
     digest: 1adb2446c011bd6a51ce8acc791f7014985f2cd6c7138b268d62d74808f4ef2f
@@ -254,4 +264,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-02T15:24:26.592999855Z"
+generated: "2026-01-02T15:28:25.641326166Z"

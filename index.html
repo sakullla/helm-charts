@@ -8,7 +8,7 @@
     <link href="https://cdn.staticfile.net/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        /* --- 全局背景 (本地图片优先) --- */
+        /* --- 全局背景 --- */
         body {
             background: url('./bg.jpg') center/cover fixed no-repeat, 
                         linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
@@ -58,13 +58,45 @@
             background: #2d2d2d;
             border-radius: 12px;
             padding: 18px;
-            margin: 25px auto;
+            margin: 25px auto 15px; /* 底部间距调小，给搜索框腾位置 */
             max-width: 650px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             text-align: left;
         }
         .cmd-text { color: #ff79c6; font-family: 'Consolas', monospace; font-size: 0.95em; word-break: break-all; }
         .cmd-label { color: #8be9fd; font-size: 0.85em; margin-bottom: 5px; display: block; font-weight: bold;}
+
+        /* --- 🟢 新增：唯美搜索框 --- */
+        .search-wrapper {
+            max-width: 650px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 50px; /* 左边留出图标位置 */
+            border-radius: 50px;
+            border: 2px solid rgba(255, 154, 158, 0.3);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            font-size: 1rem;
+            color: #555;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-color: #ff9a9e;
+            box-shadow: 0 0 15px rgba(255, 154, 158, 0.3);
+        }
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff9a9e;
+            pointer-events: none;
+        }
 
         /* --- 卡片 --- */
         .chart-card {
@@ -100,16 +132,10 @@
             transform: scale(1.02); box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4); color: white;
         }
 
-        /* --- 🟢 新增：优雅的消息气泡 (Toast) --- */
+        /* --- 消息气泡 (Toast) --- */
         #toast-box {
-            position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            pointer-events: none; /* 让鼠标能点透空白区域 */
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none;
         }
-        
         .sakura-toast {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -119,33 +145,17 @@
             border: 2px solid #ff9a9e;
             color: #ff758c;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            /* 进场动画 */
+            display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
             animation: slideDown 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
         }
-
-        @keyframes slideDown {
-            0% { transform: translateY(-50px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-        
-        @keyframes fadeOut {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-30px); opacity: 0; }
-        }
-
-        .hide-toast {
-            animation: fadeOut 0.5s forwards;
-        }
+        @keyframes slideDown { 0% { transform: translateY(-50px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOut { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-30px); opacity: 0; } }
+        .hide-toast { animation: fadeOut 0.5s forwards; }
     </style>
 </head>
 <body>
 
 <div class="overlay"></div>
-
 <div id="toast-box"></div>
 
 <div class="container">
@@ -162,9 +172,15 @@
                     <span class="cmd-label"><i class="fas fa-terminal me-2"></i>Terminal</span>
                     <div class="cmd-text" id="repo-cmd">Loading...</div>
                 </div>
+
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" class="search-input" placeholder="✨ 搜索 Chart 名称或描述...">
+                </div>
+
             </div>
 
-            <hr class="my-5" style="border-top: 2px dashed rgba(0,0,0,0.1);">
+            <hr class="my-4" style="border-top: 2px dashed rgba(0,0,0,0.1);">
             
             <div id="loading" class="text-center py-5">
                 <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status"></div>
@@ -185,8 +201,11 @@
 <script src="https://cdn.staticfile.net/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <script>
+    // 🟢 定义全局变量存储数据，方便搜索过滤
+    let globalCharts = []; 
+    const repoName = 'sakullla'; // 你的仓库名
+
     $(document).ready(function() {
-        const repoName = 'sakullla';
         const repoUrl = 'https://sakullla.github.io/helm-charts';
         
         const fullCmd = `helm repo add ${repoName} ${repoUrl}`;
@@ -198,7 +217,14 @@
             success: function(yamlText) {
                 try {
                     const doc = jsyaml.load(yamlText);
-                    renderCharts(doc.entries, repoName);
+                    // 预处理数据：将对象转换为数组，只取最新版
+                    if (doc.entries) {
+                        globalCharts = Object.keys(doc.entries).map(key => doc.entries[key][0]);
+                        // 初始渲染
+                        renderCharts(globalCharts);
+                    } else {
+                        renderCharts([]);
+                    }
                 } catch (e) {
                     showError('YAML 解析失败: ' + e.message);
                 }
@@ -212,19 +238,38 @@
             }
         });
 
-        function renderCharts(entries, repoName) {
-            $('#loading').hide();
-            const list = $('#chart-list');
-            
-            if (!entries || Object.keys(entries).length === 0) {
-                list.html('<div class="col-12 text-center text-muted"><h5>🍃 暂无 Charts</h5></div>');
+        // 🟢 绑定搜索事件
+        $('#search-input').on('input', function() {
+            const keyword = $(this).val().toLowerCase().trim();
+            if (!keyword) {
+                renderCharts(globalCharts); // 为空显示全部
                 return;
             }
 
-            const sortedKeys = Object.keys(entries).sort();
+            // 过滤逻辑
+            const filtered = globalCharts.filter(chart => {
+                const name = (chart.name || '').toLowerCase();
+                const desc = (chart.description || '').toLowerCase();
+                return name.includes(keyword) || desc.includes(keyword);
+            });
 
-            sortedKeys.forEach(key => {
-                const chart = entries[key][0];
+            renderCharts(filtered);
+        });
+
+        function renderCharts(charts) {
+            $('#loading').hide();
+            const list = $('#chart-list');
+            list.empty(); // 清空当前列表
+            
+            if (!charts || charts.length === 0) {
+                list.html('<div class="col-12 text-center text-muted py-5"><h5>🍃 没有找到相关 Charts</h5></div>');
+                return;
+            }
+
+            // 按字母排序
+            charts.sort((a, b) => a.name.localeCompare(b.name));
+
+            charts.forEach(chart => {
                 const installCmd = `helm install my-${chart.name} ${repoName}/${chart.name}`;
                 
                 const html = `
@@ -255,7 +300,6 @@
         }
     });
 
-    // 🟢 新增：自定义消息提示函数
     function showToast(message) {
         const toast = $(`
             <div class="sakura-toast">
@@ -263,19 +307,13 @@
                 <span>${message}</span>
             </div>
         `);
-        
         $('#toast-box').append(toast);
-
-        // 3秒后自动淡出消失
         setTimeout(() => {
             toast.addClass('hide-toast');
-            toast.on('animationend', function() {
-                $(this).remove();
-            });
+            toast.on('animationend', function() { $(this).remove(); });
         }, 3000);
     }
 
-    // 🟢 修改：使用 showToast 代替 alert
     function copyCmd(text) {
         navigator.clipboard.writeText(text).then(() => {
             showToast('复制成功！快去安装吧 ✨');

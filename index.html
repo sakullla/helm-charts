@@ -8,9 +8,9 @@
     <link href="https://cdn.staticfile.net/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        /* --- 全局背景设定 (二次元风格) --- */
+        /* --- 全局背景设定 (高清二次元风景) --- */
         body {
-            /* 这里换了一张高清二次元风景图，你可以替换 url('...') 里的链接 */
+            /* 背景图：清新的天空与草地，非常唯美 */
             background-image: url('https://w.wallhaven.cc/full/wq/wallhaven-wqve6r.jpg');
             background-size: cover;
             background-attachment: fixed;
@@ -19,112 +19,125 @@
             min-height: 100vh;
         }
 
-        /* 遮罩层，让背景稍微暗一点，凸显文字 */
+        /* 遮罩层：增加一点点暗度，让文字更清晰 */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.2); /* 调节最后的0.2改变暗度 */
+            background: rgba(0, 0, 0, 0.15); 
             z-index: -1;
         }
 
-        /* --- 主容器 (毛玻璃效果) --- */
+        /* --- 主容器 (毛玻璃特效) --- */
         .glass-container {
-            background: rgba(255, 255, 255, 0.85); /* 白色半透明 */
-            backdrop-filter: blur(15px); /* 磨砂模糊 */
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.75); /* 调低了不透明度，更通透 */
+            backdrop-filter: blur(20px); /* 强力磨砂效果 */
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 25px;
             padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
             margin-top: 50px;
             margin-bottom: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
-        /* --- 标题区域 --- */
+        /* --- 头像区域 (重点修改) --- */
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+        }
+        
         .avatar {
-            width: 100px; height: 100px;
+            width: 100%; height: 100%;
             border-radius: 50%;
-            border: 4px solid white;
+            border: 4px solid #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             object-fit: cover;
-            margin-bottom: 15px;
-            transition: transform 0.5s;
+            transition: transform 0.5s ease-in-out;
+            cursor: pointer; /* 鼠标放上去变手指 */
         }
-        .avatar:hover { transform: rotate(360deg); }
         
-        h1 { color: #333; font-weight: 700; letter-spacing: 1px; }
-        .subtitle { color: #666; font-size: 0.95rem; }
+        .avatar:hover { 
+            transform: rotate(360deg) scale(1.1); /* 旋转放大 */
+        }
+
+        h1 { color: #2c3e50; font-weight: 800; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(255,255,255,0.5); }
+        .subtitle { color: #555; font-size: 1rem; font-weight: 500; }
 
         /* --- 命令框美化 --- */
         .cmd-box-wrapper {
-            background: #2d2d2d;
-            border-radius: 12px;
-            padding: 15px;
+            background: rgba(45, 45, 45, 0.9);
+            border-radius: 15px;
+            padding: 20px;
             position: relative;
-            margin: 20px auto;
-            max-width: 600px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin: 25px auto;
+            max-width: 650px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             text-align: left;
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .cmd-text { color: #ff79c6; font-family: 'Consolas', monospace; font-size: 0.9em; word-break: break-all; }
-        .cmd-label { color: #8be9fd; font-size: 0.8em; margin-bottom: 5px; display: block; }
+        .cmd-text { color: #ff79c6; font-family: 'Consolas', monospace; font-size: 0.95em; word-break: break-all; }
+        .cmd-label { color: #8be9fd; font-size: 0.85em; margin-bottom: 8px; display: block; font-weight: bold;}
 
-        /* --- 卡片设计 (核心) --- */
+        /* --- 卡片设计 (二次元风格) --- */
         .chart-card {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             border: none;
-            border-radius: 16px;
+            border-radius: 20px;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             overflow: hidden;
             height: 100%;
             position: relative;
+            border: 1px solid rgba(255,255,255,0.8);
         }
         
         .chart-card:hover {
-            transform: translateY(-10px); /* 上浮 */
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.25); /* 粉色光晕 */
+            transform: translateY(-10px) scale(1.02); 
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3); /* 粉色唯美光晕 */
         }
 
         .card-header-custom {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* 渐变色改为更少女的粉紫风格 */
+            background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
             color: white;
-            padding: 15px 20px;
-            font-weight: bold;
-            font-size: 1.1rem;
+            padding: 15px 25px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
-        .card-body { padding: 20px; }
-        .card-desc { color: #666; font-size: 0.9rem; min-height: 40px; }
+        .card-body { padding: 25px; }
+        .card-desc { color: #666; font-size: 0.95rem; min-height: 50px; line-height: 1.6; }
         
         .version-badge {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.3);
             color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
             float: right;
+            backdrop-filter: blur(5px);
         }
 
         .btn-custom {
-            background: #ff758c; /* 樱花粉 */
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
             color: white;
             border: none;
             border-radius: 50px;
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             font-weight: 600;
             transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(255, 117, 140, 0.3);
         }
         .btn-custom:hover {
-            background: #ff7eb3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(255, 117, 140, 0.5);
             color: white;
-            box-shadow: 0 4px 12px rgba(255, 117, 140, 0.4);
         }
 
-        /* --- 加载与错误提示 --- */
-        #loading { color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .spinner-border { width: 3rem; height: 3rem; }
+        #loading { color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); font-weight: bold;}
     </style>
 </head>
 <body>
@@ -136,30 +149,32 @@
         <div class="col-lg-10 glass-container">
             
             <div class="text-center">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sakullla" class="avatar" alt="Avatar">
-                <h1>Sakullla's Charts</h1>
-                <p class="subtitle">✨ 欢迎来到我的云原生魔法仓库 ✨</p>
+                <div class="avatar-container" title="点击更换老婆 (刷新头像)">
+                    <img src="https://api.vvhan.com/api/avatar/acg" class="avatar" alt="Cute Anime Girl" id="avatar-img" onclick="changeAvatar()">
+                </div>
+                
+                <h1>Sakullla's Helm Garden</h1>
+                <p class="subtitle">🌸 欢迎来到我的云原生魔法后花园 🌸</p>
                 
                 <div class="cmd-box-wrapper">
-                    <span class="cmd-label"><i class="fas fa-terminal"></i> Terminal</span>
+                    <span class="cmd-label"><i class="fas fa-terminal me-2"></i>Terminal</span>
                     <div class="cmd-text" id="repo-cmd">Loading...</div>
                 </div>
             </div>
 
-            <hr class="my-4" style="opacity: 0.1">
+            <hr class="my-5" style="border-top: 2px dashed rgba(0,0,0,0.1);">
 
             <div id="loading" class="text-center py-5">
-                <div class="spinner-border text-light" role="status"></div>
-                <h4 class="mt-3">正在召唤 Charts...</h4>
+                <div class="spinner-border text-light" style="width: 3rem; height: 3rem;" role="status"></div>
+                <h4 class="mt-3">正在召唤 Charts 魔法...</h4>
             </div>
 
-            <div id="error-msg" class="alert alert-danger text-center" style="display:none; border-radius: 15px;"></div>
+            <div id="error-msg" class="alert alert-danger text-center shadow-sm" style="display:none; border-radius: 15px;"></div>
 
-            <div class="row g-4" id="chart-list">
-                </div>
+            <div class="row g-4" id="chart-list"></div>
             
-            <div class="text-center mt-5 text-muted" style="font-size: 0.8rem;">
-                <p>Hosted with ❤️ by GitHub Pages</p>
+            <div class="text-center mt-5 text-muted">
+                <p style="font-size: 0.85rem; opacity: 0.8;">Hosted with 💖 by GitHub Pages</p>
             </div>
         </div>
     </div>
@@ -192,20 +207,20 @@
             },
             error: function(xhr) {
                 if(xhr.status === 404) {
-                    showError('未找到 index.yaml，请检查 GitHub Action 是否已完成构建。');
+                    showError('未找到 index.yaml，请确认 GitHub Action 是否已成功构建 gh-pages 分支。');
                 } else {
                     showError('网络加载失败 (Status: ' + xhr.status + ')');
                 }
             }
         });
 
-        // 3. 渲染卡片 (样式适配版)
+        // 3. 渲染卡片
         function renderCharts(entries, repoName) {
             $('#loading').hide();
             const list = $('#chart-list');
             
             if (!entries || Object.keys(entries).length === 0) {
-                list.html('<div class="col-12 text-center text-muted">暂无魔法物品 (No Charts)</div>');
+                list.html('<div class="col-12 text-center text-muted"><h5>🍃 这里空空如也 (暂无 Charts)</h5></div>');
                 return;
             }
 
@@ -219,13 +234,13 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="chart-card">
                         <div class="card-header-custom">
-                            <i class="fas fa-box-open me-2"></i>${chart.name}
+                            <i class="fas fa-cube me-2"></i>${chart.name}
                             <span class="version-badge">${chart.version}</span>
                         </div>
                         <div class="card-body d-flex flex-column">
                             <p class="card-desc">${chart.description || '这是一个神秘的 Chart，没有任何描述...'}</p>
                             <div class="mt-auto">
-                                <p class="text-muted mb-2"><small><i class="fas fa-code-branch"></i> App Version: ${chart.appVersion || '-'}</small></p>
+                                <p class="text-muted mb-2"><small><i class="fas fa-code-branch me-1"></i>App Ver: ${chart.appVersion || '-'}</small></p>
                                 <button class="btn btn-custom" onclick="copyCmd('${installCmd}')">
                                     <i class="fas fa-copy me-1"></i> 复制安装命令
                                 </button>
@@ -239,18 +254,24 @@
 
         function showError(msg) {
             $('#loading').hide();
-            $('#error-msg').html('<i class="fas fa-exclamation-triangle"></i> ' + msg).show();
+            $('#error-msg').html('<i class="fas fa-exclamation-circle me-2"></i> ' + msg).show();
         }
     });
 
     // 复制功能
     function copyCmd(text) {
         navigator.clipboard.writeText(text).then(() => {
-            // 简单的 alert 替换为稍微优雅一点的提示（实际项目可用 toast，这里保持简单）
-            alert('✨ 命令已复制到剪贴板！\n\n' + text);
+            alert('✨ 命令已复制！快去终端粘贴吧 (●\'◡\'●)\n\n' + text);
         }).catch(err => {
             prompt('复制失败，请手动复制:', text);
         });
+    }
+
+    // 点击头像刷新 (彩蛋功能)
+    function changeAvatar() {
+        const img = document.getElementById('avatar-img');
+        // 加时间戳防止浏览器缓存，强制刷新
+        img.src = 'https://api.vvhan.com/api/avatar/acg?' + new Date().getTime();
     }
 </script>
 </body>

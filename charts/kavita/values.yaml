@@ -146,16 +146,9 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-volumes:
-  - name: media
-    persistentVolumeClaim:
-      claimName: media-data-pvc
+volumes: []
 
-volumeMounts:
-  - name: media
-    mountPath: /manga
-    subPath: manga
-    readOnly: false
+volumeMounts: []
 
 env:
   TZ: "Asia/Shanghai"

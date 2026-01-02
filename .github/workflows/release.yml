@@ -3,7 +3,7 @@ name: Release Charts
 on:
   push:
     branches:
-      - main
+      - gh-pages
     paths:
       - 'charts/**' # 只有 charts 目录变动时才触发
       

@@ -53,6 +53,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.4/certimate-0.0.4.tgz
     version: 0.0.4
+  kavita:
+  - apiVersion: v2
+    appVersion: 0.8.8
+    created: "2026-01-02T13:37:22.912431012Z"
+    description: A Helm chart for Kubernetes
+    digest: 6a0a472a8866ca0049199698a50936e900ab9f361cf2bfb1a4511cfa4d363d5d
+    name: kavita
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.1/kavita-0.0.1.tgz
+    version: 0.0.1
   lobehub:
   - apiVersion: v2
     appVersion: 2.0.0-next.190
@@ -150,4 +161,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-02T12:58:46.954351387Z"
+generated: "2026-01-02T13:37:22.912449697Z"

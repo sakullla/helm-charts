@@ -32,6 +32,26 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.3/certimate-0.0.3.tgz
     version: 0.0.3
+  lobehub:
+  - apiVersion: v2
+    appVersion: 2.0.0-next.190
+    created: "2026-01-02T09:15:56.085352432Z"
+    dependencies:
+    - condition: browserless-chromium.enabled
+      name: browserless-chromium
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.1
+    - condition: searxng.enabled
+      name: searxng
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.1
+    description: A Helm chart for Kubernetes
+    digest: 6a60e60f139176f66442e4232719b5318a051cc938002de38743c00d4f16e4bc
+    name: lobehub
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.1/lobehub-0.0.1.tgz
+    version: 0.0.1
   searxng:
   - apiVersion: v2
     appVersion: 2026.1.2-3d88876a3
@@ -148,6 +168,16 @@ entries:
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.35.1
+    created: "2026-01-02T09:15:56.282074084Z"
+    description: A Helm chart for Kubernetes
+    digest: f02d52434c0225ba9c5d6dfe818862eaddcc4fdc1a54663c434476c9e42516d3
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.2/vaultwarden-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 1.35.1
     created: "2026-01-02T08:29:54.671607919Z"
     description: A Helm chart for Kubernetes
     digest: 735ad9035a3147ae2a391321e5e5890620635bcc5ab5e5bda01499d114f58294
@@ -156,4 +186,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.1/vaultwarden-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-02T08:59:50.332379497Z"
+generated: "2026-01-02T09:15:56.282100293Z"

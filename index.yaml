@@ -14,6 +14,16 @@ entries:
   calibre-web-automated:
   - apiVersion: v2
     appVersion: V3.1.4
+    created: "2026-01-02T12:22:49.692384473Z"
+    description: A Helm chart for Kubernetes
+    digest: dd1560440f747bb0e0ab57bb2cb1d9b4dfdb3aebdee1dccd7d836a55d310a124
+    name: calibre-web-automated
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/calibre-web-automated-0.0.2/calibre-web-automated-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: V3.1.4
     created: "2026-01-02T12:16:22.626214212Z"
     description: A Helm chart for Kubernetes
     digest: 51a937e975f199e3db76abfb95b07a505a1a54cc0d61d06b4b2d380dfb969226
@@ -130,4 +140,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-02T12:16:22.626220904Z"
+generated: "2026-01-02T12:22:49.692401846Z"

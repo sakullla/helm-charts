@@ -68,7 +68,7 @@ spec:
           {{- end }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
-            - name: openlist-data
+            - name: config
               mountPath: /opt/openlist/data
               readOnly: false
           {{- with .Values.volumeMounts }}

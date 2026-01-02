@@ -149,6 +149,16 @@ entries:
   openlist:
   - apiVersion: v2
     appVersion: v4.1.8
+    created: "2026-01-02T14:54:56.475701208Z"
+    description: A Helm chart for Kubernetes
+    digest: a7ee9d4ee0b3562f640fabdb3a09e81709981561bf8be0c5d67cb87678ac1579
+    name: openlist
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/openlist-0.0.3/openlist-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: v4.1.8
     created: "2026-01-02T14:51:06.175101335Z"
     description: A Helm chart for Kubernetes
     digest: 87db079b3caefaa72abb1d9cad1d6977a3dde04d53689e2c17c223e3d7860335
@@ -222,4 +232,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-02T14:51:06.175124348Z"
+generated: "2026-01-02T14:54:56.475795692Z"

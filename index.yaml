@@ -177,6 +177,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/openlist-0.0.1/openlist-0.0.1.tgz
     version: 0.0.1
+  oplist-api:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-01-02T15:08:04.523430633Z"
+    description: A Helm chart for Kubernetes
+    digest: fc55393ba8b24592233eb5a2549f2750304730541cc57026056cb7b95f57acc1
+    name: oplist-api
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/oplist-api-0.0.1/oplist-api-0.0.1.tgz
+    version: 0.0.1
   searxng:
   - apiVersion: v2
     appVersion: 2026.1.2-3d88876a3
@@ -232,4 +243,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-02T14:54:56.475795692Z"
+generated: "2026-01-02T15:08:04.523479985Z"

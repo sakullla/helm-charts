@@ -32,6 +32,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.3/certimate-0.0.3.tgz
     version: 0.0.3
+  searxng:
+  - apiVersion: v2
+    appVersion: 2026.1.2-3d88876a3
+    created: "2026-01-02T08:59:50.332341375Z"
+    description: A Helm chart for Kubernetes
+    digest: 6617e4d0c9ea644a2ad4a20b6ea02aa2139aa8abbd333168aaee39aedd011495
+    name: searxng
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/searxng-0.0.1/searxng-0.0.1.tgz
+    version: 0.0.1
   substore:
   - apiVersion: v2
     appVersion: 2.20.67
@@ -145,4 +156,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.1/vaultwarden-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-02T08:46:55.983429077Z"
+generated: "2026-01-02T08:59:50.332379497Z"

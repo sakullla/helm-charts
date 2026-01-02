@@ -95,6 +95,16 @@ entries:
   tabby-web:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-01-02T08:17:40.440907227Z"
+    description: A Helm chart for Kubernetes
+    digest: abd9cb4d5111880ae04c4c0743d55ff8771ee368031ae929314257deeca250ed
+    name: tabby-web
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/tabby-web-0.0.3/tabby-web-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-01-02T08:15:52.735023039Z"
     description: A Helm chart for Kubernetes
     digest: 387055530c39d7cd5e5fec100d55f29273027dbd3056c3c0fdbd651fb1d8fbdc
@@ -113,4 +123,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/tabby-web-0.0.1/tabby-web-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-02T08:15:52.73505588Z"
+generated: "2026-01-02T08:17:40.440939397Z"

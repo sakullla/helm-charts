@@ -8,21 +8,17 @@
     <link href="https://cdn.staticfile.net/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        /* --- 全局背景设定 --- */
+        /* --- 全局背景 (本地图片优先) --- */
         body {
-            /* 优先加载你上传的 bg.jpg。
-               如果没上传，就显示后面的 linear-gradient (唯美粉紫渐变) 
-            */
             background: url('./bg.jpg') center/cover fixed no-repeat, 
                         linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             font-family: 'Nunito', 'Segoe UI', 'Microsoft YaHei', sans-serif;
             min-height: 100vh;
         }
 
-        /* 遮罩层 */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.3); /* 稍微提亮一点 */
+            background: rgba(255, 255, 255, 0.3);
             z-index: -1;
         }
 
@@ -39,24 +35,19 @@
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
-        /* --- 头像区域 --- */
+        /* --- 头像 --- */
         .avatar-container {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
+            position: relative; width: 120px; height: 120px; margin: 0 auto 15px;
         }
-        
         .avatar {
             width: 100%; height: 100%;
             border-radius: 50%;
             border: 4px solid #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            object-fit: cover; /* 保证图片不拉伸 */
+            object-fit: cover;
             transition: transform 0.5s ease-in-out;
-            background-color: white; /* 防止图片透明部分透出 */
+            background-color: white;
         }
-        
         .avatar:hover { transform: rotate(15deg) scale(1.1); }
 
         h1 { color: #4a4a4a; font-weight: 800; letter-spacing: 1px; }
@@ -75,10 +66,9 @@
         .cmd-text { color: #ff79c6; font-family: 'Consolas', monospace; font-size: 0.95em; word-break: break-all; }
         .cmd-label { color: #8be9fd; font-size: 0.85em; margin-bottom: 5px; display: block; font-weight: bold;}
 
-        /* --- 卡片设计 --- */
+        /* --- 卡片 --- */
         .chart-card {
             background: rgba(255, 255, 255, 0.9);
-            border: none;
             border-radius: 20px;
             transition: all 0.3s;
             overflow: hidden;
@@ -86,65 +76,85 @@
             border: 1px solid rgba(255,255,255,1);
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        
         .chart-card:hover {
             transform: translateY(-8px); 
             box-shadow: 0 15px 30px rgba(255, 117, 140, 0.25);
         }
-
         .card-header-custom {
-            background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%); /* 糖果色渐变 */
-            color: white;
-            padding: 15px 25px;
-            font-weight: 700;
-            font-size: 1.1rem;
+            background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%);
+            color: white; padding: 15px 25px; font-weight: 700; font-size: 1.1rem;
         }
-
         .card-body { padding: 25px; }
         .card-desc { color: #666; font-size: 0.9rem; min-height: 45px; }
-        
         .version-badge {
-            background: rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            float: right;
-            font-weight: normal;
+            background: rgba(255,255,255,0.3); color: #fff;
+            padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; float: right;
         }
 
         .btn-custom {
             background: linear-gradient(to right, #ff758c, #ff7eb3);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            width: 100%;
-            padding: 10px;
-            font-weight: 600;
-            transition: 0.3s;
+            color: white; border: none; border-radius: 50px; width: 100%; padding: 10px;
+            font-weight: 600; transition: 0.3s;
         }
         .btn-custom:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
-            color: white;
+            transform: scale(1.02); box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4); color: white;
         }
 
-        #loading { color: #666; font-weight: bold;}
+        /* --- 🟢 新增：优雅的消息气泡 (Toast) --- */
+        #toast-box {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            pointer-events: none; /* 让鼠标能点透空白区域 */
+        }
+        
+        .sakura-toast {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.3);
+            border: 2px solid #ff9a9e;
+            color: #ff758c;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            /* 进场动画 */
+            animation: slideDown 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+
+        @keyframes slideDown {
+            0% { transform: translateY(-50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-30px); opacity: 0; }
+        }
+
+        .hide-toast {
+            animation: fadeOut 0.5s forwards;
+        }
     </style>
 </head>
 <body>
 
 <div class="overlay"></div>
 
+<div id="toast-box"></div>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-10 glass-container">
-            
             <div class="text-center">
                 <div class="avatar-container">
                     <img src="./avatar.jpg" class="avatar" alt="Avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
                 </div>
-                
                 <h1>Sakullla's Helm Garden</h1>
                 <p class="subtitle">🌸 欢迎来到我的云原生魔法后花园 🌸</p>
                 
@@ -155,14 +165,13 @@
             </div>
 
             <hr class="my-5" style="border-top: 2px dashed rgba(0,0,0,0.1);">
-
+            
             <div id="loading" class="text-center py-5">
                 <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status"></div>
-                <h4 class="mt-3">正在加载 Charts...</h4>
+                <h4 class="mt-3 text-secondary">正在加载 Charts...</h4>
             </div>
-
+            
             <div id="error-msg" class="alert alert-danger text-center shadow-sm" style="display:none; border-radius: 15px;"></div>
-
             <div class="row g-4" id="chart-list"></div>
             
             <div class="text-center mt-5 text-muted">
@@ -177,15 +186,12 @@
 
 <script>
     $(document).ready(function() {
-        // 🟢 1. 强制设置仓库名和 URL (解决 my-repo 问题)
-        // 你的 URL 固定是这个，不再自动猜测，防止出错
         const repoName = 'sakullla';
         const repoUrl = 'https://sakullla.github.io/helm-charts';
         
         const fullCmd = `helm repo add ${repoName} ${repoUrl}`;
         $('#repo-cmd').text(fullCmd);
 
-        // 2. 加载数据
         $.ajax({
             url: './index.yaml',
             dataType: 'text',
@@ -206,7 +212,6 @@
             }
         });
 
-        // 3. 渲染
         function renderCharts(entries, repoName) {
             $('#loading').hide();
             const list = $('#chart-list');
@@ -216,7 +221,6 @@
                 return;
             }
 
-            // 按字母排序
             const sortedKeys = Object.keys(entries).sort();
 
             sortedKeys.forEach(key => {
@@ -251,9 +255,30 @@
         }
     });
 
+    // 🟢 新增：自定义消息提示函数
+    function showToast(message) {
+        const toast = $(`
+            <div class="sakura-toast">
+                <i class="fas fa-check-circle"></i>
+                <span>${message}</span>
+            </div>
+        `);
+        
+        $('#toast-box').append(toast);
+
+        // 3秒后自动淡出消失
+        setTimeout(() => {
+            toast.addClass('hide-toast');
+            toast.on('animationend', function() {
+                $(this).remove();
+            });
+        }, 3000);
+    }
+
+    // 🟢 修改：使用 showToast 代替 alert
     function copyCmd(text) {
         navigator.clipboard.writeText(text).then(() => {
-            alert('✨ 复制成功！\n' + text);
+            showToast('复制成功！快去安装吧 ✨');
         }).catch(err => {
             prompt('复制失败，请手动复制:', text);
         });

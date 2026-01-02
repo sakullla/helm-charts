@@ -8,6 +8,8 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       {{- include "calibre-web-automated.selectorLabels" . | nindent 6 }}
@@ -85,7 +87,7 @@ spec:
       volumes:
         - name: calibre-data
           persistentVolumeClaim:
-            claimName: {{ include "certimate.fullname" . }}-data
+            claimName: {{ include "calibre-web-automated.fullname" . }}-data
         - name: download-data
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.mediaStorageName }}

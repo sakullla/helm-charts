@@ -3,6 +3,16 @@ entries:
   browserless-chromium:
   - apiVersion: v2
     appVersion: v2.38.2
+    created: "2026-01-02T09:24:04.98210405Z"
+    description: A Helm chart for Kubernetes
+    digest: 3013b005e46b9b56ad48ae7763bf919af2632dd4a88f8dbdef45babb7191455d
+    name: browserless-chromium
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.2/browserless-chromium-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: v2.38.2
     created: "2026-01-02T08:46:55.983404551Z"
     description: A Helm chart for Kubernetes
     digest: 956627eee068fbdd6f4314a58f79f5304e3c1ed567a2f3d1a1ba67977edd961b
@@ -186,4 +196,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.1/vaultwarden-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-02T09:15:56.282100293Z"
+generated: "2026-01-02T09:24:04.982160068Z"

@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "misaka_danmu_server.name" -}}
+{{- define "misaka-danmu-server.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "misaka_danmu_server.fullname" -}}
+{{- define "misaka-danmu-server.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "misaka_danmu_server.chart" -}}
+{{- define "misaka-danmu-server.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "misaka_danmu_server.labels" -}}
-helm.sh/chart: {{ include "misaka_danmu_server.chart" . }}
-{{ include "misaka_danmu_server.selectorLabels" . }}
+{{- define "misaka-danmu-server.labels" -}}
+helm.sh/chart: {{ include "misaka-danmu-server.chart" . }}
+{{ include "misaka-danmu-server.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "misaka_danmu_server.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "misaka_danmu_server.name" . }}
+{{- define "misaka-danmu-server.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "misaka-danmu-server.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "misaka_danmu_server.serviceAccountName" -}}
+{{- define "misaka-danmu-server.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "misaka_danmu_server.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "misaka-danmu-server.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

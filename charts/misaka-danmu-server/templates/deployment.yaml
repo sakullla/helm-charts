@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "misaka_danmu_server.fullname" . }}
+  name: {{ include "misaka-danmu-server.fullname" . }}
   labels:
-    {{- include "misaka_danmu_server.labels" . | nindent 4 }}
+    {{- include "misaka-danmu-server.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "misaka_danmu_server.selectorLabels" . | nindent 6 }}
+      {{- include "misaka-danmu-server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -20,7 +20,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "misaka_danmu_server.labels" . | nindent 8 }}
+        {{- include "misaka-danmu-server.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -29,7 +29,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "misaka_danmu_server.serviceAccountName" . }}
+      serviceAccountName: {{ include "misaka-danmu-server.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -44,9 +44,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ include "misaka_danmu_server.fullname" . }}-config
+                name: {{ include "misaka-danmu-server.fullname" . }}-config
             - secretRef:
-                name: {{ include "misaka_danmu_server.fullname" . }}-secret
+                name: {{ include "misaka-danmu-server.fullname" . }}-secret
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -75,7 +75,7 @@ spec:
         - name: data
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ include "misaka_danmu_server.fullname" . }}-data
+            claimName: {{ include "misaka-danmu-server.fullname" . }}-data
           {{- else }}
           emptyDir: {}
           {{- end }}

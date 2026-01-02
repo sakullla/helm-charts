@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "misaka_danmu_server.fullname" . }}
+  name: {{ include "misaka-danmu-server.fullname" . }}
   labels:
-    {{- include "misaka_danmu_server.labels" . | nindent 4 }}
+    {{- include "misaka-danmu-server.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "misaka_danmu_server.fullname" . }}
+    name: {{ include "misaka-danmu-server.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

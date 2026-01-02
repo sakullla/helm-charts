@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "misaka_danmu_server.fullname" . }}
+  name: {{ include "misaka-danmu-server.fullname" . }}
   labels:
-    {{- include "misaka_danmu_server.labels" . | nindent 4 }}
+    {{- include "misaka-danmu-server.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "misaka_danmu_server.selectorLabels" . | nindent 4 }}
+    {{- include "misaka-danmu-server.selectorLabels" . | nindent 4 }}

@@ -108,6 +108,16 @@ entries:
   misaka_danmu_server:
   - apiVersion: v2
     appVersion: v2.3.7
+    created: "2026-01-02T10:32:31.868144193Z"
+    description: A Helm chart for Kubernetes
+    digest: 4028dd85bf2919b5daa03c4132f731ee91782cf547ab4522e32e3f817083b303
+    name: misaka_danmu_server
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/misaka_danmu_server-0.0.4/misaka_danmu_server-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: v2.3.7
     created: "2026-01-02T10:29:38.045456057Z"
     description: A Helm chart for Kubernetes
     digest: 87ae801e04fbe62560693b4abe9d5a966b087a6050f8a38d8b8adfaf0af5b836
@@ -211,4 +221,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.3/vaultwarden-0.0.3.tgz
     version: 0.0.3
-generated: "2026-01-02T10:29:38.045489209Z"
+generated: "2026-01-02T10:32:31.86818034Z"

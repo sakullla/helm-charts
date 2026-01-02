@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sakullla's Helm Charts</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" />
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+
+  <style>
+    .card { margin-bottom: 20px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s; }
+    .card:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); }
+    .card-header { font-weight: bold; background-color: #0091d3; color: white; }
+    .copy-btn { cursor: pointer; color: #0091d3; float: right;}
+    #loading { text-align: center; margin-top: 50px; color: #666; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="jumbotron mt-3 text-center" style="background-color: #f8f9fa;">
+      <h1 class="display-4">☸️ Helm Charts</h1>
+      <p class="lead">Sakullla's Personal Repository</p>
+      <hr class="my-4">
+      <p>Add this repo: <code>helm repo add sakullla <span id="repo-url"></span></code></p>
+    </div>
+    
+    <div id="loading">正在加载 Charts 数据...</div>
+    <div class="row" id="chart-list"></div>
+  </div>
+
+  <script>
+    document.getElementById('repo-url').innerText = window.location.href;
+
+    $.ajax({
+      url: 'index.yaml',
+      dataType: 'text',
+      success: function(data) {
+        try {
+          // 这里增加判断，防止库没加载时报错崩溃
+          if (typeof jsyaml === 'undefined') {
+            alert('js-yaml 库加载失败，请检查网络或刷新页面');
+            return;
+          }
+          
+          const doc = jsyaml.load(data);
+          const entries = doc.entries;
+          
+          $('#loading').hide();
+
+          if (!entries || Object.keys(entries).length === 0) {
+             $('#chart-list').html('<p class="text-center w-100">暂无 Chart</p>');
+             return;
+          }
+
+          Object.keys(entries).forEach(key => {
+            const chart = entries[key][0];
+            const card = `
+              <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                  <div class="card-header">
+                    ${chart.name} <span class="badge badge-light float-right">${chart.version}</span>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text">${chart.description || 'No description'}</p>
+                    <p class="text-muted"><small>App Version: ${chart.appVersion || '-'}</small></p>
+                    <button class="btn btn-sm btn-outline-primary btn-block" onclick="copyInstall('${chart.name}')">复制安装命令</button>
+                  </div>
+                </div>
+              </div>
+            `;
+            $('#chart-list').append(card);
+          });
+        } catch (e) {
+          console.error(e);
+          alert('解析失败: ' + e.message);
+        }
+      },
+      error: function(xhr, status, error) {
+        $('#loading').text('加载 index.yaml 失败，请检查网络或文件路径。');
+      }
+    });
+
+    function copyInstall(name) {
+      const cmd = `helm install my-${name} sakullla/${name}`;
+      navigator.clipboard.writeText(cmd).then(() => alert('已复制命令:\n' + cmd));
+    }
+  </script>
+</body>
+</html>

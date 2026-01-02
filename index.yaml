@@ -11,6 +11,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.4/browserless-chromium-0.0.4.tgz
     version: 0.0.4
+  calibre-web-automated:
+  - apiVersion: v2
+    appVersion: V3.1.4
+    created: "2026-01-02T12:16:22.626214212Z"
+    description: A Helm chart for Kubernetes
+    digest: 51a937e975f199e3db76abfb95b07a505a1a54cc0d61d06b4b2d380dfb969226
+    name: calibre-web-automated
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/calibre-web-automated-0.0.1/calibre-web-automated-0.0.1.tgz
+    version: 0.0.1
   certimate:
   - apiVersion: v2
     appVersion: v0.4.12
@@ -119,4 +130,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-02T11:03:17.652750535Z"
+generated: "2026-01-02T12:16:22.626220904Z"

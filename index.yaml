@@ -25,6 +25,25 @@ entries:
   lobehub:
   - apiVersion: v2
     appVersion: 2.0.0-next.190
+    created: "2026-01-02T09:43:27.897171096Z"
+    dependencies:
+    - condition: browserless-chromium.enabled
+      name: browserless-chromium
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.3
+    - condition: searxng.enabled
+      name: searxng
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.1
+    description: A Helm chart for Kubernetes
+    digest: ae1b7e196e9f1024436d4ccf4b09358870f79fc74a74b5001607ee0f151e1c2a
+    name: lobehub
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.5/lobehub-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
+    appVersion: 2.0.0-next.190
     created: "2026-01-02T09:42:02.814977098Z"
     dependencies:
     - condition: searxng.enabled
@@ -71,4 +90,15 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/tabby-web-0.0.3/tabby-web-0.0.3.tgz
     version: 0.0.3
-generated: "2026-01-02T09:42:02.81498387Z"
+  vaultwarden:
+  - apiVersion: v2
+    appVersion: 1.35.1
+    created: "2026-01-02T09:43:28.062761745Z"
+    description: A Helm chart for Kubernetes
+    digest: 2e2206271230464dfda07040ecfaca90a22b8fe5d1a3f7bb9288bdae7208d763
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.3/vaultwarden-0.0.3.tgz
+    version: 0.0.3
+generated: "2026-01-02T09:43:28.062772936Z"

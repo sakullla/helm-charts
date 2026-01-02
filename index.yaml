@@ -1,24 +1,159 @@
 apiVersion: v1
 entries:
+  browserless-chromium:
+  - apiVersion: v2
+    appVersion: v2.38.2
+    created: "2026-01-02T08:46:55.983404551Z"
+    description: A Helm chart for Kubernetes
+    digest: 956627eee068fbdd6f4314a58f79f5304e3c1ed567a2f3d1a1ba67977edd961b
+    name: browserless-chromium
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.1/browserless-chromium-0.0.1.tgz
+    version: 0.0.1
   certimate:
   - apiVersion: v2
-    appVersion: v0.4.10
-    created: "2026-01-02T05:48:33.550990236Z"
+    appVersion: v0.4.12
+    created: "2026-01-02T06:18:42.165596492Z"
     description: A Helm chart for Kubernetes
-    digest: 70152a1b7e11df9851c0e35a37760c3f1119158bce98fab4be05036b26fe9a30
+    digest: 0993da02f7f32213a80a6f6b8dd8561c47180f38b903e32177eafcac32e138b0
     name: certimate
     type: application
     urls:
-    - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.2/certimate-0.0.2.tgz
-    version: 0.0.2
+    - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.4/certimate-0.0.4.tgz
+    version: 0.0.4
   - apiVersion: v2
     appVersion: v0.4.10
-    created: "2026-01-02T05:35:24.280440175Z"
+    created: "2026-01-02T06:12:46.765439109Z"
     description: A Helm chart for Kubernetes
-    digest: fcfbb8b28125266073fe7ecd3465b211b85d85bee697e78c938cd9e27d176290
+    digest: b00533233d6ce23630184fa742857f855f4ffecbf98d76466ae688d9a29184fe
     name: certimate
     type: application
     urls:
-    - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.1/certimate-0.0.1.tgz
+    - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.3/certimate-0.0.3.tgz
+    version: 0.0.3
+  searxng:
+  - apiVersion: v2
+    appVersion: 2026.1.2-3d88876a3
+    created: "2026-01-02T08:59:50.332341375Z"
+    description: A Helm chart for Kubernetes
+    digest: 6617e4d0c9ea644a2ad4a20b6ea02aa2139aa8abbd333168aaee39aedd011495
+    name: searxng
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/searxng-0.0.1/searxng-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-02T05:48:33.550998982Z"
+  substore:
+  - apiVersion: v2
+    appVersion: 2.20.67
+    created: "2026-01-02T08:01:13.983691768Z"
+    description: A Helm chart for Kubernetes
+    digest: bea2389dce9b438c6705477d0c34900477789dc6e8025de66822a65d62ff5951
+    name: substore
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.7/substore-0.0.7.tgz
+    version: 0.0.7
+  - apiVersion: v2
+    appVersion: 2.20.67
+    created: "2026-01-02T08:00:32.218237709Z"
+    description: A Helm chart for Kubernetes
+    digest: 849b68d08854dce6baac031233441e8453f0b6190e11709cf23185223e50c324
+    name: substore
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.6/substore-0.0.6.tgz
+    version: 0.0.6
+  - apiVersion: v2
+    appVersion: 2.20.67
+    created: "2026-01-02T07:55:55.823948382Z"
+    description: A Helm chart for Kubernetes
+    digest: 10e7ccda748398f0f62ee7437229a5d3006073d2800aed94a4da96cfbfe7ebe9
+    name: substore
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.5/substore-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
+    appVersion: 2.20.67
+    created: "2026-01-02T07:52:08.657259521Z"
+    description: A Helm chart for Kubernetes
+    digest: a123da2f8ac8d7da4c94b17fb48669cc10662d8537dac4dd5e5bfe82e69c93bb
+    name: substore
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.4/substore-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: 2.20.67
+    created: "2026-01-02T07:47:58.20484495Z"
+    description: A Helm chart for Kubernetes
+    digest: 20cf08218e17f90bdcc38a7d3370d3d048f8cd82063e4f7ce0e424c4c466130d
+    name: substore
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.3/substore-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 2.20.67
+    created: "2026-01-02T07:41:35.224885481Z"
+    description: A Helm chart for Kubernetes
+    digest: be01a7f4af56c05c59f353f58c6d7642e87dbc24bb2e636927174dd1a358ec73
+    name: substore
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.2/substore-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 2.20.67
+    created: "2026-01-02T07:34:55.019014654Z"
+    description: A Helm chart for Kubernetes
+    digest: 9d5d260ebb2a3640f02b755ab497828c965251e2730c59f3a47331ff00cc0c54
+    name: substore
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.1/substore-0.0.1.tgz
+    version: 0.0.1
+  tabby-web:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-01-02T08:17:40.440907227Z"
+    description: A Helm chart for Kubernetes
+    digest: abd9cb4d5111880ae04c4c0743d55ff8771ee368031ae929314257deeca250ed
+    name: tabby-web
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/tabby-web-0.0.3/tabby-web-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-01-02T08:15:52.735023039Z"
+    description: A Helm chart for Kubernetes
+    digest: 387055530c39d7cd5e5fec100d55f29273027dbd3056c3c0fdbd651fb1d8fbdc
+    name: tabby-web
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/tabby-web-0.0.2/tabby-web-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-01-02T08:12:20.790531724Z"
+    description: A Helm chart for Kubernetes
+    digest: 4b7eb373094d5ba25c7c4ea66c1966cffa43a947d11e97815feca69c84425290
+    name: tabby-web
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/tabby-web-0.0.1/tabby-web-0.0.1.tgz
+    version: 0.0.1
+  vaultwarden:
+  - apiVersion: v2
+    appVersion: 1.35.1
+    created: "2026-01-02T08:29:54.671607919Z"
+    description: A Helm chart for Kubernetes
+    digest: 735ad9035a3147ae2a391321e5e5890620635bcc5ab5e5bda01499d114f58294
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.1/vaultwarden-0.0.1.tgz
+    version: 0.0.1
+generated: "2026-01-02T08:59:50.332379497Z"

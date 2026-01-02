@@ -105,6 +105,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.4/lobehub-0.0.4.tgz
     version: 0.0.4
+  misaka-danmu-server:
+  - apiVersion: v2
+    appVersion: v2.3.7
+    created: "2026-01-02T10:41:38.509146595Z"
+    description: A Helm chart for Kubernetes
+    digest: 1611cc9b59a1980ab3d6a8a10b262e2b75fe88a9cbac741332eb81f80e5676f5
+    name: misaka-danmu-server
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/misaka-danmu-server-0.0.1/misaka-danmu-server-0.0.1.tgz
+    version: 0.0.1
   misaka_danmu_server:
   - apiVersion: v2
     appVersion: v2.3.7
@@ -221,4 +232,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.3/vaultwarden-0.0.3.tgz
     version: 0.0.3
-generated: "2026-01-02T10:32:31.86818034Z"
+generated: "2026-01-02T10:41:38.509180278Z"

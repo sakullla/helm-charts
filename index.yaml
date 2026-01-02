@@ -11,16 +11,6 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.4/browserless-chromium-0.0.4.tgz
     version: 0.0.4
-  - apiVersion: v2
-    appVersion: v2.38.2
-    created: "2026-01-02T09:42:02.640076686Z"
-    description: A Helm chart for Kubernetes
-    digest: acd1674b68755a14246a92ce53dc63e42e001ddd89d2ab23bc9cb05857bd3f79
-    name: browserless-chromium
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.3/browserless-chromium-0.0.3.tgz
-    version: 0.0.3
   certimate:
   - apiVersion: v2
     appVersion: v0.4.12
@@ -52,59 +42,6 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.7/lobehub-0.0.7.tgz
     version: 0.0.7
-  - apiVersion: v2
-    appVersion: 2.0.0-next.190
-    created: "2026-01-02T09:47:31.791445136Z"
-    dependencies:
-    - condition: browserless-chromium.enabled
-      name: browserless-chromium
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.4
-    - condition: searxng.enabled
-      name: searxng
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.1
-    description: A Helm chart for Kubernetes
-    digest: 26350d9110324d9b3833f052da3c993e1863c44d5954605099251e7a202e0228
-    name: lobehub
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.6/lobehub-0.0.6.tgz
-    version: 0.0.6
-  - apiVersion: v2
-    appVersion: 2.0.0-next.190
-    created: "2026-01-02T09:43:27.897171096Z"
-    dependencies:
-    - condition: browserless-chromium.enabled
-      name: browserless-chromium
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.3
-    - condition: searxng.enabled
-      name: searxng
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.1
-    description: A Helm chart for Kubernetes
-    digest: ae1b7e196e9f1024436d4ccf4b09358870f79fc74a74b5001607ee0f151e1c2a
-    name: lobehub
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.5/lobehub-0.0.5.tgz
-    version: 0.0.5
-  - apiVersion: v2
-    appVersion: 2.0.0-next.190
-    created: "2026-01-02T09:42:02.814977098Z"
-    dependencies:
-    - condition: searxng.enabled
-      name: searxng
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.1
-    description: A Helm chart for Kubernetes
-    digest: 15847c91d4bedfc7f2e15ed8e1ea132ca2f4e8a74da8e2989eb1c8b7c1e4defc
-    name: lobehub
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.4/lobehub-0.0.4.tgz
-    version: 0.0.4
   misaka-danmu-server:
   - apiVersion: v2
     appVersion: v2.3.7
@@ -116,67 +53,6 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/misaka-danmu-server-0.0.3/misaka-danmu-server-0.0.3.tgz
     version: 0.0.3
-  - apiVersion: v2
-    appVersion: v2.3.7
-    created: "2026-01-02T10:44:24.078195969Z"
-    description: A Helm chart for Kubernetes
-    digest: 1f902f80d9495d773154c114506dd95728ba9dbeb877ca2f68ce346c22b7c8d6
-    name: misaka-danmu-server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/misaka-danmu-server-0.0.2/misaka-danmu-server-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: v2.3.7
-    created: "2026-01-02T10:41:38.509146595Z"
-    description: A Helm chart for Kubernetes
-    digest: 1611cc9b59a1980ab3d6a8a10b262e2b75fe88a9cbac741332eb81f80e5676f5
-    name: misaka-danmu-server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/misaka-danmu-server-0.0.1/misaka-danmu-server-0.0.1.tgz
-    version: 0.0.1
-  misaka_danmu_server:
-  - apiVersion: v2
-    appVersion: v2.3.7
-    created: "2026-01-02T10:32:31.868144193Z"
-    description: A Helm chart for Kubernetes
-    digest: 4028dd85bf2919b5daa03c4132f731ee91782cf547ab4522e32e3f817083b303
-    name: misaka_danmu_server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/misaka_danmu_server-0.0.4/misaka_danmu_server-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: v2.3.7
-    created: "2026-01-02T10:29:38.045456057Z"
-    description: A Helm chart for Kubernetes
-    digest: 87ae801e04fbe62560693b4abe9d5a966b087a6050f8a38d8b8adfaf0af5b836
-    name: misaka_danmu_server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/misaka_danmu_server-0.0.3/misaka_danmu_server-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: v2.3.7
-    created: "2026-01-02T10:26:03.257018067Z"
-    description: A Helm chart for Kubernetes
-    digest: b847d6335f6b41dc761ce02368999a5793a6ffc2a31b203c45aaae581d9c4873
-    name: misaka_danmu_server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/misaka_danmu_server-0.0.2/misaka_danmu_server-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: v2.3.7
-    created: "2026-01-02T10:22:29.584851425Z"
-    description: A Helm chart for Kubernetes
-    digest: edaf3dbed06fd13fc8aca199d7c4c7ab764b37f88518fbb9e2f3eb2d8ee01f83
-    name: misaka_danmu_server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/misaka_danmu_server-0.0.1/misaka_danmu_server-0.0.1.tgz
-    version: 0.0.1
   newapi:
   - apiVersion: v2
     appVersion: v0.10.5-bailian.2
@@ -188,26 +64,6 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/newapi-0.0.3/newapi-0.0.3.tgz
     version: 0.0.3
-  - apiVersion: v2
-    appVersion: v0.10.5-bailian.2
-    created: "2026-01-02T10:10:57.066142437Z"
-    description: A Helm chart for Kubernetes
-    digest: 422a3dcb76f8cf5e5db55ac2b17bcfd732292dd475930842dd5cc40bbe613148
-    name: newapi
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/newapi-0.0.2/newapi-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: v0.10.5-bailian.2
-    created: "2026-01-02T10:06:21.847494722Z"
-    description: A Helm chart for Kubernetes
-    digest: b182989fc8aa7285e54e6d16b92cfea4c981e3161452f71640ed80198812462c
-    name: newapi
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/newapi-0.0.1/newapi-0.0.1.tgz
-    version: 0.0.1
   searxng:
   - apiVersion: v2
     appVersion: 2026.1.2-3d88876a3
@@ -263,34 +119,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-  - apiVersion: v2
-    appVersion: 0.24.8
-    created: "2026-01-02T11:01:59.288736623Z"
-    description: A Helm chart for Kubernetes
-    digest: 2dd4359550aeba0857b027627d5612bbbf6ef1490795e2b4356f8b6ae0036af7
-    name: yamtrack
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.3/yamtrack-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: 0.24.8
-    created: "2026-01-02T10:56:59.740018415Z"
-    description: A Helm chart for Kubernetes
-    digest: e536b579bcfd94ffdd27f0bed618babe57247ed9081d2a1c8717a09636741b23
-    name: yamtrack
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.2/yamtrack-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: 0.24.8
-    created: "2026-01-02T10:56:19.624924788Z"
-    description: A Helm chart for Kubernetes
-    digest: e155a907404cd7b6ff268ca4ecfadb697403778db73cdaa86426c650155e9f4b
-    name: yamtrack
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.1/yamtrack-0.0.1.tgz
-    version: 0.0.1
 generated: "2026-01-02T11:03:17.652750535Z"

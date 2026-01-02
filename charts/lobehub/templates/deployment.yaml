@@ -1,18 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "vaultwarden.fullname" . }}
+  name: {{ include "lobehub.fullname" . }}
   labels:
-    {{- include "vaultwarden.labels" . | nindent 4 }}
+    {{- include "lobehub.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  strategy:
-    type: Recreate
   {{- end }}
   selector:
     matchLabels:
-      {{- include "vaultwarden.selectorLabels" . | nindent 6 }}
+      {{- include "lobehub.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -22,7 +20,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "vaultwarden.labels" . | nindent 8 }}
+        {{- include "lobehub.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -31,7 +29,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "vaultwarden.serviceAccountName" . }}
+      serviceAccountName: {{ include "lobehub.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -46,9 +44,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ include "vaultwarden.fullname" . }}-config
+                name: {{ include "lobehub.fullname" . }}-config
             - secretRef:
-                name: {{ include "vaultwarden.fullname" . }}-secret
+                name: {{ include "lobehub.fullname" . }}-secret
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -65,18 +63,14 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with .Values.volumeMounts }}
           volumeMounts:
-            - name: data
-              mountPath: /data
-              readOnly: false
-      volumes:
-        - name: data
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ include "vaultwarden.fullname" . }}-data
-          {{- else }}
-          emptyDir: {}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

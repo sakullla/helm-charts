@@ -21,7 +21,7 @@
       <h1 class="display-4">☸️ Helm Charts</h1>
       <p class="lead">My Personal Helm Repository</p>
       <hr class="my-4">
-      <p>Add this repo: <code>helm repo add my-repo <span id="repo-url"></span></code></p>
+      <p>Add this repo: <code>helm repo add sakullla <span id="repo-url"></span></code></p>
     </div>
     <div class="row" id="chart-list"></div>
   </div>
@@ -56,7 +56,7 @@
     });
 
     function copyInstall(name) {
-      const cmd = `helm install my-${name} my-repo/${name}`;
+      const cmd = `helm install my-${name} sakullla/${name}`;
       navigator.clipboard.writeText(cmd).then(() => alert('Copied: ' + cmd));
     }
   </script>

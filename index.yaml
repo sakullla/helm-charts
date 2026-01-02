@@ -92,4 +92,15 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.1/substore-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-02T08:01:13.983728706Z"
+  tabby-web:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-01-02T08:12:20.790531724Z"
+    description: A Helm chart for Kubernetes
+    digest: 4b7eb373094d5ba25c7c4ea66c1966cffa43a947d11e97815feca69c84425290
+    name: tabby-web
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/tabby-web-0.0.1/tabby-web-0.0.1.tgz
+    version: 0.0.1
+generated: "2026-01-02T08:12:20.790564615Z"

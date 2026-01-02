@@ -108,6 +108,16 @@ entries:
   newapi:
   - apiVersion: v2
     appVersion: v0.10.5-bailian.2
+    created: "2026-01-02T10:10:57.066142437Z"
+    description: A Helm chart for Kubernetes
+    digest: 422a3dcb76f8cf5e5db55ac2b17bcfd732292dd475930842dd5cc40bbe613148
+    name: newapi
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/newapi-0.0.2/newapi-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: v0.10.5-bailian.2
     created: "2026-01-02T10:06:21.847494722Z"
     description: A Helm chart for Kubernetes
     digest: b182989fc8aa7285e54e6d16b92cfea4c981e3161452f71640ed80198812462c
@@ -160,4 +170,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.3/vaultwarden-0.0.3.tgz
     version: 0.0.3
-generated: "2026-01-02T10:06:21.847515493Z"
+generated: "2026-01-02T10:10:57.066167414Z"

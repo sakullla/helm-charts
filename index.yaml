@@ -24,6 +24,16 @@ entries:
   substore:
   - apiVersion: v2
     appVersion: 2.20.67
+    created: "2026-01-02T08:00:32.218237709Z"
+    description: A Helm chart for Kubernetes
+    digest: 849b68d08854dce6baac031233441e8453f0b6190e11709cf23185223e50c324
+    name: substore
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.6/substore-0.0.6.tgz
+    version: 0.0.6
+  - apiVersion: v2
+    appVersion: 2.20.67
     created: "2026-01-02T07:55:55.823948382Z"
     description: A Helm chart for Kubernetes
     digest: 10e7ccda748398f0f62ee7437229a5d3006073d2800aed94a4da96cfbfe7ebe9
@@ -72,4 +82,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.1/substore-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-02T07:55:55.823973418Z"
+generated: "2026-01-02T08:00:32.218268667Z"

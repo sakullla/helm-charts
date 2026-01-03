@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "qbittorrent.fullname" . }}
+  name: {{ include "ani-rss.fullname" . }}
   labels:
-    {{- include "qbittorrent.labels" . | nindent 4 }}
+    {{- include "ani-rss.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -12,7 +12,7 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      {{- include "qbittorrent.selectorLabels" . | nindent 6 }}
+      {{- include "ani-rss.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -21,7 +21,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "qbittorrent.labels" . | nindent 8 }}
+        {{- include "ani-rss.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -30,7 +30,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "qbittorrent.serviceAccountName" . }}
+      serviceAccountName: {{ include "ani-rss.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -45,7 +45,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ include "qbittorrent.fullname" . }}-config
+                name: {{ include "ani-rss.fullname" . }}-config
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -71,10 +71,6 @@ spec:
               mountPath: /config
               subPath: config
               readOnly: false
-            - name: data
-              mountPath: /downloads
-              subPath: downloads
-              readOnly: false
           {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -82,7 +78,7 @@ spec:
         - name: data
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ include "qbittorrent.fullname" . }}-data
+            claimName: {{ include "ani-rss.fullname" . }}-data
           {{- else }}
           emptyDir: {}
           {{- end }}

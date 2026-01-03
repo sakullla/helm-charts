@@ -199,6 +199,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/oplist-api-0.0.1/oplist-api-0.0.1.tgz
     version: 0.0.1
+  qbittorrent:
+  - apiVersion: v2
+    appVersion: 5.1.4
+    created: "2026-01-03T00:35:48.074258393Z"
+    description: A Helm chart for Kubernetes
+    digest: 9fc6c063c6607f50fa1e3efb3eb99e5fd11b1c3950aeef6322d38f04af2a255f
+    name: qbittorrent
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.1/qbittorrent-0.0.1.tgz
+    version: 0.0.1
   saveany-bot:
   - apiVersion: v2
     appVersion: 0.46.2
@@ -305,4 +316,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-03T00:17:37.667836405Z"
+generated: "2026-01-03T00:35:48.07429484Z"

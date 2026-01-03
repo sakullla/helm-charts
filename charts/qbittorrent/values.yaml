@@ -163,6 +163,12 @@ volumeMounts: []
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
+  
+persistence:
+  enabled: false
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  storageClass: ""
 
 env:
   PUID: "0"

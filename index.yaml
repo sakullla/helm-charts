@@ -202,6 +202,16 @@ entries:
   qbittorrent:
   - apiVersion: v2
     appVersion: 5.1.4
+    created: "2026-01-03T00:36:15.77345451Z"
+    description: A Helm chart for Kubernetes
+    digest: ddf79eaa7a53515078e6ed442792383a081ee08a6a07d39afe434509e82ff7e8
+    name: qbittorrent
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.2/qbittorrent-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 5.1.4
     created: "2026-01-03T00:35:48.074258393Z"
     description: A Helm chart for Kubernetes
     digest: 9fc6c063c6607f50fa1e3efb3eb99e5fd11b1c3950aeef6322d38f04af2a255f
@@ -316,4 +326,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-03T00:35:48.07429484Z"
+generated: "2026-01-03T00:36:15.773495978Z"

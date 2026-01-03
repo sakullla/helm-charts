@@ -11,6 +11,22 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/affine-0.0.1/affine-0.0.1.tgz
     version: 0.0.1
+  ani-rss:
+  - apiVersion: v2
+    appVersion: v2.4.24
+    created: "2026-01-03T00:48:14.375953017Z"
+    dependencies:
+    - condition: qbittorrent.enabled
+      name: qbittorrent
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.2
+    description: A Helm chart for Kubernetes
+    digest: b2ebae526cde98fbe9eab47f838665fa9a67e92d5c66720fbff76dab82dcaff1
+    name: ani-rss
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.1/ani-rss-0.0.1.tgz
+    version: 0.0.1
   browserless-chromium:
   - apiVersion: v2
     appVersion: v2.38.2
@@ -202,6 +218,16 @@ entries:
   qbittorrent:
   - apiVersion: v2
     appVersion: 5.1.4
+    created: "2026-01-03T00:48:14.611065816Z"
+    description: A Helm chart for Kubernetes
+    digest: 6ddb24afaf5998b16dfd797c6bc9bf2f97a0137a3a4b80d6ede733586947a20a
+    name: qbittorrent
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.3/qbittorrent-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 5.1.4
     created: "2026-01-03T00:36:15.77345451Z"
     description: A Helm chart for Kubernetes
     digest: ddf79eaa7a53515078e6ed442792383a081ee08a6a07d39afe434509e82ff7e8
@@ -326,4 +352,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-03T00:36:15.773495978Z"
+generated: "2026-01-03T00:48:14.611111701Z"

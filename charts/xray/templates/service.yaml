@@ -7,6 +7,13 @@ metadata:
     {{- include "xray.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
+  {{- if .Values.service.ipFamilyPolicy }}
+  ipFamilyPolicy: {{ .Values.service.ipFamilyPolicy }}
+  {{- end }}
+  {{- if .Values.service.ipFamilies }}
+  ipFamilies:
+    {{- toYaml .Values.service.ipFamilies | nindent 4 }}
+  {{- end }}
   {{- if .Values.serviceExternalIPs }}
   externalIPs:
     {{- toYaml .Values.serviceExternalIPs | nindent 4 }}

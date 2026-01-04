@@ -6,39 +6,42 @@ metadata:
     {{- include "xray.labels" . | nindent 4 }}
 type: Opaque
 stringData:
-  {{- /* 1. 准备 Secret 读取逻辑 */}}
+  {{- /* 1. 准备 Secret 读取逻辑 */ -}}
   {{- $secretObj := (lookup "v1" "Secret" .Release.Namespace (printf "%s-auth" (include "xray.fullname" .))) | default dict }}
   {{- $secretData := $secretObj.data | default dict }}
 
-  {{- /* 2. 遍历所有 Inbounds */}}
+  {{- /* 2. 遍历所有 Inbounds */ -}}
   {{- range .Values.xrayConfig.inbounds }}
     {{- $settings := .settings | default dict }}
     
-    {{- /* 仅处理包含 settings 的 inbound */}}
+    {{- /* 仅处理包含 settings 的 inbound */ -}}
     {{- if $settings }}
       
-      {{- /* --- A. 动态计算长度 (16/32) --- */}}
+      {{- /* --- A. 动态计算长度 (16/32) --- */ -}}
       {{- $method := $settings.method | default "2022-blake3-aes-128-gcm" }}
       {{- $keyLen := 16 }}
       {{- if or (contains "256" $method) (contains "chacha20" $method) }}
         {{- $keyLen = 32 }}
       {{- end }}
 
-      {{- /* --- B. 生成/获取 服务端密码 --- */}}
+      {{- /* --- B. 生成/获取 服务端密码 --- */ -}}
       {{- $srvKeyName := printf "%s-password" .tag }}
       {{- $srvPass := "" }}
 
       {{- if and $settings.password (ne $settings.password "auto") }}
+        {{- /* 1. 用户手动指定 */ -}}
         {{- $srvPass = $settings.password }}
       {{- else if hasKey $secretData $srvKeyName }}
+        {{- /* 2. 从旧 Secret 读取 */ -}}
         {{- $srvPass = index $secretData $srvKeyName | b64dec }}
       {{- else }}
+        {{- /* 3. 自动生成 */ -}}
         {{- $srvPass = randAlphaNum $keyLen | b64enc }}
       {{- end }}
       
   {{ $srvKeyName }}: {{ $srvPass | quote }}
 
-      {{- /* --- C. 生成/获取 客户端密码 --- */}}
+      {{- /* --- C. 生成/获取 客户端密码 --- */ -}}
       {{- if $settings.clients }}
         {{- range $index, $client := $settings.clients }}
           {{- $clientKeyName := printf "%s-client-%d-password" $.tag $index }}

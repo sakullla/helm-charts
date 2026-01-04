@@ -1,0 +1,38 @@
+{{- if not .Values.useHostPort -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "xray.fullname" . }}
+  labels:
+    {{- include "xray.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  {{- if .Values.serviceExternalIPs }}
+  externalIPs:
+    {{- toYaml .Values.serviceExternalIPs | nindent 4 }}
+  {{- end }}
+  selector:
+    {{- include "xray.selectorLabels" . | nindent 4 }}
+  
+  # [核心逻辑] 同样根据 inbound 动态生成 Service 端口
+  ports:
+  {{- range $index, $inbound := .Values.xrayConfig.inbounds }}
+    {{- $net := $inbound.settings.network | default "tcp" }}
+    
+    {{- /* TCP */ -}}
+    {{- if contains "tcp" $net }}
+    - name: inbound-{{ $index }}-tcp
+      port: {{ $inbound.port }}
+      targetPort: {{ $inbound.port }}
+      protocol: TCP
+    {{- end }}
+
+    {{- /* UDP */ -}}
+    {{- if contains "udp" $net }}
+    - name: inbound-{{ $index }}-udp
+      port: {{ $inbound.port }}
+      targetPort: {{ $inbound.port }}
+      protocol: UDP
+    {{- end }}
+  {{- end }}
+{{- end -}}

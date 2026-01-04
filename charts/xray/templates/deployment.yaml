@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "xray.fullname" . }}
+  labels:
+    {{- include "xray.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "xray.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "xray.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "xray.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          {{- range $index, $inbound := .Values.xrayConfig.inbounds }}
+            {{- $net := $inbound.settings.network | default "tcp" }}
+            
+            {{- /* 1. 处理 TCP */ -}}
+            {{- if contains "tcp" $net }}
+            - name: inbound-{{ $index }}-tcp
+              containerPort: {{ $inbound.port }}
+              protocol: TCP
+              {{- if $.Values.useHostPort }}
+              hostPort: {{ $inbound.port }}
+              {{- end }}
+            {{- end }}
+
+            {{- /* 2. 处理 UDP */ -}}
+            {{- if contains "udp" $net }}
+            - name: inbound-{{ $index }}-udp
+              containerPort: {{ $inbound.port }}
+              protocol: UDP
+              {{- if $.Values.useHostPort }}
+              hostPort: {{ $inbound.port }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          livenessProbe:
+            tcpSocket:
+              {{- $firstPort := 29865 }}
+              {{- range .Values.xrayConfig.inbounds }}
+                {{- if contains "tcp" (.settings.network | default "tcp") }}
+                  {{- $firstPort = .port }}
+                  {{- break }}
+                {{- end }}
+              {{- end }}
+              port: {{ $firstPort }}
+            initialDelaySeconds: 10
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: config-json
+              mountPath: /usr/local/etc/xray
+              readOnly: true
+      volumes:
+        - name: config-json
+          configMap:
+            name: {{ include "xray.fullname" . }}-config
+            defaultMode: 420
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

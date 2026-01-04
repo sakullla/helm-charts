@@ -5,61 +5,30 @@ metadata:
   labels:
     {{- include "xray.labels" . | nindent 4 }}
 data:
-  config.json: |
-    {{- /* 1. 读取 Secret */ -}}
-    {{- $secretObj := (lookup "v1" "Secret" .Release.Namespace (printf "%s-auth" (include "xray.fullname" .))) | default dict }}
-    {{- $secretData := $secretObj.data | default dict }}
-
-    {{- /* 2. 深度拷贝配置 */ -}}
+  # 注意：这里文件名叫 config.json.tpl，表示它是模板
+  config.json.tpl: |
     {{- $config := deepCopy .Values.xrayConfig -}}
     
-    {{- /* 3. 遍历所有 Inbound 进行注入 */ -}}
     {{- range $config.inbounds -}}
+      {{- $inboundTag := .tag -}}
       {{- $settings := .settings -}}
-      
       {{- if $settings -}}
         
-        {{- /* --- A. 准备长度逻辑 (用于兜底生成) --- */ -}}
-        {{- $method := $settings.method | default "2022-blake3-aes-128-gcm" -}}
-        {{- $keyLen := 16 -}}
-        {{- if or (contains "256" $method) (contains "chacha20" $method) -}}
-          {{- $keyLen = 32 -}}
-        {{- end -}}
-        
-        {{- /* --- B. 注入服务端密码 --- */ -}}
-        {{- $srvKeyName := printf "%s-password" .tag -}}
-        {{- $srvPass := "" -}}
-        
-        {{- if and $settings.password (ne $settings.password "auto") -}}
-           {{- $srvPass = $settings.password -}}
-        {{- else if hasKey $secretData $srvKeyName -}}
-           {{- $srvPass = index $secretData $srvKeyName | b64dec -}}
-        {{- else -}}
-           {{- $srvPass = randAlphaNum $keyLen | b64enc -}}
-        {{- end -}}
-        {{- $_ := set $settings "password" $srvPass -}}
+        {{- /* 1. 填入服务端密码占位符: __tag-password__ */ -}}
+        {{- $srvPlaceholder := printf "__%s-password__" $inboundTag -}}
+        {{- $_ := set $settings "password" $srvPlaceholder -}}
 
-        {{- /* --- C. 注入客户端列表 --- */ -}}
+        {{- /* 2. 填入客户端密码占位符: __tag-client-N-password__ */ -}}
         {{- if $settings.clients -}}
             {{- $newClients := list -}}
             {{- range $index, $user := $settings.clients -}}
-                {{- $clientKeyName := printf "%s-client-%d-password" $.tag $index -}}
-                {{- $cliPass := "" -}}
-                
-                {{- if and $user.password (ne $user.password "auto") -}}
-                    {{- $cliPass = $user.password -}}
-                {{- else if hasKey $secretData $clientKeyName -}}
-                    {{- $cliPass = index $secretData $clientKeyName | b64dec -}}
-                {{- else -}}
-                    {{- $cliPass = randAlphaNum $keyLen | b64enc -}}
-                {{- end -}}
-                
-                {{- $clientObj := dict "email" $user.email "password" $cliPass -}}
+                {{- $cliPlaceholder := printf "__%s-client-%d-password__" $inboundTag $index -}}
+                {{- /* 构造对象，密码字段放占位符 */ -}}
+                {{- $clientObj := dict "email" $user.email "password" $cliPlaceholder -}}
                 {{- $newClients = append $newClients $clientObj -}}
             {{- end -}}
             {{- $_ := set $settings "clients" $newClients -}}
         {{- end -}}
-      
       {{- end -}}
     {{- end -}}
     

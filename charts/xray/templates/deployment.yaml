@@ -15,7 +15,6 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        checksum/secret: {{ include (print $.Template.BasePath "/auth.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -34,43 +33,6 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      initContainers:
-        - name: init-config
-          image: busybox:1.36
-          command: ["sh", "-c"]
-          args:
-            - |
-              echo "Initializing configuration..."
-              # 1. 复制模板到可写区域 (EmptyDir)
-              cp /etc/xray/tpl/config.json.tpl /etc/xray/run/config.json
-
-              # 2. 遍历 Secret 挂载目录下的所有文件
-              # Secret 里的 key (如 alice-password) 会变成文件名，内容是密码
-              for secret_file in /etc/xray/auth/*; do
-                  # 获取文件名 (key)
-                  key=$(basename "$secret_file")
-                  # 读取密码内容 (处理特殊字符，这里简单的 sed 足够处理 base64 字符)
-                  # 实际上 k8s secret mount 是解码后的 raw bytes，但在 shell 变量里通常安全
-                  # 更好的方式是直接读文件内容进 sed，但 busybox sed 写法受限，我们用变量
-                  pass=$(cat "$secret_file")
-                  
-                  echo "Injecting secret for key: $key"
-                  # 执行替换: 将 __key__ 替换为 密码真实值
-                  # 使用 | 作为分隔符防止密码中包含 /
-                  sed -i "s|__${key}__|${pass}|g" /etc/xray/run/config.json
-              done
-              
-              echo "Configuration generated successfully."
-              cat /etc/xray/run/config.json # 调试用，生产环境可去掉
-          volumeMounts:
-            - name: auth-volume
-              mountPath: /etc/xray/auth
-              readOnly: true
-            - name: config-template-volume
-              mountPath: /etc/xray/tpl
-              readOnly: true
-            - name: xray-config-volume
-              mountPath: /etc/xray/run
       containers:
         - name: {{ .Chart.Name }}
           {{- with .Values.securityContext }}
@@ -123,23 +85,14 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
-            - name: xray-config-volume
+            - name: config-json
               mountPath: /usr/local/etc/xray
               readOnly: true
       volumes:
-        # 1. 最终运行配置 (EmptyDir, InitContainer写, Main读)
-        - name: xray-config-volume
-          emptyDir: {}
-        
-        # 2. 密码源 (Secret)
-        - name: auth-volume
-          secret:
-            secretName: {{ include "xray.fullname" . }}-auth
-        
-        # 3. 配置模板 (ConfigMap)
-        - name: config-template-volume
+        - name: config-json
           configMap:
             name: {{ include "xray.fullname" . }}-config
+            defaultMode: 420
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

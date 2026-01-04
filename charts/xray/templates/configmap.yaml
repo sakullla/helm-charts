@@ -5,31 +5,5 @@ metadata:
   labels:
     {{- include "xray.labels" . | nindent 4 }}
 data:
-  # 注意：这里文件名叫 config.json.tpl，表示它是模板
-  config.json.tpl: |
-    {{- $config := deepCopy .Values.xrayConfig -}}
-    
-    {{- range $config.inbounds -}}
-      {{- $inboundTag := .tag -}}
-      {{- $settings := .settings -}}
-      {{- if $settings -}}
-        
-        {{- /* 1. 填入服务端密码占位符: __tag-password__ */ -}}
-        {{- $srvPlaceholder := printf "__%s-password__" $inboundTag -}}
-        {{- $_ := set $settings "password" $srvPlaceholder -}}
-
-        {{- /* 2. 填入客户端密码占位符: __tag-client-N-password__ */ -}}
-        {{- if $settings.clients -}}
-            {{- $newClients := list -}}
-            {{- range $index, $user := $settings.clients -}}
-                {{- $cliPlaceholder := printf "__%s-client-%d-password__" $inboundTag $index -}}
-                {{- /* 构造对象，密码字段放占位符 */ -}}
-                {{- $clientObj := dict "email" $user.email "password" $cliPlaceholder -}}
-                {{- $newClients = append $newClients $clientObj -}}
-            {{- end -}}
-            {{- $_ := set $settings "clients" $newClients -}}
-        {{- end -}}
-      {{- end -}}
-    {{- end -}}
-    
-    {{- $config | toPrettyJson | nindent 4 }}
+  config.json: |
+    {{- .Values.xrayConfig | toPrettyJson | nindent 4 }}

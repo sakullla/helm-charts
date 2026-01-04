@@ -79,7 +79,13 @@ affinity: {}
 
 # [开关] HostPort 模式
 useHostPort: true
-
+service: {}
+  # # 策略: SingleStack, PreferDualStack, RequireDualStack
+  # ipFamilyPolicy: RequireDualStack
+  # # 协议栈列表
+  # ipFamilies:
+  #   - IPv4
+  #   - IPv6
 # serviceExternalIPs:
 #   - 111.111.111.111
 

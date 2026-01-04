@@ -424,6 +424,16 @@ entries:
   xray:
   - apiVersion: v2
     appVersion: 25.12.8
+    created: "2026-01-04T08:38:58.837044875Z"
+    description: A Helm chart for Kubernetes
+    digest: 58df91567dae744d3c7d8c2393c9cac7db1eef54e99af6ce4929bb3a1e273b14
+    name: xray
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.2/xray-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 25.12.8
     created: "2026-01-04T08:35:40.253206934Z"
     description: A Helm chart for Kubernetes
     digest: b1e8569edf0e73078fcb8b3cfad370d169c379f66c7140fee50c775d40da096c
@@ -443,4 +453,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-04T08:35:40.253276023Z"
+generated: "2026-01-04T08:38:58.837104947Z"

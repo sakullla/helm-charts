@@ -27,7 +27,6 @@ data:
         {{- end -}}
         
         {{- /* --- B. 注入服务端密码 --- */ -}}
-        {{- /* 构造 Key 名: "tag-password" */ -}}
         {{- $srvKeyName := printf "%s-password" .tag -}}
         {{- $srvPass := "" -}}
         
@@ -44,7 +43,6 @@ data:
         {{- if $settings.clients -}}
             {{- $newClients := list -}}
             {{- range $index, $user := $settings.clients -}}
-                {{- /* 构造 Key 名: "tag-client-N-password" */ -}}
                 {{- $clientKeyName := printf "%s-client-%d-password" $.tag $index -}}
                 {{- $cliPass := "" -}}
                 

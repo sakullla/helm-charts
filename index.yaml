@@ -236,6 +236,18 @@ entries:
   next-ai-draw-io:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-01-05T14:00:09.157924364Z"
+    description: A next.js web application that integrates AI capabilities with draw.io
+      diagrams. This app allows you to create, modify, and enhance diagrams through
+      natural language commands and AI-assisted visualization.
+    digest: a6963c1157708884cf274008c75f86f8af1633ee615c0492e14b9c6373753ccb
+    name: next-ai-draw-io
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.2/next-ai-draw-io-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-01-05T13:44:52.545339649Z"
     description: A next.js web application that integrates AI capabilities with draw.io
       diagrams. This app allows you to create, modify, and enhance diagrams through
@@ -556,4 +568,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-05T13:44:52.545422596Z"
+generated: "2026-01-05T14:00:09.158005025Z"

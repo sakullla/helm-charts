@@ -25,5 +25,5 @@ appVersion: "develop"
 
 dependencies:
   - name: hedgedoc-backend
-    version:  0.0.3
+    version:  0.0.2
     repository: https://sakullla.github.io/helm-charts

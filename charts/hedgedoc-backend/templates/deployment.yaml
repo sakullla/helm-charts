@@ -63,7 +63,8 @@ spec:
           {{- end }}
           volumeMounts:
             - name: config
-              mountPath: /usr/src/app/backend
+              mountPath: /usr/src/app/backend/.env
+              subPath: .env
               readOnly: false
             - name: upload
               mountPath: /usr/src/app/backend/uploads

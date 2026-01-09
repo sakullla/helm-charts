@@ -140,6 +140,21 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.4/certimate-0.0.4.tgz
     version: 0.0.4
+  hedgedoc:
+  - apiVersion: v2
+    appVersion: develop
+    created: "2026-01-09T16:03:08.600099709Z"
+    dependencies:
+    - name: hedgedoc-backend
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.1
+    description: A Helm chart for Kubernetes
+    digest: 69139ceee15a73c2c5ab9a0ff336b374a2cf932ab3c101e1b598857062101087
+    name: hedgedoc
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.1/hedgedoc-0.0.1.tgz
+    version: 0.0.1
   hedgedoc-backend:
   - apiVersion: v2
     appVersion: develop
@@ -603,4 +618,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-09T15:55:22.454547256Z"
+generated: "2026-01-09T16:03:08.600209254Z"

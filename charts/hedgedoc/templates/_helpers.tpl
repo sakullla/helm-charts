@@ -60,3 +60,15 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+
+{{/* 这是一个全局辅助文件，define 必须放在这里或文件顶层 */}}
+
+{{- define "hedgedoc-backend.fullname.override" -}}
+{{- /* 1. 获取 hedgedoc-backend 子 Chart 的 Values (注意名称要和 Chart.yaml 里的依赖名称一致) */ -}}
+{{- $hedgedocBackendValues := index .Values "hedgedoc-backend" -}}
+{{- /* 2. 构造新的上下文，伪造 Chart Name */ -}}
+{{- $hedgedocBackendContext := dict "Values" $hedgedocBackendValues "Release" .Release "Chart" (dict "Name" "hedgedoc-backend") "Template" .Template -}}
+{{- /* 3. 调用子 Chart 的模板 */ -}}
+{{- include "hedgedoc-backend.fullname" $hedgedocBackendContext -}}
+{{- end -}}

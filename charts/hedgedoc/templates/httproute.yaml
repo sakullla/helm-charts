@@ -1,14 +1,6 @@
 {{- if .Values.httpRoute.enabled -}}
 {{- $fullName := include "hedgedoc.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
-{{- define "hedgedoc-backend.fullname.override" -}}
-{{- /* 1. 获取 hedgedoc-backend 子 Chart 的 Values */ -}}
-{{- $hedgedocBackendValues := index .Values "hedgedoc-backend" -}}
-{{- /* 2. 构造新的上下文，伪造 Chart Name 为 "redis" */ -}}
-{{- $hedgedocBackendContext := dict "Values" $hedgedocBackendValues "Release" .Release "Chart" (dict "Name" "hedgedoc-backend") "Template" .Template -}}
-{{- /* 3. 调用子 Chart 的模板 */ -}}
-{{- include "hedgedoc-backend.fullname" $hedgedocBackendContext -}}
-{{- end -}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -48,8 +40,10 @@ spec:
       backendRefs:
         - group: ''
           kind: Service
-          name: {{hedgedoc-backend.fullname.override}}
-          port: {{hedgedoc-backend.Values.service.port}}
+          # 修正点 1: 使用 include 调用模板
+          name: {{ include "hedgedoc-backend.fullname.override" . }}
+          # 修正点 2: 使用 index 安全获取带中划线的 key，并获取端口
+          port: {{ (index .Values "hedgedoc-backend").service.port }}
           weight: 50
     - matches:
           - path:

@@ -70,8 +70,8 @@ spec:
               readOnly: false
       volumes:
         - name: config
-          persistentVolumeClaim:
-            claimName: {{ include "hedgedoc-backend.fullname" . }}-secret
+          secret:
+            secretName: {{ include "hedgedoc-backend.fullname" . }}-secret
         - name: upload
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:

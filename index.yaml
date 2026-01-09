@@ -143,6 +143,20 @@ entries:
   hedgedoc:
   - apiVersion: v2
     appVersion: develop
+    created: "2026-01-09T17:24:49.912879264Z"
+    dependencies:
+    - name: hedgedoc-backend
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.4
+    description: A Helm chart for Kubernetes
+    digest: 3ddfc2ca93de70df672379aeac357b8d2198329a024d2c9ea8559fd6e53d59d8
+    name: hedgedoc
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.8/hedgedoc-0.0.8.tgz
+    version: 0.0.8
+  - apiVersion: v2
+    appVersion: develop
     created: "2026-01-09T16:54:19.928276717Z"
     dependencies:
     - name: hedgedoc-backend
@@ -732,4 +746,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-09T16:56:59.374480165Z"
+generated: "2026-01-09T17:24:49.913015027Z"

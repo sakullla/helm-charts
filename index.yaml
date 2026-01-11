@@ -725,6 +725,22 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.7/lobehub-0.0.7.tgz
     version: 0.0.7
+  miaospeed:
+  - apiVersion: v2
+    appVersion: 4.6.3
+    created: "2026-01-11T12:34:56.432246177Z"
+    dependencies:
+    - condition: frp.enabled
+      name: frp
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.1.5
+    description: Yet another server for universal connectivity debugging.
+    digest: 62c6d41b9e7dcf53fe390910039bbb3af361edad89b2d7aa82b8612cdb7cb4c3
+    name: miaospeed
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/miaospeed-0.1.0/miaospeed-0.1.0.tgz
+    version: 0.1.0
   misaka-danmu-server:
   - apiVersion: v2
     appVersion: v2.3.7
@@ -1106,4 +1122,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T11:25:39.837520248Z"
+generated: "2026-01-11T12:34:56.432360613Z"

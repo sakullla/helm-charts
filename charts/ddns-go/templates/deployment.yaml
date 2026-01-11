@@ -66,7 +66,7 @@ spec:
             claimName: {{ include "ddns-go.fullname" . }}-data
           {{- else }}
           hostPath:
-            path: /opt/ddns-go
+            path: "/opt/{{ include "ddns-go.fullname" . }}"
             type: DirectoryOrCreate
           {{- end }}
       dnsPolicy: Default

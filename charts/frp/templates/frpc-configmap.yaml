@@ -6,6 +6,6 @@ metadata:
   labels:
     {{- include "frpc.labels" . | nindent 4 }}
 data:
-  frpc.toml: |
-    {{ .Values.frpc.config | indent 4 }}
+  frpc.toml:
+    {{ .Values.frpc.config | nindent 4 }}
 {{- end }}

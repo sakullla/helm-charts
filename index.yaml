@@ -152,6 +152,19 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/chartdb-0.1.0/chartdb-0.1.0.tgz
     version: 0.1.0
+  ddns-go:
+  - apiVersion: v2
+    appVersion: v6.14.1
+    created: "2026-01-11T02:18:04.55970336Z"
+    description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod,
+      Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap,
+      NameSilo...
+    digest: f46ce64bef3ee979609fa1da241c1947c0e7329a1907aa1f3099ec561d0de8fe
+    name: ddns-go
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.0/ddns-go-0.1.0.tgz
+    version: 0.1.0
   hedgedoc:
   - apiVersion: v2
     appVersion: develop
@@ -758,4 +771,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T01:25:58.319018423Z"
+generated: "2026-01-11T02:18:04.559819065Z"

@@ -531,6 +531,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-backend-0.0.1/hedgedoc-backend-0.0.1.tgz
     version: 0.0.1
+  hubproxy:
+  - apiVersion: v2
+    appVersion: 1.2.1
+    created: "2026-01-11T05:22:49.877356493Z"
+    description: 多功能代理加速服务，提供 Docker 镜像加速、GitHub 加速、下载离线镜像等功能。一个二进制文件实现所有功能，支持仓库审计。流式转发，无缓存。
+    digest: 28548eb7f962a15f8f946025d2cd1b9fa562ceeebfd37c7759765a895f810dec
+    name: hubproxy
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/hubproxy-0.1.0/hubproxy-0.1.0.tgz
+    version: 0.1.0
   kavita:
   - apiVersion: v2
     appVersion: nightly-0.8.8.21
@@ -983,4 +994,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T05:07:06.286097068Z"
+generated: "2026-01-11T05:22:49.877496082Z"

@@ -5,6 +5,5 @@ metadata:
   labels:
     {{- include "headplane.labels" . | nindent 4 }}
 data:
-  {{- range $key, $val := .Values.env }}
-  {{ $key }}: {{ $val | quote }}
-  {{- end }}
+  config.yaml: |
+    {{- .Values.headplaneConfig | nindent 4 }}

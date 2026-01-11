@@ -154,9 +154,10 @@ persistence:
   size: 500Mi
   storageClass: ""
 
-env: {}
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+
+headplaneConfig: {}

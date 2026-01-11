@@ -542,6 +542,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/hubproxy-0.1.0/hubproxy-0.1.0.tgz
     version: 0.1.0
+  hugo-site:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-01-11T05:33:22.645937289Z"
+    description: A Helm chart for Kubernetes
+    digest: 5416186b3db7759f1e3f66e8f8822a965957c5c3e9d035da02e6226d62b94ab0
+    name: hugo-site
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/hugo-site-0.1.0/hugo-site-0.1.0.tgz
+    version: 0.1.0
   kavita:
   - apiVersion: v2
     appVersion: nightly-0.8.8.21
@@ -994,4 +1005,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T05:22:49.877496082Z"
+generated: "2026-01-11T05:33:22.646090264Z"

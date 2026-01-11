@@ -1,0 +1,46 @@
+{{- if .Values.httpRoute.enabled -}}
+{{- $fullName := include "headplane.fullname" . -}}
+{{- $headscaleFullName := include "headscale.fullname.override" . -}}
+{{- $svcPort := .Values.service.port -}}
+{{- $headscaleSvcPort := (index .Values "headscale").service.port -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "headplane.labels" . | nindent 4 }}
+  {{- with .Values.httpRoute.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs:
+    {{- with .Values.httpRoute.parentRefs }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.httpRoute.hostnames }}
+  hostnames:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /admin
+      backendRefs:
+        - name: {{ $fullName }}
+          port: {{ $svcPort }}
+          group: ''
+          kind: Service
+          weight: 50
+    - matches:
+          - path:
+              type: PathPrefix
+              value: /
+      backendRefs:
+        - name: {{ $headscaleFullName }}
+          port: {{ $headscaleSvcPort }}
+          group: ''
+          kind: Service
+          weight: 50
+{{- end }}

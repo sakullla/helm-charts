@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "ddns-go.fullname" . }}-test-connection"
+  labels:
+    {{- include "ddns-go.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "ddns-go.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

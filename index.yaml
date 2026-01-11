@@ -155,6 +155,18 @@ entries:
   ddns-go:
   - apiVersion: v2
     appVersion: v6.14.1
+    created: "2026-01-11T02:36:34.802169889Z"
+    description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod,
+      Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap,
+      NameSilo...
+    digest: e638372e168dd3424856527be8a91b2d45e0a46d3234ef1bc70277f9fa5c38ab
+    name: ddns-go
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.3/ddns-go-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: v6.14.1
     created: "2026-01-11T02:34:58.223726944Z"
     description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod,
       Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap,
@@ -795,4 +807,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T02:34:58.223849562Z"
+generated: "2026-01-11T02:36:34.802289033Z"

@@ -47,7 +47,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: config
-              mountPath: /etc/frp
+              mountPath: /etc/frp/frpc.toml
               subPath: frpc.toml
       volumes:
         - name: config

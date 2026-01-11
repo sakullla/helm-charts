@@ -213,6 +213,18 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.0/ddns-go-0.1.0.tgz
     version: 0.1.0
+  dns-server:
+  - apiVersion: v2
+    appVersion: 14.3.0
+    created: "2026-01-11T03:12:22.593927971Z"
+    description: Self host a DNS server for privacy & security Block ads & malware
+      at DNS level for your entire network!
+    digest: 65b4c88855ba746afa997a2ff2d344c99ee73e9618298f8563ac37cd370afaac
+    name: dns-server
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.0/dns-server-0.1.0.tgz
+    version: 0.1.0
   hedgedoc:
   - apiVersion: v2
     appVersion: develop
@@ -819,4 +831,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T02:37:13.802499204Z"
+generated: "2026-01-11T03:12:22.594046772Z"

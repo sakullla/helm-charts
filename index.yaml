@@ -140,6 +140,18 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.4/certimate-0.0.4.tgz
     version: 0.0.4
+  chartdb:
+  - apiVersion: v2
+    appVersion: 1.19.0
+    created: "2026-01-11T01:25:58.318915872Z"
+    description: Database diagrams editor that allows you to visualize and design
+      your DB with a single query.
+    digest: ac5225193596e4f600a8864faa451967660a7329f3b790c6427d39ca540a532e
+    name: chartdb
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/chartdb-0.1.0/chartdb-0.1.0.tgz
+    version: 0.1.0
   hedgedoc:
   - apiVersion: v2
     appVersion: develop
@@ -746,4 +758,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-09T17:24:49.913015027Z"
+generated: "2026-01-11T01:25:58.319018423Z"

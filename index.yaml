@@ -239,6 +239,17 @@ entries:
   frp:
   - apiVersion: v2
     appVersion: v0.66.0
+    created: "2026-01-11T12:50:53.442015702Z"
+    description: A fast reverse proxy to help you expose a local server behind a NAT
+      or firewall to the internet.
+    digest: 1b10375184965b4a074262ad6bfcdd80f94ddb4f38bb74fc349230c2febd1e7c
+    name: frp
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.6/frp-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: v0.66.0
     created: "2026-01-11T11:25:39.837367623Z"
     description: A fast reverse proxy to help you expose a local server behind a NAT
       or firewall to the internet.
@@ -1122,4 +1133,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T12:34:56.432360613Z"
+generated: "2026-01-11T12:50:53.442174226Z"

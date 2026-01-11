@@ -236,6 +236,18 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.0/dns-server-0.1.0.tgz
     version: 0.1.0
+  frp:
+  - apiVersion: v2
+    appVersion: v0.66.0
+    created: "2026-01-11T10:55:43.661190097Z"
+    description: A fast reverse proxy to help you expose a local server behind a NAT
+      or firewall to the internet.
+    digest: c520edb67ab28a76e03ee9e9cc52930e72c7f08b5e6306e66e70b79514d76711
+    name: frp
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.0/frp-0.1.0.tgz
+    version: 0.1.0
   headplane:
   - apiVersion: v2
     appVersion: 0.6.2-beta.3
@@ -1039,4 +1051,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T05:53:51.843076183Z"
+generated: "2026-01-11T10:55:43.661318315Z"

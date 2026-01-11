@@ -4,8 +4,8 @@ kind: ConfigMap
 metadata:
   name: {{ include "frp.fullname" . }}-config-frpc
   labels:
-    {{- include "frp.labels" . | nindent 4 }}
+    {{- include "frpc.labels" . | nindent 4 }}
 data:
   frpc.toml: |
-    {{ .Values.frpc.config | nindent 4 }}
+    {{ .Values.frpc.config | indent 4 }}
 {{- end }}

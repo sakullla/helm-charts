@@ -739,6 +739,21 @@ entries:
   miaospeed:
   - apiVersion: v2
     appVersion: 4.6.3
+    created: "2026-01-11T13:26:52.068834453Z"
+    dependencies:
+    - condition: frp.enabled
+      name: frp
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.1.6
+    description: Yet another server for universal connectivity debugging.
+    digest: 3b51070e654760bca3c2d6d811a0f83035f5f48e220320891be3da951d0c457f
+    name: miaospeed
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/miaospeed-0.1.2/miaospeed-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 4.6.3
     created: "2026-01-11T12:52:54.85931438Z"
     dependencies:
     - condition: frp.enabled
@@ -1148,4 +1163,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T12:52:54.859466677Z"
+generated: "2026-01-11T13:26:52.068985135Z"

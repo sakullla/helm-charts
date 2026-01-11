@@ -1,0 +1,11 @@
+{{- if .Values.frps.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "frp.fullname" . }}-config-frps
+  labels:
+    {{- include "frp.labels" . | nindent 4 }}
+data:
+  frps.toml: |
+    {{ .Values.frps.config | nindent 4 }}
+{{- end }}

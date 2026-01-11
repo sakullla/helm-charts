@@ -67,7 +67,7 @@ spec:
           {{- else }}
           hostPath:
             path: /opt/ddns-go
-            type: Directory
+            type: DirectoryOrCreate
           {{- end }}
       dnsPolicy: Default
       {{- with .Values.nodeSelector }}

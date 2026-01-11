@@ -239,6 +239,20 @@ entries:
   headplane:
   - apiVersion: v2
     appVersion: 0.6.2-beta.3
+    created: "2026-01-11T05:07:06.285950834Z"
+    dependencies:
+    - name: headscale
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.1.4
+    description: A feature-complete Web UI for Headscale
+    digest: 570f656888570e64380ef8c4649bde91fb3f5e11172be662ca12b03a6be0e691
+    name: headplane
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.5/headplane-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 0.6.2-beta.3
     created: "2026-01-11T04:47:43.948692917Z"
     dependencies:
     - name: headscale
@@ -969,4 +983,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T05:02:45.517485771Z"
+generated: "2026-01-11T05:07:06.286097068Z"

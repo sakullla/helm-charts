@@ -6,4 +6,4 @@ metadata:
     {{- include "headplane.labels" . | nindent 4 }}
 data:
   config.yaml: |
-    {{- .Values.headplaneConfig | nindent 4 }}
+    {{- .Values.global.headplaneConfig | .Values.headplaneConfig | nindent 4 }}

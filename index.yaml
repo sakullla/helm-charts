@@ -282,6 +282,17 @@ entries:
   headscale:
   - apiVersion: v2
     appVersion: 0.28.0-beta.1
+    created: "2026-01-11T04:41:49.948624674Z"
+    description: An open source, self-hosted implementation of the Tailscale control
+      server
+    digest: 6fd06ab94325cf3c57a215a312bd7703197b8a9d03684f52d3579c8f0f4878e6
+    name: headscale
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.2/headscale-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.28.0-beta.1
     created: "2026-01-11T04:28:42.968477654Z"
     description: An open source, self-hosted implementation of the Tailscale control
       server
@@ -908,4 +919,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T04:31:53.026155454Z"
+generated: "2026-01-11T04:41:49.948745038Z"

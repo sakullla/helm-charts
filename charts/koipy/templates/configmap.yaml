@@ -6,4 +6,4 @@ metadata:
     {{- include "koipy.labels" . | nindent 4 }}
 data:
   config.yaml: |
-    {{- .Values.global.koipyConfig  | default .Values.koipyConfig  | toYaml | nindent 4 }}
+    {{- .Values.koipyConfig  | toYaml | nindent 4 }}

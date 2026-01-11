@@ -236,6 +236,21 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.0/dns-server-0.1.0.tgz
     version: 0.1.0
+  headplane:
+  - apiVersion: v2
+    appVersion: 0.6.2-beta.3
+    created: "2026-01-11T04:12:04.467378747Z"
+    dependencies:
+    - name: headscale
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.1.0
+    description: A feature-complete Web UI for Headscale
+    digest: 65e53c84b78555355a046f78e9b4d3d2e891c99e17343653f3a34a48ed785a60
+    name: headplane
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.0/headplane-0.1.0.tgz
+    version: 0.1.0
   headscale:
   - apiVersion: v2
     appVersion: 0.28.0-beta.1
@@ -854,4 +869,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T03:52:28.700527709Z"
+generated: "2026-01-11T04:12:04.467496217Z"

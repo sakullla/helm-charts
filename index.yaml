@@ -685,6 +685,18 @@ entries:
   kirara-agent:
   - apiVersion: v2
     appVersion: v3.3.0a2
+    created: "2026-01-11T15:22:06.631288178Z"
+    description: "\U0001F916 可 DIY 的 多模态 AI 聊天机器人 | \U0001F680 快速接入 微信、 QQ、Telegram、等聊天平台
+      | \U0001F988支持DeepSeek、Grok、Claude、Ollama、Gemini、OpenAI | 工作流系统、网页搜索、AI画图、人设调教、虚拟女仆、语音对话
+      |"
+    digest: dab880610bf80f40173495b676d5e8bf92be3e431d137a70fce203b58ccdd574
+    name: kirara-agent
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/kirara-agent-0.1.1/kirara-agent-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: v3.3.0a2
     created: "2026-01-11T15:16:26.302628913Z"
     description: "\U0001F916 可 DIY 的 多模态 AI 聊天机器人 | \U0001F680 快速接入 微信、 QQ、Telegram、等聊天平台
       | \U0001F988支持DeepSeek、Grok、Claude、Ollama、Gemini、OpenAI | 工作流系统、网页搜索、AI画图、人设调教、虚拟女仆、语音对话
@@ -1176,4 +1188,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T15:16:26.30279388Z"
+generated: "2026-01-11T15:22:06.631477971Z"

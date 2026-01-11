@@ -607,6 +607,17 @@ entries:
   koipy:
   - apiVersion: v2
     appVersion: 1.12.2
+    created: "2026-01-11T05:51:50.953356564Z"
+    description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试机器人（Telegram
+      bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
+    digest: ad6d6bf167f3aa20849e471ef33acbd688da235f6516baad7f0a7043c9cf9a25
+    name: koipy
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/koipy-0.1.1/koipy-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.12.2
     created: "2026-01-11T05:47:19.17165748Z"
     description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试机器人（Telegram
       bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
@@ -1017,4 +1028,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T05:47:19.171816737Z"
+generated: "2026-01-11T05:51:50.953555104Z"

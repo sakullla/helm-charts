@@ -165,10 +165,13 @@ persistence:
   size: 500Mi
   storageClass: ""
 
-env: {}
+env:
+  dns_records.json: '[]'
 
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+
+headscaleConfig: {}

@@ -5,6 +5,8 @@ metadata:
   labels:
     {{- include "headscale.labels" . | nindent 4 }}
 data:
+  config.yaml: |
+      {{- .Values.global.headscaleConfig | .Values.headscaleConfig | nindent 4 }}
   {{- range $key, $val := .Values.env }}
   {{ $key }}: {{ $val | quote }}
   {{- end }}

@@ -236,6 +236,18 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.0/dns-server-0.1.0.tgz
     version: 0.1.0
+  headscale:
+  - apiVersion: v2
+    appVersion: 0.28.0-beta.1
+    created: "2026-01-11T03:52:28.700422661Z"
+    description: An open source, self-hosted implementation of the Tailscale control
+      server
+    digest: ee277712ff8d45dbf1e837176396d574a1f523c3b2bff1ec27f68f9b97cfa61f
+    name: headscale
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.0/headscale-0.1.0.tgz
+    version: 0.1.0
   hedgedoc:
   - apiVersion: v2
     appVersion: develop
@@ -842,4 +854,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T03:15:16.283803587Z"
+generated: "2026-01-11T03:52:28.700527709Z"

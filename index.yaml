@@ -90,6 +90,17 @@ entries:
   astrbot:
   - apiVersion: v2
     appVersion: v4.11.4
+    created: "2026-01-12T16:01:38.73802306Z"
+    description: Agentic IM Chatbot infrastructure that integrates lots of IM platforms,
+      LLMs, plugins and AI features. ✨
+    digest: 6d419ac5dc2f20d3d79e5d90ed0de81250b246adb7f049743349c8781fe3714c
+    name: astrbot
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/astrbot-0.1.1/astrbot-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: v4.11.4
     created: "2026-01-12T13:40:30.213803859Z"
     description: Agentic IM Chatbot infrastructure that integrates lots of IM platforms,
       LLMs, plugins and AI features. ✨
@@ -1200,4 +1211,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-12T13:40:30.213961692Z"
+generated: "2026-01-12T16:01:38.738240277Z"

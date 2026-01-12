@@ -87,6 +87,18 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.1/ani-rss-0.0.1.tgz
     version: 0.0.1
+  astrbot:
+  - apiVersion: v2
+    appVersion: v4.11.4
+    created: "2026-01-12T13:40:30.213803859Z"
+    description: Agentic IM Chatbot infrastructure that integrates lots of IM platforms,
+      LLMs, plugins and AI features. ✨
+    digest: e42686362c65bb0e322c1fa75b9fc612a7dc16f6aea4f476c180c5d2b19864c4
+    name: astrbot
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/astrbot-0.1.0/astrbot-0.1.0.tgz
+    version: 0.1.0
   browserless-chromium:
   - apiVersion: v2
     appVersion: v2.38.2
@@ -1188,4 +1200,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-11T15:22:06.631477971Z"
+generated: "2026-01-12T13:40:30.213961692Z"

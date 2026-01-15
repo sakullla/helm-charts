@@ -112,6 +112,16 @@ entries:
     version: 0.1.0
   browserless-chromium:
   - apiVersion: v2
+    appVersion: v2.38.3
+    created: "2026-01-15T15:15:27.78064129Z"
+    description: A Helm chart for Kubernetes
+    digest: a06a8cb84ece0284967e7462aebae6aba18de5a39819179f760a3e3420fe3319
+    name: browserless-chromium
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.6/browserless-chromium-0.0.6.tgz
+    version: 0.0.6
+  - apiVersion: v2
     appVersion: v2.38.2
     created: "2026-01-15T15:15:23.737462302Z"
     description: A Helm chart for Kubernetes
@@ -1221,4 +1231,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-15T15:15:23.73763797Z"
+generated: "2026-01-15T15:15:27.780843421Z"

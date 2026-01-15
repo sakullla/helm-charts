@@ -786,6 +786,25 @@ entries:
     version: 0.1.0
   lobehub:
   - apiVersion: v2
+    appVersion: 2.0.0-next.293
+    created: "2026-01-15T15:19:55.892444168Z"
+    dependencies:
+    - condition: browserless-chromium.enabled
+      name: browserless-chromium
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.6
+    - condition: searxng.enabled
+      name: searxng
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.1
+    description: A Helm chart for Kubernetes
+    digest: 2ed233c59a28b5be03e6956c93f087df889c4d9c97e5f94bddbb35499d40c9ba
+    name: lobehub
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.8/lobehub-0.0.8.tgz
+    version: 0.0.8
+  - apiVersion: v2
     appVersion: 2.0.0-next.190
     created: "2026-01-02T09:49:25.460790385Z"
     dependencies:
@@ -1231,4 +1250,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-15T15:15:27.780843421Z"
+generated: "2026-01-15T15:19:55.892597684Z"

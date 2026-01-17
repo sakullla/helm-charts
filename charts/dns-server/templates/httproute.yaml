@@ -24,8 +24,7 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   rules:
-    {{- /* 核心修改：在 rules 层级进行循环 */ -}}
-    {{- range $dohPaths }}
+    {{ range $dohPaths }}
     - matches:
         - path:
             type: PathPrefix
@@ -43,7 +42,6 @@ spec:
           kind: Service
           weight: 50
     {{- end }}
-    {{- /* 最后是默认的根路径匹配 */ -}}
     - matches:
         - path:
             type: PathPrefix

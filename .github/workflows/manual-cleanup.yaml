@@ -1,40 +1,65 @@
-name: Manual Force Cleanup (Fix Limits)
-on: workflow_dispatch
+name: Force Cleanup Tags (Nuclear Option)
+description: "Directly deletes Git Tags bypassing Release list. Use when 'gh release delete' fails."
+
+on:
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  cleanup-all:
+  cleanup-tags:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # 必须抓取完整历史才能看到所有 Tag
 
-      - name: Force Cleanup All Charts
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Hard Cleanup Git Tags
         run: |
-          # 获取所有 Chart 名字
+          # 1. 确保本地有所有远程 Tag
+          git fetch --tags
+
+          # 2. 获取所有 Chart 目录名
           ALL_CHARTS=$(ls -d charts/*/ | xargs -n 1 basename)
 
+          echo "📋 Starting Hard Tag Cleanup..."
+
           for CHART_NAME in $ALL_CHARTS; do
-            echo "🔎 Checking Chart: $CHART_NAME"
+            echo "---------------------------------------------------"
+            echo "🔎 Checking Tags for: $CHART_NAME"
 
-            # 关键修复：--limit 1000
-            # 确保即使是很久以前的发布也能被扫描到
-            # tail -n +3 表示保留前2个(1,2)，删除第3个及以后
-            RELEASES_TO_DELETE=$(gh release list \
-              --limit 1000 \
-              --order desc \
-              --json tagName \
-              --jq ".[] | select(.tagName | startswith(\"$CHART_NAME-\")) | .tagName" \
-              | tail -n +3)
+            # 3. 列出该 Chart 的所有 Tag
+            # 逻辑说明：
+            # git tag -l: 列出所有 tag
+            # grep -P: 使用正则严格匹配 "Chart名-数字" 或 "Chart名-v数字" 格式
+            #          这样防止 "kavita" 误匹配到 "kavita-web"
+            # sort -V -r: 按版本号倒序排列 (最新的在最上面)
+            
+            MATCHING_TAGS=$(git tag -l | grep -P "^${CHART_NAME}-v?[0-9]" | sort -V -r)
 
-            if [ -z "$RELEASES_TO_DELETE" ]; then
-              echo "✅ $CHART_NAME is clean."
+            if [ -z "$MATCHING_TAGS" ]; then
+              echo "   (No tags found matching pattern)"
+              continue
+            fi
+
+            # 4. 筛选出需要删除的 Tag (跳过前 2 个，选中剩余所有的)
+            TAGS_TO_DELETE=$(echo "$MATCHING_TAGS" | tail -n +3)
+
+            if [ -z "$TAGS_TO_DELETE" ]; then
+              echo "✅ $CHART_NAME is clean (Tags count <= 2)."
             else
-              echo "🗑️ Deleting old versions for $CHART_NAME..."
-              echo "$RELEASES_TO_DELETE" | xargs -r -I {} gh release delete "{}" --cleanup-tag -y
+              echo "🗑️ Found orphaned tags to delete:"
+              echo "$TAGS_TO_DELETE"
+              
+              # 5. 执行远程删除
+              # 将换行符转换为空格，一次性传给 git push 删除
+              # 替换换行符为这个命令需要的格式
+              for TAG in $TAGS_TO_DELETE; do
+                 echo "   🔥 Deleting remote tag: $TAG"
+                 git push origin --delete "$TAG" || echo "   ⚠️ Failed to delete $TAG (maybe already gone)"
+              done
             fi
           done
+          echo "🎉 Cleanup finished."

@@ -38,47 +38,40 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-      # 2. 修复版：清理 index.yaml (强制同步最新并在本地裁剪)
-      - name: Prune index.yaml (Keep Only Latest)
+      # 2. 修复版：移除导致崩溃的调试命令，直接执行清理
+      - name: Prune index.yaml (Keep Latest Only)
         shell: bash
         run: |
           echo "🔄 Fetching latest gh-pages..."
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           
-          # 强制拉取远程 gh-pages 分支的最新状态
+          # 1. 强制同步远程 gh-pages
           git fetch origin gh-pages
-          
-          # 强制切换并重置到 origin/gh-pages (确保包含上一步 chart-releaser 生成的最新记录)
           git checkout -B gh-pages origin/gh-pages
           
           if [ -f index.yaml ]; then
-            echo "👀 Before pruning (Count per chart):"
-            yq '.entries[] | length' index.yaml | head -n 5
-            
             echo "✂️ Pruning index.yaml to keep only the latest version per chart..."
-            # yq: 遍历 entries 下的所有数组，删除索引 1 及之后的内容
+            
+            # 核心命令：只保留每个 Chart 的最新版（索引0），删除其余所有
             yq -i 'del(.entries[][1:])' index.yaml
             
-            echo "👀 After pruning (Should be 1):"
-            yq '.entries[] | length' index.yaml | head -n 5
-            
-            # 检查是否有变化
+            # 检查文件是否真的变了
             if [[ -n $(git status -s) ]]; then
               git add index.yaml
               git commit -m "chore: prune index.yaml to latest version only [skip ci]"
               
-              # 使用 Token 显式推送到远程
+              # 推送
               git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
-              echo "✅ index.yaml pruned and forced pushed."
+              echo "✅ index.yaml cleaned and pushed."
             else
-              echo "✅ index.yaml is already clean."
+              echo "✅ index.yaml was already clean."
             fi
           else
             echo "⚠️ No index.yaml found on gh-pages branch!"
           fi
           
-          # 切回 main 分支 (如果后续步骤需要)
+          # 切回 main
           git checkout main
 
       # 3. 清理旧版本 Release/Tag：只保留最近 2 个

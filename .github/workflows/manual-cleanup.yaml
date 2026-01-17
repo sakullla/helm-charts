@@ -1,7 +1,5 @@
-name: Manual Cleanup All Tags
-
-on:
-  workflow_dispatch: # 允许手动点击按钮触发
+name: Manual Cleanup (Keep Only 1)
+on: workflow_dispatch
 
 permissions:
   contents: write
@@ -13,33 +11,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Cleanup All Old Releases
+      - name: Cleanup All Old Releases (Keep 1)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # 获取 charts 目录下所有的文件夹名
           ALL_CHARTS=$(ls -d charts/*/ | xargs -n 1 basename)
-
-          echo "🚀 Starting Full Cleanup for: $ALL_CHARTS"
-
+          
           for CHART_NAME in $ALL_CHARTS; do
-            echo "---------------------------------------------------"
             echo "🔎 Checking Chart: $CHART_NAME"
 
-            # 列出该 Chart 的所有 Tag，保留最新的 2 个
+            # 关键修改：tail -n +2 (保留1个，删除其余所有)
             RELEASES_TO_DELETE=$(gh release list \
               --limit 100 \
               --order desc \
               --json tagName \
               --jq ".[] | select(.tagName | startswith(\"$CHART_NAME-\")) | .tagName" \
-              | tail -n +3)
+              | tail -n +2)
 
             if [ -z "$RELEASES_TO_DELETE" ]; then
-              echo "✅ Clean."
+              echo "✅ $CHART_NAME: Clean (Only latest remains)."
             else
-              echo "🗑️ Found old versions. Deleting..."
+              echo "🗑️ Deleting old versions:"
               echo "$RELEASES_TO_DELETE"
               echo "$RELEASES_TO_DELETE" | xargs -r -I {} gh release delete "{}" --cleanup-tag -y
             fi
           done
-          echo "🎉 All cleanup done!"

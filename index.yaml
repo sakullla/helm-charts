@@ -3,6 +3,16 @@ entries:
   adguard-home:
   - apiVersion: v2
     appVersion: v0.107.71
+    created: "2026-01-17T11:14:15.275897868Z"
+    description: Network-wide ads & trackers blocking DNS server
+    digest: bd7b4df970e3806806b64a06ea23fb7004eb34008d10326369788174253cce5c
+    name: adguard-home
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/adguard-home-0.1.1/adguard-home-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: v0.107.71
     created: "2026-01-17T10:37:59.774738379Z"
     description: Network-wide ads & trackers blocking DNS server
     digest: 57adbee56cb0332565c59efaf176f3cc9527aecc81b72aac5511bbcceba6c1ce
@@ -1305,4 +1315,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-17T10:37:59.774903417Z"
+generated: "2026-01-17T11:14:15.276078244Z"

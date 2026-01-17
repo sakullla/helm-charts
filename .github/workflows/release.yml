@@ -8,7 +8,7 @@ on:
       - 'charts/**'
 
 permissions:
-  contents: write
+  contents: write # 允许发布 Release 和推送代码
 
 jobs:
   release:
@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # 必须获取完整历史以检测变更
 
       - name: Configure Git
         run: |
@@ -27,7 +27,79 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v3
 
+      - name: Install yq
+        uses: dcarbone/install-yq-action@v1.1.0 # 安装 yq 用于处理 yaml
+
+      # 1. 发布过程：chart-releaser 会自动检测版本变化，只发布更新的 Chart
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      # 2. 清理 index.yaml：只保留最新版本
+      # 切换到 gh-pages 分支（cr action 默认发布到此分支），用 yq 裁剪 yaml
+      - name: Prune index.yaml (Keep Only Latest)
+        run: |
+          echo "📥 Checking out gh-pages to prune index.yaml..."
+          git fetch origin gh-pages
+          git checkout gh-pages
+          
+          if [ -f index.yaml ]; then
+            echo "✂️ Pruning index.yaml to keep only the latest version per chart..."
+            # yq 命令含义：遍历所有 entries，对于每个数组，删除索引 1 及之后的内容（只留索引0，即最新版）
+            yq -i 'del(.entries[][1:])' index.yaml
+            
+            # 检查是否有变化，有则提交
+            if [[ -n $(git status -s) ]]; then
+              git commit -am "chore: prune index.yaml to latest version only"
+              git push origin gh-pages
+              echo "✅ index.yaml pruned and pushed."
+            else
+              echo "✅ index.yaml is already clean."
+            fi
+          else
+            echo "⚠️ No index.yaml found, skipping."
+          fi
+          
+          # 切回 main 分支以便后续脚本能正确读取目录结构（虽然本例中清理脚本不强依赖 main，但保持习惯）
+          git checkout main
+
+      # 3. 清理旧版本 Release/Tag：只保留最近 2 个
+      # 仅针对本次 Push 涉及的 Chart 进行检查
+      - name: Cleanup Old Releases (Keep last 2)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 获取本次提交变更的 Chart 列表
+          # git diff 比较当前 SHA 与上一次提交，过滤 charts/ 目录，提取一级目录名
+          CHANGED_CHARTS=$(git diff --name-only HEAD^ HEAD | grep '^charts/' | cut -d/ -f2 | sort -u)
+
+          if [ -z "$CHANGED_CHARTS" ]; then
+            echo "🤔 No charts modified in this push. Checking all charts just in case..."
+            CHANGED_CHARTS=$(ls -d charts/*/ | xargs -n 1 basename)
+          fi
+
+          echo "📋 Target Charts for cleanup: $CHANGED_CHARTS"
+
+          for CHART_NAME in $CHANGED_CHARTS; do
+            # 再次确认目录存在（防止删除文件的情况）
+            if [ ! -d "charts/$CHART_NAME" ]; then continue; fi
+
+            echo "🧹 Checking cleanup for Chart: $CHART_NAME ..."
+
+            # 列出该 Chart 的所有 Release，按时间倒序
+            # tail -n +3: 保留前2个(第1,2行)，从第3个开始选中用于删除
+            RELEASES_TO_DELETE=$(gh release list --limit 100 --json tagName --jq ".[] | select(.tagName | startswith(\"$CHART_NAME-\")) | .tagName" | tail -n +3)
+
+            if [ -z "$RELEASES_TO_DELETE" ]; then
+              echo "  ✅ $CHART_NAME has 2 or fewer releases. No cleanup needed."
+            else
+              echo "  🗑️ Deleting old releases (keeping top 2):"
+              echo "$RELEASES_TO_DELETE"
+              
+              # 批量删除 Release 和 Tag
+              echo "$RELEASES_TO_DELETE" | xargs -I {} gh release delete "{}" --cleanup-tag -y
+            fi
+          done

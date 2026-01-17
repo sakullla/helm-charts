@@ -1,1338 +1,1292 @@
 apiVersion: v1
 entries:
   adguard-home:
-  - apiVersion: v2
-    appVersion: v0.107.71
-    created: "2026-01-17T11:34:07.750060714Z"
-    description: Network-wide ads & trackers blocking DNS server
-    digest: 112dd0505c66e0ef60ad9f7c19829c92936680d2550db571d4fda20fcb2c39d2
-    name: adguard-home
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/adguard-home-0.1.3/adguard-home-0.1.3.tgz
-    version: 0.1.3
-  - apiVersion: v2
-    appVersion: v0.107.71
-    created: "2026-01-17T11:30:38.054258158Z"
-    description: Network-wide ads & trackers blocking DNS server
-    digest: c50cead2c23b34a73331cd748ff8a8a52115c08e7e2f7e7ac1002ca29fc6afb3
-    name: adguard-home
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/adguard-home-0.1.2/adguard-home-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: v0.107.71
-    created: "2026-01-17T11:14:15.275897868Z"
-    description: Network-wide ads & trackers blocking DNS server
-    digest: bd7b4df970e3806806b64a06ea23fb7004eb34008d10326369788174253cce5c
-    name: adguard-home
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/adguard-home-0.1.1/adguard-home-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: v0.107.71
-    created: "2026-01-17T10:37:59.774738379Z"
-    description: Network-wide ads & trackers blocking DNS server
-    digest: 57adbee56cb0332565c59efaf176f3cc9527aecc81b72aac5511bbcceba6c1ce
-    name: adguard-home
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/adguard-home-0.1.0/adguard-home-0.1.0.tgz
-    version: 0.1.0
-  affine:
-  - apiVersion: v2
-    appVersion: 0.25.7
-    created: "2026-01-03T00:17:37.284493984Z"
-    description: A Helm chart for Kubernetes
-    digest: 9d93ae929a031930abc6e5396b9693450a091c272b92b544ffdb5b148932e4af
-    name: affine
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/affine-0.0.1/affine-0.0.1.tgz
-    version: 0.0.1
-  ani-rss:
-  - apiVersion: v2
-    appVersion: v2.4.25
-    created: "2026-01-03T01:16:19.794914917Z"
-    dependencies:
-    - condition: qbittorrent.enabled
-      name: qbittorrent
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.4
-    description: A Helm chart for Kubernetes
-    digest: 6b2d1d4de74aff3b529a18f66139b7d670d3a1e688fc11f85f4cb3eb1e4469cb
-    name: ani-rss
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.5/ani-rss-0.0.5.tgz
-    version: 0.0.5
-  - apiVersion: v2
-    appVersion: v2.4.24
-    created: "2026-01-03T01:01:38.487896976Z"
-    dependencies:
-    - condition: qbittorrent.enabled
-      name: qbittorrent
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.4
-    description: A Helm chart for Kubernetes
-    digest: ddd2b7d702d54721503580fdcb64093b9f9aa6e6913df2f57abbc6825b63f734
-    name: ani-rss
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.4/ani-rss-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: v2.4.24
-    created: "2026-01-03T01:00:39.343902426Z"
-    dependencies:
-    - condition: qbittorrent.enabled
-      name: qbittorrent
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.3
-    description: A Helm chart for Kubernetes
-    digest: 1a4d10eefa6ae07d6f27a5d09a740505ffa92e9ea2d5a8fc18f7bc67c02ac52f
-    name: ani-rss
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.3/ani-rss-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: v2.4.24
-    created: "2026-01-03T00:49:18.123532143Z"
-    dependencies:
-    - condition: qbittorrent.enabled
-      name: qbittorrent
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.3
-    description: A Helm chart for Kubernetes
-    digest: 3fe121c7b227b0ccd4ef34412b6e76e98bb9c239682f781e5742306c333442d5
-    name: ani-rss
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.2/ani-rss-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: v2.4.24
-    created: "2026-01-03T00:48:14.375953017Z"
-    dependencies:
-    - condition: qbittorrent.enabled
-      name: qbittorrent
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.2
-    description: A Helm chart for Kubernetes
-    digest: b2ebae526cde98fbe9eab47f838665fa9a67e92d5c66720fbff76dab82dcaff1
-    name: ani-rss
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.1/ani-rss-0.0.1.tgz
-    version: 0.0.1
-  astrbot:
-  - apiVersion: v2
-    appVersion: v4.11.4
-    created: "2026-01-12T16:01:38.73802306Z"
-    description: Agentic IM Chatbot infrastructure that integrates lots of IM platforms,
-      LLMs, plugins and AI features. ✨
-    digest: 6d419ac5dc2f20d3d79e5d90ed0de81250b246adb7f049743349c8781fe3714c
-    name: astrbot
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/astrbot-0.1.1/astrbot-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: v4.11.4
-    created: "2026-01-12T13:40:30.213803859Z"
-    description: Agentic IM Chatbot infrastructure that integrates lots of IM platforms,
-      LLMs, plugins and AI features. ✨
-    digest: e42686362c65bb0e322c1fa75b9fc612a7dc16f6aea4f476c180c5d2b19864c4
-    name: astrbot
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/astrbot-0.1.0/astrbot-0.1.0.tgz
-    version: 0.1.0
-  browserless-chromium:
-  - apiVersion: v2
-    appVersion: v2.38.3
-    created: "2026-01-15T15:15:27.78064129Z"
-    description: A Helm chart for Kubernetes
-    digest: a06a8cb84ece0284967e7462aebae6aba18de5a39819179f760a3e3420fe3319
-    name: browserless-chromium
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.6/browserless-chromium-0.0.6.tgz
-    version: 0.0.6
-  - apiVersion: v2
-    appVersion: v2.38.2
-    created: "2026-01-15T15:15:23.737462302Z"
-    description: A Helm chart for Kubernetes
-    digest: 4fb0674a83553a43386c333236bd6373e3561d2d5488667fd8c6d3049880ef61
-    name: browserless-chromium
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.5/browserless-chromium-0.0.5.tgz
-    version: 0.0.5
-  - apiVersion: v2
-    appVersion: v2.38.2
-    created: "2026-01-02T09:46:13.970248975Z"
-    description: A Helm chart for Kubernetes
-    digest: afba7d332c1abf66c4e03cf3f8405c4540c4dbc607c326e7f118467f1b20f390
-    name: browserless-chromium
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.4/browserless-chromium-0.0.4.tgz
-    version: 0.0.4
-  calibre-web-automated:
-  - apiVersion: v2
-    appVersion: V3.1.4
-    created: "2026-01-02T12:58:46.954338141Z"
-    description: A Helm chart for Kubernetes
-    digest: 51a38e9852a1b1dfb19f557c873e687776c85f1309d95cdf7b6256625190a127
-    name: calibre-web-automated
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/calibre-web-automated-0.0.3/calibre-web-automated-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: V3.1.4
-    created: "2026-01-02T12:22:49.692384473Z"
-    description: A Helm chart for Kubernetes
-    digest: dd1560440f747bb0e0ab57bb2cb1d9b4dfdb3aebdee1dccd7d836a55d310a124
-    name: calibre-web-automated
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/calibre-web-automated-0.0.2/calibre-web-automated-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: V3.1.4
-    created: "2026-01-02T12:16:22.626214212Z"
-    description: A Helm chart for Kubernetes
-    digest: 51a937e975f199e3db76abfb95b07a505a1a54cc0d61d06b4b2d380dfb969226
-    name: calibre-web-automated
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/calibre-web-automated-0.0.1/calibre-web-automated-0.0.1.tgz
-    version: 0.0.1
-  certimate:
-  - apiVersion: v2
-    appVersion: v0.4.12
-    created: "2026-01-02T06:18:42.165596492Z"
-    description: A Helm chart for Kubernetes
-    digest: 0993da02f7f32213a80a6f6b8dd8561c47180f38b903e32177eafcac32e138b0
-    name: certimate
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.4/certimate-0.0.4.tgz
-    version: 0.0.4
-  chartdb:
-  - apiVersion: v2
-    appVersion: 1.19.0
-    created: "2026-01-11T01:25:58.318915872Z"
-    description: Database diagrams editor that allows you to visualize and design
-      your DB with a single query.
-    digest: ac5225193596e4f600a8864faa451967660a7329f3b790c6427d39ca540a532e
-    name: chartdb
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/chartdb-0.1.0/chartdb-0.1.0.tgz
-    version: 0.1.0
-  ddns-go:
-  - apiVersion: v2
-    appVersion: v6.14.1
-    created: "2026-01-11T02:37:13.80235336Z"
-    description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod,
-      Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap,
-      NameSilo...
-    digest: 71a29b28852da6d34827c0c34fdebc1fdf0e6c3afe6119237132d44f663ef9dc
-    name: ddns-go
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.4/ddns-go-0.1.4.tgz
-    version: 0.1.4
-  - apiVersion: v2
-    appVersion: v6.14.1
-    created: "2026-01-11T02:36:34.802169889Z"
-    description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod,
-      Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap,
-      NameSilo...
-    digest: e638372e168dd3424856527be8a91b2d45e0a46d3234ef1bc70277f9fa5c38ab
-    name: ddns-go
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.3/ddns-go-0.1.3.tgz
-    version: 0.1.3
-  - apiVersion: v2
-    appVersion: v6.14.1
-    created: "2026-01-11T02:34:58.223726944Z"
-    description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod,
-      Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap,
-      NameSilo...
-    digest: 32568f948544a4c06a41d743b3fecfe4e56ee81e54b8703bb0a0ea3b7264b281
-    name: ddns-go
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.2/ddns-go-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: v6.14.1
-    created: "2026-01-11T02:25:39.41414503Z"
-    description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod,
-      Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap,
-      NameSilo...
-    digest: 1e1bfac09aa6737cfa135c2965a099869233a37ab38489ee1cab666acd1553e3
-    name: ddns-go
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.1/ddns-go-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: v6.14.1
-    created: "2026-01-11T02:18:04.55970336Z"
-    description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod,
-      Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap,
-      NameSilo...
-    digest: f46ce64bef3ee979609fa1da241c1947c0e7329a1907aa1f3099ec561d0de8fe
-    name: ddns-go
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.0/ddns-go-0.1.0.tgz
-    version: 0.1.0
-  dns-server:
-  - apiVersion: v2
-    appVersion: 14.3.0
-    created: "2026-01-17T02:46:06.815295048Z"
-    description: Self host a DNS server for privacy & security Block ads & malware
-      at DNS level for your entire network!
-    digest: 3975818523647d59eefd9d1bc84a8a94a1e846c298224e4e6972fd335109c4e2
-    name: dns-server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.5/dns-server-0.1.5.tgz
-    version: 0.1.5
-  - apiVersion: v2
-    appVersion: 14.3.0
-    created: "2026-01-17T02:36:58.826244832Z"
-    description: Self host a DNS server for privacy & security Block ads & malware
-      at DNS level for your entire network!
-    digest: 8fe6db9c1690bf8fc8c711d8a3566096d719442b89c18f7629d76463030208b6
-    name: dns-server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.4/dns-server-0.1.4.tgz
-    version: 0.1.4
-  - apiVersion: v2
-    appVersion: 14.3.0
-    created: "2026-01-17T02:28:42.250133125Z"
-    description: Self host a DNS server for privacy & security Block ads & malware
-      at DNS level for your entire network!
-    digest: da22404e4b3463874ff8fcd86be32c06e06c78b17f371bbc521690f3655148fc
-    name: dns-server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.3/dns-server-0.1.3.tgz
-    version: 0.1.3
-  - apiVersion: v2
-    appVersion: 14.3.0
-    created: "2026-01-17T02:22:05.283479034Z"
-    description: Self host a DNS server for privacy & security Block ads & malware
-      at DNS level for your entire network!
-    digest: c3344e1f2966008f1f01ed1d67431d6d90bb5382570bf55dad77da4e9da0f742
-    name: dns-server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.2/dns-server-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: 14.3.0
-    created: "2026-01-11T03:15:16.283681881Z"
-    description: Self host a DNS server for privacy & security Block ads & malware
-      at DNS level for your entire network!
-    digest: 7cfd75b193f297346bcf2a55e0b5d0f10f8023802d479389c725c2350edc1ab7
-    name: dns-server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.1/dns-server-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: 14.3.0
-    created: "2026-01-11T03:12:22.593927971Z"
-    description: Self host a DNS server for privacy & security Block ads & malware
-      at DNS level for your entire network!
-    digest: 65b4c88855ba746afa997a2ff2d344c99ee73e9618298f8563ac37cd370afaac
-    name: dns-server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.0/dns-server-0.1.0.tgz
-    version: 0.1.0
-  frp:
-  - apiVersion: v2
-    appVersion: v0.66.0
-    created: "2026-01-11T12:50:53.442015702Z"
-    description: A fast reverse proxy to help you expose a local server behind a NAT
-      or firewall to the internet.
-    digest: 1b10375184965b4a074262ad6bfcdd80f94ddb4f38bb74fc349230c2febd1e7c
-    name: frp
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.6/frp-0.1.6.tgz
-    version: 0.1.6
-  - apiVersion: v2
-    appVersion: v0.66.0
-    created: "2026-01-11T11:25:39.837367623Z"
-    description: A fast reverse proxy to help you expose a local server behind a NAT
-      or firewall to the internet.
-    digest: 44b12e6d4e358e7e503bf04de4aa0caa8135d1fac07043bc5ece86ae8d9f1c52
-    name: frp
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.5/frp-0.1.5.tgz
-    version: 0.1.5
-  - apiVersion: v2
-    appVersion: v0.66.0
-    created: "2026-01-11T11:17:12.367712347Z"
-    description: A fast reverse proxy to help you expose a local server behind a NAT
-      or firewall to the internet.
-    digest: bb9d909b827422b3bac8e0c690e8e252dc11d3abf5f2897eb891a3d464690092
-    name: frp
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.4/frp-0.1.4.tgz
-    version: 0.1.4
-  - apiVersion: v2
-    appVersion: v0.66.0
-    created: "2026-01-11T11:14:21.987174303Z"
-    description: A fast reverse proxy to help you expose a local server behind a NAT
-      or firewall to the internet.
-    digest: 76d79483df1032e1b488070607bd489826dedbf5ef229756763ee6e40d16dea1
-    name: frp
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.3/frp-0.1.3.tgz
-    version: 0.1.3
-  - apiVersion: v2
-    appVersion: v0.66.0
-    created: "2026-01-11T11:10:58.929190148Z"
-    description: A fast reverse proxy to help you expose a local server behind a NAT
-      or firewall to the internet.
-    digest: bc655837008e7d45b63d9de0ae0347149a5ac5a294935703c30b0aa20a7e162c
-    name: frp
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.2/frp-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: v0.66.0
-    created: "2026-01-11T10:58:56.00081554Z"
-    description: A fast reverse proxy to help you expose a local server behind a NAT
-      or firewall to the internet.
-    digest: 8ae389e61ab7382e823467e03497b805f7b1e3418c473d8792a74f231110619d
-    name: frp
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.1/frp-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: v0.66.0
-    created: "2026-01-11T10:55:43.661190097Z"
-    description: A fast reverse proxy to help you expose a local server behind a NAT
-      or firewall to the internet.
-    digest: c520edb67ab28a76e03ee9e9cc52930e72c7f08b5e6306e66e70b79514d76711
-    name: frp
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.0/frp-0.1.0.tgz
-    version: 0.1.0
-  headplane:
-  - apiVersion: v2
-    appVersion: 0.6.2-beta.3
-    created: "2026-01-11T05:07:06.285950834Z"
-    dependencies:
-    - name: headscale
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.1.4
-    description: A feature-complete Web UI for Headscale
-    digest: 570f656888570e64380ef8c4649bde91fb3f5e11172be662ca12b03a6be0e691
-    name: headplane
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.5/headplane-0.1.5.tgz
-    version: 0.1.5
-  - apiVersion: v2
-    appVersion: 0.6.2-beta.3
-    created: "2026-01-11T04:47:43.948692917Z"
-    dependencies:
-    - name: headscale
-      repository: https://sakullla.github.io/helm-charts
+    - apiVersion: v2
+      appVersion: v0.107.71
+      created: "2026-01-17T11:34:07.750060714Z"
+      description: Network-wide ads & trackers blocking DNS server
+      digest: 112dd0505c66e0ef60ad9f7c19829c92936680d2550db571d4fda20fcb2c39d2
+      name: adguard-home
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/adguard-home-0.1.3/adguard-home-0.1.3.tgz
       version: 0.1.3
-    description: A feature-complete Web UI for Headscale
-    digest: 9f4b0fe2e1f7c5611d2a14d82658d1010d7b49152a78b234e1212f2e12aa4282
-    name: headplane
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.4/headplane-0.1.4.tgz
-    version: 0.1.4
-  - apiVersion: v2
-    appVersion: 0.6.2-beta.3
-    created: "2026-01-11T04:43:48.200539526Z"
-    dependencies:
-    - name: headscale
-      repository: https://sakullla.github.io/helm-charts
+    - apiVersion: v2
+      appVersion: v0.107.71
+      created: "2026-01-17T11:30:38.054258158Z"
+      description: Network-wide ads & trackers blocking DNS server
+      digest: c50cead2c23b34a73331cd748ff8a8a52115c08e7e2f7e7ac1002ca29fc6afb3
+      name: adguard-home
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/adguard-home-0.1.2/adguard-home-0.1.2.tgz
       version: 0.1.2
-    description: A feature-complete Web UI for Headscale
-    digest: c30bbbb51bc5d8465f7eacd7e5138874a7aafbfdb98d7f87d981d790e9e7dd49
-    name: headplane
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.3/headplane-0.1.3.tgz
-    version: 0.1.3
-  - apiVersion: v2
-    appVersion: 0.6.2-beta.3
-    created: "2026-01-11T04:31:53.026022066Z"
-    dependencies:
-    - name: headscale
-      repository: https://sakullla.github.io/helm-charts
+    - apiVersion: v2
+      appVersion: v0.107.71
+      created: "2026-01-17T11:14:15.275897868Z"
+      description: Network-wide ads & trackers blocking DNS server
+      digest: bd7b4df970e3806806b64a06ea23fb7004eb34008d10326369788174253cce5c
+      name: adguard-home
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/adguard-home-0.1.1/adguard-home-0.1.1.tgz
       version: 0.1.1
-    description: A feature-complete Web UI for Headscale
-    digest: bd0c2426e66bd53203a123a84776ef68df01d6ab02955cd763d169a2d25f78bb
-    name: headplane
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.2/headplane-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: 0.6.2-beta.3
-    created: "2026-01-11T04:19:19.825627708Z"
-    dependencies:
-    - name: headscale
-      repository: https://sakullla.github.io/helm-charts
+    - apiVersion: v2
+      appVersion: v0.107.71
+      created: "2026-01-17T10:37:59.774738379Z"
+      description: Network-wide ads & trackers blocking DNS server
+      digest: 57adbee56cb0332565c59efaf176f3cc9527aecc81b72aac5511bbcceba6c1ce
+      name: adguard-home
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/adguard-home-0.1.0/adguard-home-0.1.0.tgz
       version: 0.1.0
-    description: A feature-complete Web UI for Headscale
-    digest: a8bfa9310e802ed95c8d7da74b931855eb424c4b0dc239aef68c1ba0c0e35d23
-    name: headplane
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.1/headplane-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: 0.6.2-beta.3
-    created: "2026-01-11T04:12:04.467378747Z"
-    dependencies:
-    - name: headscale
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.1.0
-    description: A feature-complete Web UI for Headscale
-    digest: 65e53c84b78555355a046f78e9b4d3d2e891c99e17343653f3a34a48ed785a60
-    name: headplane
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.0/headplane-0.1.0.tgz
-    version: 0.1.0
-  headscale:
-  - apiVersion: v2
-    appVersion: 0.27.1
-    created: "2026-01-11T05:02:45.517304724Z"
-    description: An open source, self-hosted implementation of the Tailscale control
-      server
-    digest: 9fe74ec41b21048f5ccbc8d69ac489bfaf3178b32e5efcc209e66f9d6a6b1f1c
-    name: headscale
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.4/headscale-0.1.4.tgz
-    version: 0.1.4
-  - apiVersion: v2
-    appVersion: 0.28.0-beta.1
-    created: "2026-01-11T04:46:52.952597481Z"
-    description: An open source, self-hosted implementation of the Tailscale control
-      server
-    digest: 20a4cae1d3947b0d598bf028776dde89ede36e89b2c659c1ca8b1c506abd8cea
-    name: headscale
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.3/headscale-0.1.3.tgz
-    version: 0.1.3
-  - apiVersion: v2
-    appVersion: 0.28.0-beta.1
-    created: "2026-01-11T04:41:49.948624674Z"
-    description: An open source, self-hosted implementation of the Tailscale control
-      server
-    digest: 6fd06ab94325cf3c57a215a312bd7703197b8a9d03684f52d3579c8f0f4878e6
-    name: headscale
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.2/headscale-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: 0.28.0-beta.1
-    created: "2026-01-11T04:28:42.968477654Z"
-    description: An open source, self-hosted implementation of the Tailscale control
-      server
-    digest: 0c86e6c3a055d1127cef3e8edaeeaa3f969e34de6a9a5d7d30acdddd8b17b0c4
-    name: headscale
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.1/headscale-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: 0.28.0-beta.1
-    created: "2026-01-11T03:52:28.700422661Z"
-    description: An open source, self-hosted implementation of the Tailscale control
-      server
-    digest: ee277712ff8d45dbf1e837176396d574a1f523c3b2bff1ec27f68f9b97cfa61f
-    name: headscale
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.0/headscale-0.1.0.tgz
-    version: 0.1.0
-  hedgedoc:
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T17:24:49.912879264Z"
-    dependencies:
-    - name: hedgedoc-backend
-      repository: https://sakullla.github.io/helm-charts
+  affine:
+    - apiVersion: v2
+      appVersion: 0.25.7
+      created: "2026-01-03T00:17:37.284493984Z"
+      description: A Helm chart for Kubernetes
+      digest: 9d93ae929a031930abc6e5396b9693450a091c272b92b544ffdb5b148932e4af
+      name: affine
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/affine-0.0.1/affine-0.0.1.tgz
+      version: 0.0.1
+  ani-rss:
+    - apiVersion: v2
+      appVersion: v2.4.25
+      created: "2026-01-03T01:16:19.794914917Z"
+      dependencies:
+        - condition: qbittorrent.enabled
+          name: qbittorrent
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.4
+      description: A Helm chart for Kubernetes
+      digest: 6b2d1d4de74aff3b529a18f66139b7d670d3a1e688fc11f85f4cb3eb1e4469cb
+      name: ani-rss
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.5/ani-rss-0.0.5.tgz
+      version: 0.0.5
+    - apiVersion: v2
+      appVersion: v2.4.24
+      created: "2026-01-03T01:01:38.487896976Z"
+      dependencies:
+        - condition: qbittorrent.enabled
+          name: qbittorrent
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.4
+      description: A Helm chart for Kubernetes
+      digest: ddd2b7d702d54721503580fdcb64093b9f9aa6e6913df2f57abbc6825b63f734
+      name: ani-rss
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.4/ani-rss-0.0.4.tgz
       version: 0.0.4
-    description: A Helm chart for Kubernetes
-    digest: 3ddfc2ca93de70df672379aeac357b8d2198329a024d2c9ea8559fd6e53d59d8
-    name: hedgedoc
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.8/hedgedoc-0.0.8.tgz
-    version: 0.0.8
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:54:19.928276717Z"
-    dependencies:
-    - name: hedgedoc-backend
-      repository: https://sakullla.github.io/helm-charts
+    - apiVersion: v2
+      appVersion: v2.4.24
+      created: "2026-01-03T01:00:39.343902426Z"
+      dependencies:
+        - condition: qbittorrent.enabled
+          name: qbittorrent
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.3
+      description: A Helm chart for Kubernetes
+      digest: 1a4d10eefa6ae07d6f27a5d09a740505ffa92e9ea2d5a8fc18f7bc67c02ac52f
+      name: ani-rss
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.3/ani-rss-0.0.3.tgz
       version: 0.0.3
-    description: A Helm chart for Kubernetes
-    digest: d37cd42173b1824ea6133d8fbe2698dfd2ad6a7f0d21c02053c39d123feab16e
-    name: hedgedoc
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.7/hedgedoc-0.0.7.tgz
-    version: 0.0.7
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:52:13.144175767Z"
-    dependencies:
-    - name: hedgedoc-backend
-      repository: https://sakullla.github.io/helm-charts
+    - apiVersion: v2
+      appVersion: v2.4.24
+      created: "2026-01-03T00:49:18.123532143Z"
+      dependencies:
+        - condition: qbittorrent.enabled
+          name: qbittorrent
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.3
+      description: A Helm chart for Kubernetes
+      digest: 3fe121c7b227b0ccd4ef34412b6e76e98bb9c239682f781e5742306c333442d5
+      name: ani-rss
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.2/ani-rss-0.0.2.tgz
       version: 0.0.2
-    description: A Helm chart for Kubernetes
-    digest: 54cf997f10ae8bc3b759ab87142e7f850d2bd958aa7129e96aca513a3250ed9e
-    name: hedgedoc
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.6/hedgedoc-0.0.6.tgz
-    version: 0.0.6
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:45:31.046048452Z"
-    dependencies:
-    - name: hedgedoc-backend
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.2
-    description: A Helm chart for Kubernetes
-    digest: 14fa532d1ffd7d655d4bc99b380c29a3bdef7e0e6bdb8bf39f8e24000a0d54d4
-    name: hedgedoc
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.5/hedgedoc-0.0.5.tgz
-    version: 0.0.5
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:38:19.972520023Z"
-    dependencies:
-    - name: hedgedoc-backend
-      repository: https://sakullla.github.io/helm-charts
+    - apiVersion: v2
+      appVersion: v2.4.24
+      created: "2026-01-03T00:48:14.375953017Z"
+      dependencies:
+        - condition: qbittorrent.enabled
+          name: qbittorrent
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.2
+      description: A Helm chart for Kubernetes
+      digest: b2ebae526cde98fbe9eab47f838665fa9a67e92d5c66720fbff76dab82dcaff1
+      name: ani-rss
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ani-rss-0.0.1/ani-rss-0.0.1.tgz
       version: 0.0.1
-    description: A Helm chart for Kubernetes
-    digest: 5dd3d31025cec66d4f43119abae6086af34853d4ae010a7e48e729e95065f393
-    name: hedgedoc
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.4/hedgedoc-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:35:00.757053748Z"
-    dependencies:
-    - name: hedgedoc-backend
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.1
-    description: A Helm chart for Kubernetes
-    digest: 85bc6c763d45231bf33837c7177f9646cdce009f3f0f0ff2818f7a6d4669bb62
-    name: hedgedoc
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.3/hedgedoc-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:25:17.629169202Z"
-    dependencies:
-    - name: hedgedoc-backend
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.1
-    description: A Helm chart for Kubernetes
-    digest: 9a3d30fe2775934458bad417b6b797b0915c6730bd511e6694be68796b11b764
-    name: hedgedoc
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.2/hedgedoc-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:03:08.600099709Z"
-    dependencies:
-    - name: hedgedoc-backend
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.1
-    description: A Helm chart for Kubernetes
-    digest: 69139ceee15a73c2c5ab9a0ff336b374a2cf932ab3c101e1b598857062101087
-    name: hedgedoc
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.1/hedgedoc-0.0.1.tgz
-    version: 0.0.1
-  hedgedoc-backend:
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:56:59.374365192Z"
-    description: A Helm chart for Kubernetes
-    digest: 7b0d60d0e456eb5c5460750d1f5b05bd708344d6eb03e330859d3a677c06d5b0
-    name: hedgedoc-backend
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-backend-0.0.4/hedgedoc-backend-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:52:13.310544019Z"
-    description: A Helm chart for Kubernetes
-    digest: 2dea954284e0b93e0ce98ead2cf5c5879f0b34a37892bc91b9599fa51fc7d496
-    name: hedgedoc-backend
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-backend-0.0.3/hedgedoc-backend-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T16:44:53.667017896Z"
-    description: A Helm chart for Kubernetes
-    digest: a0b273ee4b238b9b17b383698ecc9ce7f9e0a15e56a3a0c55a3afee355cdcf1a
-    name: hedgedoc-backend
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-backend-0.0.2/hedgedoc-backend-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: develop
-    created: "2026-01-09T15:55:22.454456505Z"
-    description: A Helm chart for Kubernetes
-    digest: d661ca14f15e4128f60d7899642e28be7167f5e82410ff89f4689326167d7b47
-    name: hedgedoc-backend
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-backend-0.0.1/hedgedoc-backend-0.0.1.tgz
-    version: 0.0.1
-  hubproxy:
-  - apiVersion: v2
-    appVersion: 1.2.1
-    created: "2026-01-11T05:22:49.877356493Z"
-    description: 多功能代理加速服务，提供 Docker 镜像加速、GitHub 加速、下载离线镜像等功能。一个二进制文件实现所有功能，支持仓库审计。流式转发，无缓存。
-    digest: 28548eb7f962a15f8f946025d2cd1b9fa562ceeebfd37c7759765a895f810dec
-    name: hubproxy
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hubproxy-0.1.0/hubproxy-0.1.0.tgz
-    version: 0.1.0
-  hugo-site:
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2026-01-11T05:33:22.645937289Z"
-    description: A Helm chart for Kubernetes
-    digest: 5416186b3db7759f1e3f66e8f8822a965957c5c3e9d035da02e6226d62b94ab0
-    name: hugo-site
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/hugo-site-0.1.0/hugo-site-0.1.0.tgz
-    version: 0.1.0
-  kavita:
-  - apiVersion: v2
-    appVersion: nightly-0.8.8.21
-    created: "2026-01-02T14:27:46.137929769Z"
-    description: A Helm chart for Kubernetes
-    digest: 0bf2d6264afd0f684fa483f7287a3af7970018b291dc275f68d275a4ee34cc49
-    name: kavita
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.5/kavita-0.0.5.tgz
-    version: 0.0.5
-  - apiVersion: v2
-    appVersion: 0.8.8
-    created: "2026-01-02T13:53:59.733759304Z"
-    description: A Helm chart for Kubernetes
-    digest: 8bd9954c6d15a9babf3af77c6f6ce2fc6a8c0ed4f26ba007723d99c7db54206a
-    name: kavita
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.4/kavita-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: 0.8.8
-    created: "2026-01-02T13:40:28.705733501Z"
-    description: A Helm chart for Kubernetes
-    digest: 679b1da73c4e1b0d6fa971d0a74cd959663e5904ca678c0192b0e252c5b7f608
-    name: kavita
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.3/kavita-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: 0.8.8
-    created: "2026-01-02T13:38:41.764873769Z"
-    description: A Helm chart for Kubernetes
-    digest: 750f19a557c45de3f07e04f185dd722842f06adc8829d31382ee651c61a898d8
-    name: kavita
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.2/kavita-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: 0.8.8
-    created: "2026-01-02T13:37:22.912431012Z"
-    description: A Helm chart for Kubernetes
-    digest: 6a0a472a8866ca0049199698a50936e900ab9f361cf2bfb1a4511cfa4d363d5d
-    name: kavita
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.1/kavita-0.0.1.tgz
-    version: 0.0.1
-  kirara-agent:
-  - apiVersion: v2
-    appVersion: v3.3.0a2
-    created: "2026-01-11T15:22:06.631288178Z"
-    description: "\U0001F916 可 DIY 的 多模态 AI 聊天机器人 | \U0001F680 快速接入 微信、 QQ、Telegram、等聊天平台
-      | \U0001F988支持DeepSeek、Grok、Claude、Ollama、Gemini、OpenAI | 工作流系统、网页搜索、AI画图、人设调教、虚拟女仆、语音对话
-      |"
-    digest: dab880610bf80f40173495b676d5e8bf92be3e431d137a70fce203b58ccdd574
-    name: kirara-agent
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/kirara-agent-0.1.1/kirara-agent-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: v3.3.0a2
-    created: "2026-01-11T15:16:26.302628913Z"
-    description: "\U0001F916 可 DIY 的 多模态 AI 聊天机器人 | \U0001F680 快速接入 微信、 QQ、Telegram、等聊天平台
-      | \U0001F988支持DeepSeek、Grok、Claude、Ollama、Gemini、OpenAI | 工作流系统、网页搜索、AI画图、人设调教、虚拟女仆、语音对话
-      |"
-    digest: b439ba9104cd9a057d000f0d5aa01aefbc690f4a2b8e47ddf608f13f0e3dd3fc
-    name: kirara-agent
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/kirara-agent-0.1.0/kirara-agent-0.1.0.tgz
-    version: 0.1.0
-  koipy:
-  - apiVersion: v2
-    appVersion: 1.12.2
-    created: "2026-01-11T05:53:51.842908732Z"
-    description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试机器人（Telegram
-      bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
-    digest: 8937c216a53c19e3500af1dbb36d47227fbc078c7bf740c84f0788acc8ecc7c7
-    name: koipy
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/koipy-0.1.2/koipy-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: 1.12.2
-    created: "2026-01-11T05:51:50.953356564Z"
-    description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试机器人（Telegram
-      bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
-    digest: ad6d6bf167f3aa20849e471ef33acbd688da235f6516baad7f0a7043c9cf9a25
-    name: koipy
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/koipy-0.1.1/koipy-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: 1.12.2
-    created: "2026-01-11T05:47:19.17165748Z"
-    description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试机器人（Telegram
-      bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
-    digest: 05469bec9ff6b99726c25c98ae30475f2b910bc8d768cc05869c41fc1de3878c
-    name: koipy
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/koipy-0.1.0/koipy-0.1.0.tgz
-    version: 0.1.0
-  lobehub:
-  - apiVersion: v2
-    appVersion: 2.0.0-next.293
-    created: "2026-01-15T15:19:55.892444168Z"
-    dependencies:
-    - condition: browserless-chromium.enabled
+  astrbot:
+    - apiVersion: v2
+      appVersion: v4.11.4
+      created: "2026-01-12T16:01:38.73802306Z"
+      description: Agentic IM Chatbot infrastructure that integrates lots of IM platforms, LLMs, plugins and AI features. ✨
+      digest: 6d419ac5dc2f20d3d79e5d90ed0de81250b246adb7f049743349c8781fe3714c
+      name: astrbot
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/astrbot-0.1.1/astrbot-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: v4.11.4
+      created: "2026-01-12T13:40:30.213803859Z"
+      description: Agentic IM Chatbot infrastructure that integrates lots of IM platforms, LLMs, plugins and AI features. ✨
+      digest: e42686362c65bb0e322c1fa75b9fc612a7dc16f6aea4f476c180c5d2b19864c4
+      name: astrbot
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/astrbot-0.1.0/astrbot-0.1.0.tgz
+      version: 0.1.0
+  browserless-chromium:
+    - apiVersion: v2
+      appVersion: v2.38.3
+      created: "2026-01-15T15:15:27.78064129Z"
+      description: A Helm chart for Kubernetes
+      digest: a06a8cb84ece0284967e7462aebae6aba18de5a39819179f760a3e3420fe3319
       name: browserless-chromium
-      repository: https://sakullla.github.io/helm-charts
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.6/browserless-chromium-0.0.6.tgz
       version: 0.0.6
-    - condition: searxng.enabled
-      name: searxng
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.0.1
-    description: A Helm chart for Kubernetes
-    digest: 2ed233c59a28b5be03e6956c93f087df889c4d9c97e5f94bddbb35499d40c9ba
-    name: lobehub
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.8/lobehub-0.0.8.tgz
-    version: 0.0.8
-  - apiVersion: v2
-    appVersion: 2.0.0-next.190
-    created: "2026-01-02T09:49:25.460790385Z"
-    dependencies:
-    - condition: browserless-chromium.enabled
+    - apiVersion: v2
+      appVersion: v2.38.2
+      created: "2026-01-15T15:15:23.737462302Z"
+      description: A Helm chart for Kubernetes
+      digest: 4fb0674a83553a43386c333236bd6373e3561d2d5488667fd8c6d3049880ef61
       name: browserless-chromium
-      repository: https://sakullla.github.io/helm-charts
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.5/browserless-chromium-0.0.5.tgz
+      version: 0.0.5
+    - apiVersion: v2
+      appVersion: v2.38.2
+      created: "2026-01-02T09:46:13.970248975Z"
+      description: A Helm chart for Kubernetes
+      digest: afba7d332c1abf66c4e03cf3f8405c4540c4dbc607c326e7f118467f1b20f390
+      name: browserless-chromium
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/browserless-chromium-0.0.4/browserless-chromium-0.0.4.tgz
       version: 0.0.4
-    - condition: searxng.enabled
-      name: searxng
-      repository: https://sakullla.github.io/helm-charts
+  calibre-web-automated:
+    - apiVersion: v2
+      appVersion: V3.1.4
+      created: "2026-01-02T12:58:46.954338141Z"
+      description: A Helm chart for Kubernetes
+      digest: 51a38e9852a1b1dfb19f557c873e687776c85f1309d95cdf7b6256625190a127
+      name: calibre-web-automated
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/calibre-web-automated-0.0.3/calibre-web-automated-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
+      appVersion: V3.1.4
+      created: "2026-01-02T12:22:49.692384473Z"
+      description: A Helm chart for Kubernetes
+      digest: dd1560440f747bb0e0ab57bb2cb1d9b4dfdb3aebdee1dccd7d836a55d310a124
+      name: calibre-web-automated
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/calibre-web-automated-0.0.2/calibre-web-automated-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: V3.1.4
+      created: "2026-01-02T12:16:22.626214212Z"
+      description: A Helm chart for Kubernetes
+      digest: 51a937e975f199e3db76abfb95b07a505a1a54cc0d61d06b4b2d380dfb969226
+      name: calibre-web-automated
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/calibre-web-automated-0.0.1/calibre-web-automated-0.0.1.tgz
       version: 0.0.1
-    description: A Helm chart for Kubernetes
-    digest: 207539115ace5c502ac1372411b1a59f19f7ea0a2020f44c70d54916d01fa6e2
-    name: lobehub
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.7/lobehub-0.0.7.tgz
-    version: 0.0.7
-  miaospeed:
-  - apiVersion: v2
-    appVersion: 4.6.3
-    created: "2026-01-11T13:26:52.068834453Z"
-    dependencies:
-    - condition: frp.enabled
-      name: frp
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.1.6
-    description: Yet another server for universal connectivity debugging.
-    digest: 3b51070e654760bca3c2d6d811a0f83035f5f48e220320891be3da951d0c457f
-    name: miaospeed
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/miaospeed-0.1.2/miaospeed-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: 4.6.3
-    created: "2026-01-11T12:52:54.85931438Z"
-    dependencies:
-    - condition: frp.enabled
-      name: frp
-      repository: https://sakullla.github.io/helm-charts
-      version: 0.1.6
-    description: Yet another server for universal connectivity debugging.
-    digest: 72339210a008f41c2e0af98072fd418cb84ff097640ac42226fc336b07ad1985
-    name: miaospeed
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/miaospeed-0.1.1/miaospeed-0.1.1.tgz
-    version: 0.1.1
-  - apiVersion: v2
-    appVersion: 4.6.3
-    created: "2026-01-11T12:34:56.432246177Z"
-    dependencies:
-    - condition: frp.enabled
-      name: frp
-      repository: https://sakullla.github.io/helm-charts
+  certimate:
+    - apiVersion: v2
+      appVersion: v0.4.12
+      created: "2026-01-02T06:18:42.165596492Z"
+      description: A Helm chart for Kubernetes
+      digest: 0993da02f7f32213a80a6f6b8dd8561c47180f38b903e32177eafcac32e138b0
+      name: certimate
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/certimate-0.0.4/certimate-0.0.4.tgz
+      version: 0.0.4
+  chartdb:
+    - apiVersion: v2
+      appVersion: 1.19.0
+      created: "2026-01-11T01:25:58.318915872Z"
+      description: Database diagrams editor that allows you to visualize and design your DB with a single query.
+      digest: ac5225193596e4f600a8864faa451967660a7329f3b790c6427d39ca540a532e
+      name: chartdb
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/chartdb-0.1.0/chartdb-0.1.0.tgz
+      version: 0.1.0
+  ddns-go:
+    - apiVersion: v2
+      appVersion: v6.14.1
+      created: "2026-01-11T02:37:13.80235336Z"
+      description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod, Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap, NameSilo...
+      digest: 71a29b28852da6d34827c0c34fdebc1fdf0e6c3afe6119237132d44f663ef9dc
+      name: ddns-go
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.4/ddns-go-0.1.4.tgz
+      version: 0.1.4
+    - apiVersion: v2
+      appVersion: v6.14.1
+      created: "2026-01-11T02:36:34.802169889Z"
+      description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod, Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap, NameSilo...
+      digest: e638372e168dd3424856527be8a91b2d45e0a46d3234ef1bc70277f9fa5c38ab
+      name: ddns-go
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.3/ddns-go-0.1.3.tgz
+      version: 0.1.3
+    - apiVersion: v2
+      appVersion: v6.14.1
+      created: "2026-01-11T02:34:58.223726944Z"
+      description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod, Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap, NameSilo...
+      digest: 32568f948544a4c06a41d743b3fecfe4e56ee81e54b8703bb0a0ea3b7264b281
+      name: ddns-go
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.2/ddns-go-0.1.2.tgz
+      version: 0.1.2
+    - apiVersion: v2
+      appVersion: v6.14.1
+      created: "2026-01-11T02:25:39.41414503Z"
+      description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod, Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap, NameSilo...
+      digest: 1e1bfac09aa6737cfa135c2965a099869233a37ab38489ee1cab666acd1553e3
+      name: ddns-go
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.1/ddns-go-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: v6.14.1
+      created: "2026-01-11T02:18:04.55970336Z"
+      description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod, Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap, NameSilo...
+      digest: f46ce64bef3ee979609fa1da241c1947c0e7329a1907aa1f3099ec561d0de8fe
+      name: ddns-go
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/ddns-go-0.1.0/ddns-go-0.1.0.tgz
+      version: 0.1.0
+  dns-server:
+    - apiVersion: v2
+      appVersion: 14.3.0
+      created: "2026-01-17T02:46:06.815295048Z"
+      description: Self host a DNS server for privacy & security Block ads & malware at DNS level for your entire network!
+      digest: 3975818523647d59eefd9d1bc84a8a94a1e846c298224e4e6972fd335109c4e2
+      name: dns-server
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.5/dns-server-0.1.5.tgz
       version: 0.1.5
-    description: Yet another server for universal connectivity debugging.
-    digest: 62c6d41b9e7dcf53fe390910039bbb3af361edad89b2d7aa82b8612cdb7cb4c3
-    name: miaospeed
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/miaospeed-0.1.0/miaospeed-0.1.0.tgz
-    version: 0.1.0
+    - apiVersion: v2
+      appVersion: 14.3.0
+      created: "2026-01-17T02:36:58.826244832Z"
+      description: Self host a DNS server for privacy & security Block ads & malware at DNS level for your entire network!
+      digest: 8fe6db9c1690bf8fc8c711d8a3566096d719442b89c18f7629d76463030208b6
+      name: dns-server
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.4/dns-server-0.1.4.tgz
+      version: 0.1.4
+    - apiVersion: v2
+      appVersion: 14.3.0
+      created: "2026-01-17T02:28:42.250133125Z"
+      description: Self host a DNS server for privacy & security Block ads & malware at DNS level for your entire network!
+      digest: da22404e4b3463874ff8fcd86be32c06e06c78b17f371bbc521690f3655148fc
+      name: dns-server
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.3/dns-server-0.1.3.tgz
+      version: 0.1.3
+    - apiVersion: v2
+      appVersion: 14.3.0
+      created: "2026-01-17T02:22:05.283479034Z"
+      description: Self host a DNS server for privacy & security Block ads & malware at DNS level for your entire network!
+      digest: c3344e1f2966008f1f01ed1d67431d6d90bb5382570bf55dad77da4e9da0f742
+      name: dns-server
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.2/dns-server-0.1.2.tgz
+      version: 0.1.2
+    - apiVersion: v2
+      appVersion: 14.3.0
+      created: "2026-01-11T03:15:16.283681881Z"
+      description: Self host a DNS server for privacy & security Block ads & malware at DNS level for your entire network!
+      digest: 7cfd75b193f297346bcf2a55e0b5d0f10f8023802d479389c725c2350edc1ab7
+      name: dns-server
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.1/dns-server-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: 14.3.0
+      created: "2026-01-11T03:12:22.593927971Z"
+      description: Self host a DNS server for privacy & security Block ads & malware at DNS level for your entire network!
+      digest: 65b4c88855ba746afa997a2ff2d344c99ee73e9618298f8563ac37cd370afaac
+      name: dns-server
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.0/dns-server-0.1.0.tgz
+      version: 0.1.0
+  frp:
+    - apiVersion: v2
+      appVersion: v0.66.0
+      created: "2026-01-11T12:50:53.442015702Z"
+      description: A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.
+      digest: 1b10375184965b4a074262ad6bfcdd80f94ddb4f38bb74fc349230c2febd1e7c
+      name: frp
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.6/frp-0.1.6.tgz
+      version: 0.1.6
+    - apiVersion: v2
+      appVersion: v0.66.0
+      created: "2026-01-11T11:25:39.837367623Z"
+      description: A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.
+      digest: 44b12e6d4e358e7e503bf04de4aa0caa8135d1fac07043bc5ece86ae8d9f1c52
+      name: frp
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.5/frp-0.1.5.tgz
+      version: 0.1.5
+    - apiVersion: v2
+      appVersion: v0.66.0
+      created: "2026-01-11T11:17:12.367712347Z"
+      description: A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.
+      digest: bb9d909b827422b3bac8e0c690e8e252dc11d3abf5f2897eb891a3d464690092
+      name: frp
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.4/frp-0.1.4.tgz
+      version: 0.1.4
+    - apiVersion: v2
+      appVersion: v0.66.0
+      created: "2026-01-11T11:14:21.987174303Z"
+      description: A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.
+      digest: 76d79483df1032e1b488070607bd489826dedbf5ef229756763ee6e40d16dea1
+      name: frp
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.3/frp-0.1.3.tgz
+      version: 0.1.3
+    - apiVersion: v2
+      appVersion: v0.66.0
+      created: "2026-01-11T11:10:58.929190148Z"
+      description: A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.
+      digest: bc655837008e7d45b63d9de0ae0347149a5ac5a294935703c30b0aa20a7e162c
+      name: frp
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.2/frp-0.1.2.tgz
+      version: 0.1.2
+    - apiVersion: v2
+      appVersion: v0.66.0
+      created: "2026-01-11T10:58:56.00081554Z"
+      description: A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.
+      digest: 8ae389e61ab7382e823467e03497b805f7b1e3418c473d8792a74f231110619d
+      name: frp
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.1/frp-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: v0.66.0
+      created: "2026-01-11T10:55:43.661190097Z"
+      description: A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.
+      digest: c520edb67ab28a76e03ee9e9cc52930e72c7f08b5e6306e66e70b79514d76711
+      name: frp
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/frp-0.1.0/frp-0.1.0.tgz
+      version: 0.1.0
+  headplane:
+    - apiVersion: v2
+      appVersion: 0.6.2-beta.3
+      created: "2026-01-11T05:07:06.285950834Z"
+      dependencies:
+        - name: headscale
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.1.4
+      description: A feature-complete Web UI for Headscale
+      digest: 570f656888570e64380ef8c4649bde91fb3f5e11172be662ca12b03a6be0e691
+      name: headplane
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.5/headplane-0.1.5.tgz
+      version: 0.1.5
+    - apiVersion: v2
+      appVersion: 0.6.2-beta.3
+      created: "2026-01-11T04:47:43.948692917Z"
+      dependencies:
+        - name: headscale
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.1.3
+      description: A feature-complete Web UI for Headscale
+      digest: 9f4b0fe2e1f7c5611d2a14d82658d1010d7b49152a78b234e1212f2e12aa4282
+      name: headplane
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.4/headplane-0.1.4.tgz
+      version: 0.1.4
+    - apiVersion: v2
+      appVersion: 0.6.2-beta.3
+      created: "2026-01-11T04:43:48.200539526Z"
+      dependencies:
+        - name: headscale
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.1.2
+      description: A feature-complete Web UI for Headscale
+      digest: c30bbbb51bc5d8465f7eacd7e5138874a7aafbfdb98d7f87d981d790e9e7dd49
+      name: headplane
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.3/headplane-0.1.3.tgz
+      version: 0.1.3
+    - apiVersion: v2
+      appVersion: 0.6.2-beta.3
+      created: "2026-01-11T04:31:53.026022066Z"
+      dependencies:
+        - name: headscale
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.1.1
+      description: A feature-complete Web UI for Headscale
+      digest: bd0c2426e66bd53203a123a84776ef68df01d6ab02955cd763d169a2d25f78bb
+      name: headplane
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.2/headplane-0.1.2.tgz
+      version: 0.1.2
+    - apiVersion: v2
+      appVersion: 0.6.2-beta.3
+      created: "2026-01-11T04:19:19.825627708Z"
+      dependencies:
+        - name: headscale
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.1.0
+      description: A feature-complete Web UI for Headscale
+      digest: a8bfa9310e802ed95c8d7da74b931855eb424c4b0dc239aef68c1ba0c0e35d23
+      name: headplane
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.1/headplane-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: 0.6.2-beta.3
+      created: "2026-01-11T04:12:04.467378747Z"
+      dependencies:
+        - name: headscale
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.1.0
+      description: A feature-complete Web UI for Headscale
+      digest: 65e53c84b78555355a046f78e9b4d3d2e891c99e17343653f3a34a48ed785a60
+      name: headplane
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headplane-0.1.0/headplane-0.1.0.tgz
+      version: 0.1.0
+  headscale:
+    - apiVersion: v2
+      appVersion: 0.27.1
+      created: "2026-01-11T05:02:45.517304724Z"
+      description: An open source, self-hosted implementation of the Tailscale control server
+      digest: 9fe74ec41b21048f5ccbc8d69ac489bfaf3178b32e5efcc209e66f9d6a6b1f1c
+      name: headscale
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.4/headscale-0.1.4.tgz
+      version: 0.1.4
+    - apiVersion: v2
+      appVersion: 0.28.0-beta.1
+      created: "2026-01-11T04:46:52.952597481Z"
+      description: An open source, self-hosted implementation of the Tailscale control server
+      digest: 20a4cae1d3947b0d598bf028776dde89ede36e89b2c659c1ca8b1c506abd8cea
+      name: headscale
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.3/headscale-0.1.3.tgz
+      version: 0.1.3
+    - apiVersion: v2
+      appVersion: 0.28.0-beta.1
+      created: "2026-01-11T04:41:49.948624674Z"
+      description: An open source, self-hosted implementation of the Tailscale control server
+      digest: 6fd06ab94325cf3c57a215a312bd7703197b8a9d03684f52d3579c8f0f4878e6
+      name: headscale
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.2/headscale-0.1.2.tgz
+      version: 0.1.2
+    - apiVersion: v2
+      appVersion: 0.28.0-beta.1
+      created: "2026-01-11T04:28:42.968477654Z"
+      description: An open source, self-hosted implementation of the Tailscale control server
+      digest: 0c86e6c3a055d1127cef3e8edaeeaa3f969e34de6a9a5d7d30acdddd8b17b0c4
+      name: headscale
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.1/headscale-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: 0.28.0-beta.1
+      created: "2026-01-11T03:52:28.700422661Z"
+      description: An open source, self-hosted implementation of the Tailscale control server
+      digest: ee277712ff8d45dbf1e837176396d574a1f523c3b2bff1ec27f68f9b97cfa61f
+      name: headscale
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/headscale-0.1.0/headscale-0.1.0.tgz
+      version: 0.1.0
+  hedgedoc:
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T17:24:49.912879264Z"
+      dependencies:
+        - name: hedgedoc-backend
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.4
+      description: A Helm chart for Kubernetes
+      digest: 3ddfc2ca93de70df672379aeac357b8d2198329a024d2c9ea8559fd6e53d59d8
+      name: hedgedoc
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.8/hedgedoc-0.0.8.tgz
+      version: 0.0.8
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:54:19.928276717Z"
+      dependencies:
+        - name: hedgedoc-backend
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.3
+      description: A Helm chart for Kubernetes
+      digest: d37cd42173b1824ea6133d8fbe2698dfd2ad6a7f0d21c02053c39d123feab16e
+      name: hedgedoc
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.7/hedgedoc-0.0.7.tgz
+      version: 0.0.7
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:52:13.144175767Z"
+      dependencies:
+        - name: hedgedoc-backend
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.2
+      description: A Helm chart for Kubernetes
+      digest: 54cf997f10ae8bc3b759ab87142e7f850d2bd958aa7129e96aca513a3250ed9e
+      name: hedgedoc
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.6/hedgedoc-0.0.6.tgz
+      version: 0.0.6
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:45:31.046048452Z"
+      dependencies:
+        - name: hedgedoc-backend
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.2
+      description: A Helm chart for Kubernetes
+      digest: 14fa532d1ffd7d655d4bc99b380c29a3bdef7e0e6bdb8bf39f8e24000a0d54d4
+      name: hedgedoc
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.5/hedgedoc-0.0.5.tgz
+      version: 0.0.5
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:38:19.972520023Z"
+      dependencies:
+        - name: hedgedoc-backend
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.1
+      description: A Helm chart for Kubernetes
+      digest: 5dd3d31025cec66d4f43119abae6086af34853d4ae010a7e48e729e95065f393
+      name: hedgedoc
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.4/hedgedoc-0.0.4.tgz
+      version: 0.0.4
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:35:00.757053748Z"
+      dependencies:
+        - name: hedgedoc-backend
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.1
+      description: A Helm chart for Kubernetes
+      digest: 85bc6c763d45231bf33837c7177f9646cdce009f3f0f0ff2818f7a6d4669bb62
+      name: hedgedoc
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.3/hedgedoc-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:25:17.629169202Z"
+      dependencies:
+        - name: hedgedoc-backend
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.1
+      description: A Helm chart for Kubernetes
+      digest: 9a3d30fe2775934458bad417b6b797b0915c6730bd511e6694be68796b11b764
+      name: hedgedoc
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.2/hedgedoc-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:03:08.600099709Z"
+      dependencies:
+        - name: hedgedoc-backend
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.1
+      description: A Helm chart for Kubernetes
+      digest: 69139ceee15a73c2c5ab9a0ff336b374a2cf932ab3c101e1b598857062101087
+      name: hedgedoc
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-0.0.1/hedgedoc-0.0.1.tgz
+      version: 0.0.1
+  hedgedoc-backend:
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:56:59.374365192Z"
+      description: A Helm chart for Kubernetes
+      digest: 7b0d60d0e456eb5c5460750d1f5b05bd708344d6eb03e330859d3a677c06d5b0
+      name: hedgedoc-backend
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-backend-0.0.4/hedgedoc-backend-0.0.4.tgz
+      version: 0.0.4
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:52:13.310544019Z"
+      description: A Helm chart for Kubernetes
+      digest: 2dea954284e0b93e0ce98ead2cf5c5879f0b34a37892bc91b9599fa51fc7d496
+      name: hedgedoc-backend
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-backend-0.0.3/hedgedoc-backend-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T16:44:53.667017896Z"
+      description: A Helm chart for Kubernetes
+      digest: a0b273ee4b238b9b17b383698ecc9ce7f9e0a15e56a3a0c55a3afee355cdcf1a
+      name: hedgedoc-backend
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-backend-0.0.2/hedgedoc-backend-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: develop
+      created: "2026-01-09T15:55:22.454456505Z"
+      description: A Helm chart for Kubernetes
+      digest: d661ca14f15e4128f60d7899642e28be7167f5e82410ff89f4689326167d7b47
+      name: hedgedoc-backend
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hedgedoc-backend-0.0.1/hedgedoc-backend-0.0.1.tgz
+      version: 0.0.1
+  hubproxy:
+    - apiVersion: v2
+      appVersion: 1.2.1
+      created: "2026-01-11T05:22:49.877356493Z"
+      description: 多功能代理加速服务，提供 Docker 镜像加速、GitHub 加速、下载离线镜像等功能。一个二进制文件实现所有功能，支持仓库审计。流式转发，无缓存。
+      digest: 28548eb7f962a15f8f946025d2cd1b9fa562ceeebfd37c7759765a895f810dec
+      name: hubproxy
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hubproxy-0.1.0/hubproxy-0.1.0.tgz
+      version: 0.1.0
+  hugo-site:
+    - apiVersion: v2
+      appVersion: 1.16.0
+      created: "2026-01-11T05:33:22.645937289Z"
+      description: A Helm chart for Kubernetes
+      digest: 5416186b3db7759f1e3f66e8f8822a965957c5c3e9d035da02e6226d62b94ab0
+      name: hugo-site
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/hugo-site-0.1.0/hugo-site-0.1.0.tgz
+      version: 0.1.0
+  kavita:
+    - apiVersion: v2
+      appVersion: nightly-0.8.8.21
+      created: "2026-01-02T14:27:46.137929769Z"
+      description: A Helm chart for Kubernetes
+      digest: 0bf2d6264afd0f684fa483f7287a3af7970018b291dc275f68d275a4ee34cc49
+      name: kavita
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.5/kavita-0.0.5.tgz
+      version: 0.0.5
+    - apiVersion: v2
+      appVersion: 0.8.8
+      created: "2026-01-02T13:53:59.733759304Z"
+      description: A Helm chart for Kubernetes
+      digest: 8bd9954c6d15a9babf3af77c6f6ce2fc6a8c0ed4f26ba007723d99c7db54206a
+      name: kavita
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.4/kavita-0.0.4.tgz
+      version: 0.0.4
+    - apiVersion: v2
+      appVersion: 0.8.8
+      created: "2026-01-02T13:40:28.705733501Z"
+      description: A Helm chart for Kubernetes
+      digest: 679b1da73c4e1b0d6fa971d0a74cd959663e5904ca678c0192b0e252c5b7f608
+      name: kavita
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.3/kavita-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
+      appVersion: 0.8.8
+      created: "2026-01-02T13:38:41.764873769Z"
+      description: A Helm chart for Kubernetes
+      digest: 750f19a557c45de3f07e04f185dd722842f06adc8829d31382ee651c61a898d8
+      name: kavita
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.2/kavita-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: 0.8.8
+      created: "2026-01-02T13:37:22.912431012Z"
+      description: A Helm chart for Kubernetes
+      digest: 6a0a472a8866ca0049199698a50936e900ab9f361cf2bfb1a4511cfa4d363d5d
+      name: kavita
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/kavita-0.0.1/kavita-0.0.1.tgz
+      version: 0.0.1
+  kirara-agent:
+    - apiVersion: v2
+      appVersion: v3.3.0a2
+      created: "2026-01-11T15:22:06.631288178Z"
+      description: "\U0001F916 可 DIY 的 多模态 AI 聊天机器人 | \U0001F680 快速接入 微信、 QQ、Telegram、等聊天平台 | \U0001F988支持DeepSeek、Grok、Claude、Ollama、Gemini、OpenAI | 工作流系统、网页搜索、AI画图、人设调教、虚拟女仆、语音对话 |"
+      digest: dab880610bf80f40173495b676d5e8bf92be3e431d137a70fce203b58ccdd574
+      name: kirara-agent
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/kirara-agent-0.1.1/kirara-agent-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: v3.3.0a2
+      created: "2026-01-11T15:16:26.302628913Z"
+      description: "\U0001F916 可 DIY 的 多模态 AI 聊天机器人 | \U0001F680 快速接入 微信、 QQ、Telegram、等聊天平台 | \U0001F988支持DeepSeek、Grok、Claude、Ollama、Gemini、OpenAI | 工作流系统、网页搜索、AI画图、人设调教、虚拟女仆、语音对话 |"
+      digest: b439ba9104cd9a057d000f0d5aa01aefbc690f4a2b8e47ddf608f13f0e3dd3fc
+      name: kirara-agent
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/kirara-agent-0.1.0/kirara-agent-0.1.0.tgz
+      version: 0.1.0
+  koipy:
+    - apiVersion: v2
+      appVersion: 1.12.2
+      created: "2026-01-11T05:53:51.842908732Z"
+      description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试机器人（Telegram bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
+      digest: 8937c216a53c19e3500af1dbb36d47227fbc078c7bf740c84f0788acc8ecc7c7
+      name: koipy
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/koipy-0.1.2/koipy-0.1.2.tgz
+      version: 0.1.2
+    - apiVersion: v2
+      appVersion: 1.12.2
+      created: "2026-01-11T05:51:50.953356564Z"
+      description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试机器人（Telegram bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
+      digest: ad6d6bf167f3aa20849e471ef33acbd688da235f6516baad7f0a7043c9cf9a25
+      name: koipy
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/koipy-0.1.1/koipy-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: 1.12.2
+      created: "2026-01-11T05:47:19.17165748Z"
+      description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试机器人（Telegram bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
+      digest: 05469bec9ff6b99726c25c98ae30475f2b910bc8d768cc05869c41fc1de3878c
+      name: koipy
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/koipy-0.1.0/koipy-0.1.0.tgz
+      version: 0.1.0
+  lobehub:
+    - apiVersion: v2
+      appVersion: 2.0.0-next.293
+      created: "2026-01-15T15:19:55.892444168Z"
+      dependencies:
+        - condition: browserless-chromium.enabled
+          name: browserless-chromium
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.6
+        - condition: searxng.enabled
+          name: searxng
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.1
+      description: A Helm chart for Kubernetes
+      digest: 2ed233c59a28b5be03e6956c93f087df889c4d9c97e5f94bddbb35499d40c9ba
+      name: lobehub
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.8/lobehub-0.0.8.tgz
+      version: 0.0.8
+    - apiVersion: v2
+      appVersion: 2.0.0-next.190
+      created: "2026-01-02T09:49:25.460790385Z"
+      dependencies:
+        - condition: browserless-chromium.enabled
+          name: browserless-chromium
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.4
+        - condition: searxng.enabled
+          name: searxng
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.0.1
+      description: A Helm chart for Kubernetes
+      digest: 207539115ace5c502ac1372411b1a59f19f7ea0a2020f44c70d54916d01fa6e2
+      name: lobehub
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/lobehub-0.0.7/lobehub-0.0.7.tgz
+      version: 0.0.7
+  miaospeed:
+    - apiVersion: v2
+      appVersion: 4.6.3
+      created: "2026-01-11T13:26:52.068834453Z"
+      dependencies:
+        - condition: frp.enabled
+          name: frp
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.1.6
+      description: Yet another server for universal connectivity debugging.
+      digest: 3b51070e654760bca3c2d6d811a0f83035f5f48e220320891be3da951d0c457f
+      name: miaospeed
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/miaospeed-0.1.2/miaospeed-0.1.2.tgz
+      version: 0.1.2
+    - apiVersion: v2
+      appVersion: 4.6.3
+      created: "2026-01-11T12:52:54.85931438Z"
+      dependencies:
+        - condition: frp.enabled
+          name: frp
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.1.6
+      description: Yet another server for universal connectivity debugging.
+      digest: 72339210a008f41c2e0af98072fd418cb84ff097640ac42226fc336b07ad1985
+      name: miaospeed
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/miaospeed-0.1.1/miaospeed-0.1.1.tgz
+      version: 0.1.1
+    - apiVersion: v2
+      appVersion: 4.6.3
+      created: "2026-01-11T12:34:56.432246177Z"
+      dependencies:
+        - condition: frp.enabled
+          name: frp
+          repository: https://sakullla.github.io/helm-charts
+          version: 0.1.5
+      description: Yet another server for universal connectivity debugging.
+      digest: 62c6d41b9e7dcf53fe390910039bbb3af361edad89b2d7aa82b8612cdb7cb4c3
+      name: miaospeed
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/miaospeed-0.1.0/miaospeed-0.1.0.tgz
+      version: 0.1.0
   misaka-danmu-server:
-  - apiVersion: v2
-    appVersion: v2.3.7
-    created: "2026-01-02T10:47:20.753991704Z"
-    description: A Helm chart for Kubernetes
-    digest: 14720259c445f30c5fbeac48066d0250e7d52dac0870969539560029ce6c7beb
-    name: misaka-danmu-server
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/misaka-danmu-server-0.0.3/misaka-danmu-server-0.0.3.tgz
-    version: 0.0.3
+    - apiVersion: v2
+      appVersion: v2.3.7
+      created: "2026-01-02T10:47:20.753991704Z"
+      description: A Helm chart for Kubernetes
+      digest: 14720259c445f30c5fbeac48066d0250e7d52dac0870969539560029ce6c7beb
+      name: misaka-danmu-server
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/misaka-danmu-server-0.0.3/misaka-danmu-server-0.0.3.tgz
+      version: 0.0.3
   newapi:
-  - apiVersion: v2
-    appVersion: v0.10.5-bailian.2
-    created: "2026-01-02T10:22:29.724576584Z"
-    description: A Helm chart for Kubernetes
-    digest: d8332a774bac4f3eef66741354a09c704c2653588b1b6182a7830c96d68222da
-    name: newapi
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/newapi-0.0.3/newapi-0.0.3.tgz
-    version: 0.0.3
+    - apiVersion: v2
+      appVersion: v0.10.5-bailian.2
+      created: "2026-01-02T10:22:29.724576584Z"
+      description: A Helm chart for Kubernetes
+      digest: d8332a774bac4f3eef66741354a09c704c2653588b1b6182a7830c96d68222da
+      name: newapi
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/newapi-0.0.3/newapi-0.0.3.tgz
+      version: 0.0.3
   next-ai-draw-io:
-  - apiVersion: v2
-    appVersion: latest
-    created: "2026-01-05T23:59:50.821889817Z"
-    description: A next.js web application that integrates AI capabilities with draw.io
-      diagrams. This app allows you to create, modify, and enhance diagrams through
-      natural language commands and AI-assisted visualization.
-    digest: c52ea9087c54f8ff50314997d2bbd348d2a347dd7a9dccc1b027d2696946e36f
-    name: next-ai-draw-io
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.4/next-ai-draw-io-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: latest
-    created: "2026-01-05T14:02:43.283280575Z"
-    description: A next.js web application that integrates AI capabilities with draw.io
-      diagrams. This app allows you to create, modify, and enhance diagrams through
-      natural language commands and AI-assisted visualization.
-    digest: 15c92ea27acefb3633a42932c0be9ccfa3ab1f4982b6dfedb5769b75ee9e7a83
-    name: next-ai-draw-io
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.3/next-ai-draw-io-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: latest
-    created: "2026-01-05T14:00:09.157924364Z"
-    description: A next.js web application that integrates AI capabilities with draw.io
-      diagrams. This app allows you to create, modify, and enhance diagrams through
-      natural language commands and AI-assisted visualization.
-    digest: a6963c1157708884cf274008c75f86f8af1633ee615c0492e14b9c6373753ccb
-    name: next-ai-draw-io
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.2/next-ai-draw-io-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: latest
-    created: "2026-01-05T13:44:52.545339649Z"
-    description: A next.js web application that integrates AI capabilities with draw.io
-      diagrams. This app allows you to create, modify, and enhance diagrams through
-      natural language commands and AI-assisted visualization.
-    digest: cf5bdef183ea2b679e29cc68c261ffd70703713fabb172da3a06492805160ccd
-    name: next-ai-draw-io
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.1/next-ai-draw-io-0.0.1.tgz
-    version: 0.0.1
+    - apiVersion: v2
+      appVersion: latest
+      created: "2026-01-05T23:59:50.821889817Z"
+      description: A next.js web application that integrates AI capabilities with draw.io diagrams. This app allows you to create, modify, and enhance diagrams through natural language commands and AI-assisted visualization.
+      digest: c52ea9087c54f8ff50314997d2bbd348d2a347dd7a9dccc1b027d2696946e36f
+      name: next-ai-draw-io
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.4/next-ai-draw-io-0.0.4.tgz
+      version: 0.0.4
+    - apiVersion: v2
+      appVersion: latest
+      created: "2026-01-05T14:02:43.283280575Z"
+      description: A next.js web application that integrates AI capabilities with draw.io diagrams. This app allows you to create, modify, and enhance diagrams through natural language commands and AI-assisted visualization.
+      digest: 15c92ea27acefb3633a42932c0be9ccfa3ab1f4982b6dfedb5769b75ee9e7a83
+      name: next-ai-draw-io
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.3/next-ai-draw-io-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
+      appVersion: latest
+      created: "2026-01-05T14:00:09.157924364Z"
+      description: A next.js web application that integrates AI capabilities with draw.io diagrams. This app allows you to create, modify, and enhance diagrams through natural language commands and AI-assisted visualization.
+      digest: a6963c1157708884cf274008c75f86f8af1633ee615c0492e14b9c6373753ccb
+      name: next-ai-draw-io
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.2/next-ai-draw-io-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: latest
+      created: "2026-01-05T13:44:52.545339649Z"
+      description: A next.js web application that integrates AI capabilities with draw.io diagrams. This app allows you to create, modify, and enhance diagrams through natural language commands and AI-assisted visualization.
+      digest: cf5bdef183ea2b679e29cc68c261ffd70703713fabb172da3a06492805160ccd
+      name: next-ai-draw-io
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.1/next-ai-draw-io-0.0.1.tgz
+      version: 0.0.1
   openlist:
-  - apiVersion: v2
-    appVersion: v4.1.8
-    created: "2026-01-02T14:54:56.475701208Z"
-    description: A Helm chart for Kubernetes
-    digest: a7ee9d4ee0b3562f640fabdb3a09e81709981561bf8be0c5d67cb87678ac1579
-    name: openlist
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/openlist-0.0.3/openlist-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: v4.1.8
-    created: "2026-01-02T14:51:06.175101335Z"
-    description: A Helm chart for Kubernetes
-    digest: 87db079b3caefaa72abb1d9cad1d6977a3dde04d53689e2c17c223e3d7860335
-    name: openlist
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/openlist-0.0.2/openlist-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: v4.1.8
-    created: "2026-01-02T14:42:17.675816211Z"
-    description: A Helm chart for Kubernetes
-    digest: 1b44cc656e1b5ea10b3f9418620dc52204a4b92994bc82229fef8351535ee57d
-    name: openlist
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/openlist-0.0.1/openlist-0.0.1.tgz
-    version: 0.0.1
+    - apiVersion: v2
+      appVersion: v4.1.8
+      created: "2026-01-02T14:54:56.475701208Z"
+      description: A Helm chart for Kubernetes
+      digest: a7ee9d4ee0b3562f640fabdb3a09e81709981561bf8be0c5d67cb87678ac1579
+      name: openlist
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/openlist-0.0.3/openlist-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
+      appVersion: v4.1.8
+      created: "2026-01-02T14:51:06.175101335Z"
+      description: A Helm chart for Kubernetes
+      digest: 87db079b3caefaa72abb1d9cad1d6977a3dde04d53689e2c17c223e3d7860335
+      name: openlist
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/openlist-0.0.2/openlist-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: v4.1.8
+      created: "2026-01-02T14:42:17.675816211Z"
+      description: A Helm chart for Kubernetes
+      digest: 1b44cc656e1b5ea10b3f9418620dc52204a4b92994bc82229fef8351535ee57d
+      name: openlist
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/openlist-0.0.1/openlist-0.0.1.tgz
+      version: 0.0.1
   oplist-api:
-  - apiVersion: v2
-    appVersion: latest
-    created: "2026-01-02T15:08:04.523430633Z"
-    description: A Helm chart for Kubernetes
-    digest: fc55393ba8b24592233eb5a2549f2750304730541cc57026056cb7b95f57acc1
-    name: oplist-api
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/oplist-api-0.0.1/oplist-api-0.0.1.tgz
-    version: 0.0.1
+    - apiVersion: v2
+      appVersion: latest
+      created: "2026-01-02T15:08:04.523430633Z"
+      description: A Helm chart for Kubernetes
+      digest: fc55393ba8b24592233eb5a2549f2750304730541cc57026056cb7b95f57acc1
+      name: oplist-api
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/oplist-api-0.0.1/oplist-api-0.0.1.tgz
+      version: 0.0.1
   qbittorrent:
-  - apiVersion: v2
-    appVersion: 5.1.4
-    created: "2026-01-03T01:00:39.486533213Z"
-    description: A Helm chart for Kubernetes
-    digest: c3e3f84148ccb2ee4138633baf61f6d5024acc45e5a7b29695911d1e9c81cd8f
-    name: qbittorrent
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.4/qbittorrent-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: 5.1.4
-    created: "2026-01-03T00:48:14.611065816Z"
-    description: A Helm chart for Kubernetes
-    digest: 6ddb24afaf5998b16dfd797c6bc9bf2f97a0137a3a4b80d6ede733586947a20a
-    name: qbittorrent
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.3/qbittorrent-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: 5.1.4
-    created: "2026-01-03T00:36:15.77345451Z"
-    description: A Helm chart for Kubernetes
-    digest: ddf79eaa7a53515078e6ed442792383a081ee08a6a07d39afe434509e82ff7e8
-    name: qbittorrent
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.2/qbittorrent-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: 5.1.4
-    created: "2026-01-03T00:35:48.074258393Z"
-    description: A Helm chart for Kubernetes
-    digest: 9fc6c063c6607f50fa1e3efb3eb99e5fd11b1c3950aeef6322d38f04af2a255f
-    name: qbittorrent
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.1/qbittorrent-0.0.1.tgz
-    version: 0.0.1
+    - apiVersion: v2
+      appVersion: 5.1.4
+      created: "2026-01-03T01:00:39.486533213Z"
+      description: A Helm chart for Kubernetes
+      digest: c3e3f84148ccb2ee4138633baf61f6d5024acc45e5a7b29695911d1e9c81cd8f
+      name: qbittorrent
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.4/qbittorrent-0.0.4.tgz
+      version: 0.0.4
+    - apiVersion: v2
+      appVersion: 5.1.4
+      created: "2026-01-03T00:48:14.611065816Z"
+      description: A Helm chart for Kubernetes
+      digest: 6ddb24afaf5998b16dfd797c6bc9bf2f97a0137a3a4b80d6ede733586947a20a
+      name: qbittorrent
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.3/qbittorrent-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
+      appVersion: 5.1.4
+      created: "2026-01-03T00:36:15.77345451Z"
+      description: A Helm chart for Kubernetes
+      digest: ddf79eaa7a53515078e6ed442792383a081ee08a6a07d39afe434509e82ff7e8
+      name: qbittorrent
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.2/qbittorrent-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: 5.1.4
+      created: "2026-01-03T00:35:48.074258393Z"
+      description: A Helm chart for Kubernetes
+      digest: 9fc6c063c6607f50fa1e3efb3eb99e5fd11b1c3950aeef6322d38f04af2a255f
+      name: qbittorrent
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.1/qbittorrent-0.0.1.tgz
+      version: 0.0.1
   saveany-bot:
-  - apiVersion: v2
-    appVersion: 0.46.2
-    created: "2026-01-03T00:17:37.488378385Z"
-    description: A Helm chart for Kubernetes
-    digest: f5b85fbe46c0631b8d0d5011e57ecf82d6a466b05bf0e45704d52c701eef8352
-    name: saveany-bot
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/saveany-bot-0.0.4/saveany-bot-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: 0.46.2
-    created: "2026-01-02T15:30:11.633156249Z"
-    description: A Helm chart for Kubernetes
-    digest: 24225a31b5796b7aa695c2d3533731f73189eb1cf3eb2661caad4ee422d0be18
-    name: saveany-bot
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/saveany-bot-0.0.3/saveany-bot-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: 0.46.2
-    created: "2026-01-02T15:28:25.641299216Z"
-    description: A Helm chart for Kubernetes
-    digest: 5f9d942d978bf007f0ff18b6775b60f2d5ac1efbbd7be099dbb199a3357ff093
-    name: saveany-bot
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/saveany-bot-0.0.2/saveany-bot-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: 0.46.2
-    created: "2026-01-02T15:24:26.592971813Z"
-    description: A Helm chart for Kubernetes
-    digest: 1adb2446c011bd6a51ce8acc791f7014985f2cd6c7138b268d62d74808f4ef2f
-    name: saveany-bot
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/saveany-bot-0.0.1/saveany-bot-0.0.1.tgz
-    version: 0.0.1
+    - apiVersion: v2
+      appVersion: 0.46.2
+      created: "2026-01-03T00:17:37.488378385Z"
+      description: A Helm chart for Kubernetes
+      digest: f5b85fbe46c0631b8d0d5011e57ecf82d6a466b05bf0e45704d52c701eef8352
+      name: saveany-bot
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/saveany-bot-0.0.4/saveany-bot-0.0.4.tgz
+      version: 0.0.4
+    - apiVersion: v2
+      appVersion: 0.46.2
+      created: "2026-01-02T15:30:11.633156249Z"
+      description: A Helm chart for Kubernetes
+      digest: 24225a31b5796b7aa695c2d3533731f73189eb1cf3eb2661caad4ee422d0be18
+      name: saveany-bot
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/saveany-bot-0.0.3/saveany-bot-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
+      appVersion: 0.46.2
+      created: "2026-01-02T15:28:25.641299216Z"
+      description: A Helm chart for Kubernetes
+      digest: 5f9d942d978bf007f0ff18b6775b60f2d5ac1efbbd7be099dbb199a3357ff093
+      name: saveany-bot
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/saveany-bot-0.0.2/saveany-bot-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: 0.46.2
+      created: "2026-01-02T15:24:26.592971813Z"
+      description: A Helm chart for Kubernetes
+      digest: 1adb2446c011bd6a51ce8acc791f7014985f2cd6c7138b268d62d74808f4ef2f
+      name: saveany-bot
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/saveany-bot-0.0.1/saveany-bot-0.0.1.tgz
+      version: 0.0.1
   searxng:
-  - apiVersion: v2
-    appVersion: 2026.1.2-3d88876a3
-    created: "2026-01-03T00:17:37.66779612Z"
-    description: A Helm chart for Kubernetes
-    digest: e2687b66399291bcba6b3e8e3951d9a41dd6a38a112df74aa32c5912cf0a8012
-    name: searxng
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/searxng-0.0.2/searxng-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: 2026.1.2-3d88876a3
-    created: "2026-01-02T08:59:50.332341375Z"
-    description: A Helm chart for Kubernetes
-    digest: 6617e4d0c9ea644a2ad4a20b6ea02aa2139aa8abbd333168aaee39aedd011495
-    name: searxng
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/searxng-0.0.1/searxng-0.0.1.tgz
-    version: 0.0.1
+    - apiVersion: v2
+      appVersion: 2026.1.2-3d88876a3
+      created: "2026-01-03T00:17:37.66779612Z"
+      description: A Helm chart for Kubernetes
+      digest: e2687b66399291bcba6b3e8e3951d9a41dd6a38a112df74aa32c5912cf0a8012
+      name: searxng
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/searxng-0.0.2/searxng-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: 2026.1.2-3d88876a3
+      created: "2026-01-02T08:59:50.332341375Z"
+      description: A Helm chart for Kubernetes
+      digest: 6617e4d0c9ea644a2ad4a20b6ea02aa2139aa8abbd333168aaee39aedd011495
+      name: searxng
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/searxng-0.0.1/searxng-0.0.1.tgz
+      version: 0.0.1
   substore:
-  - apiVersion: v2
-    appVersion: 2.20.67
-    created: "2026-01-02T08:01:13.983691768Z"
-    description: A Helm chart for Kubernetes
-    digest: bea2389dce9b438c6705477d0c34900477789dc6e8025de66822a65d62ff5951
-    name: substore
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.7/substore-0.0.7.tgz
-    version: 0.0.7
+    - apiVersion: v2
+      appVersion: 2.20.67
+      created: "2026-01-02T08:01:13.983691768Z"
+      description: A Helm chart for Kubernetes
+      digest: bea2389dce9b438c6705477d0c34900477789dc6e8025de66822a65d62ff5951
+      name: substore
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/substore-0.0.7/substore-0.0.7.tgz
+      version: 0.0.7
   tabby-web:
-  - apiVersion: v2
-    appVersion: latest
-    created: "2026-01-02T08:17:40.440907227Z"
-    description: A Helm chart for Kubernetes
-    digest: abd9cb4d5111880ae04c4c0743d55ff8771ee368031ae929314257deeca250ed
-    name: tabby-web
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/tabby-web-0.0.3/tabby-web-0.0.3.tgz
-    version: 0.0.3
+    - apiVersion: v2
+      appVersion: latest
+      created: "2026-01-02T08:17:40.440907227Z"
+      description: A Helm chart for Kubernetes
+      digest: abd9cb4d5111880ae04c4c0743d55ff8771ee368031ae929314257deeca250ed
+      name: tabby-web
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/tabby-web-0.0.3/tabby-web-0.0.3.tgz
+      version: 0.0.3
   vaultwarden:
-  - apiVersion: v2
-    appVersion: 1.35.1
-    created: "2026-01-04T08:35:40.113322223Z"
-    description: A Helm chart for Kubernetes
-    digest: 6e099fad0f991471b2a4345010182569c06a641e07a641507e4bce348ccc4c90
-    name: vaultwarden
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.4/vaultwarden-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: 1.35.1
-    created: "2026-01-02T09:43:28.062761745Z"
-    description: A Helm chart for Kubernetes
-    digest: 2e2206271230464dfda07040ecfaca90a22b8fe5d1a3f7bb9288bdae7208d763
-    name: vaultwarden
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.3/vaultwarden-0.0.3.tgz
-    version: 0.0.3
+    - apiVersion: v2
+      appVersion: 1.35.1
+      created: "2026-01-04T08:35:40.113322223Z"
+      description: A Helm chart for Kubernetes
+      digest: 6e099fad0f991471b2a4345010182569c06a641e07a641507e4bce348ccc4c90
+      name: vaultwarden
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.4/vaultwarden-0.0.4.tgz
+      version: 0.0.4
+    - apiVersion: v2
+      appVersion: 1.35.1
+      created: "2026-01-02T09:43:28.062761745Z"
+      description: A Helm chart for Kubernetes
+      digest: 2e2206271230464dfda07040ecfaca90a22b8fe5d1a3f7bb9288bdae7208d763
+      name: vaultwarden
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/vaultwarden-0.0.3/vaultwarden-0.0.3.tgz
+      version: 0.0.3
   xray:
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T11:39:02.397048494Z"
-    description: A Helm chart for xray
-    digest: 60e17ef5fedc128bceb18c78ec9b717103437e39de4a277412fcf24f903f8edb
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.11/xray-0.0.11.tgz
-    version: 0.0.11
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T11:26:14.77529428Z"
-    description: A Helm chart for xray
-    digest: 24807b7e306d766722ea4828f735b20fff89ac6972e085be8a38b35afd9cbb84
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.10/xray-0.0.10.tgz
-    version: 0.0.10
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T09:57:51.349496606Z"
-    description: A Helm chart for xray
-    digest: 3cb853b0e191f63b8270f5da24dbcb802b134ed2d38f0e5e8ba20fb9837ecd93
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.9/xray-0.0.9.tgz
-    version: 0.0.9
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T09:17:20.028758984Z"
-    description: A Helm chart for xray
-    digest: 80facc2dfe37ed3ca63134b5f489ae4c2d2159ba35381fe1c051dc90bd261ae2
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.8/xray-0.0.8.tgz
-    version: 0.0.8
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T08:54:12.43386935Z"
-    description: A Helm chart for xray
-    digest: 3a66c8a4c60e647fd8d27b385bb7b7fc9f2e011f3eb9ff4dfb2b8322dbbaf1af
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.7/xray-0.0.7.tgz
-    version: 0.0.7
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T08:49:24.808922678Z"
-    description: A Helm chart for xray
-    digest: 01e869b3fff5204e73428acf7a03d5d1fe5529b5f7b9d3d9b1b7d45357060a4d
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.6/xray-0.0.6.tgz
-    version: 0.0.6
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T08:49:06.055021179Z"
-    description: A Helm chart for Kubernetes
-    digest: a20a98e7c50acd40f217ac43d381c5ac19a4778ae887c28c4b590f66f4dd7fa4
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.5/xray-0.0.5.tgz
-    version: 0.0.5
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T08:47:20.498807608Z"
-    description: A Helm chart for Kubernetes
-    digest: 0903b3972894ab2ded4152c0eec2ed9404ba765a668264d72463c443910c5a65
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.4/xray-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T08:41:28.060424941Z"
-    description: A Helm chart for Kubernetes
-    digest: 312ccd54738510b65796bb2ea5310fe1d06d79ddae416e9d108a34ff1dbdfad3
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.3/xray-0.0.3.tgz
-    version: 0.0.3
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T08:38:58.837044875Z"
-    description: A Helm chart for Kubernetes
-    digest: 58df91567dae744d3c7d8c2393c9cac7db1eef54e99af6ce4929bb3a1e273b14
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.2/xray-0.0.2.tgz
-    version: 0.0.2
-  - apiVersion: v2
-    appVersion: 25.12.8
-    created: "2026-01-04T08:35:40.253206934Z"
-    description: A Helm chart for Kubernetes
-    digest: b1e8569edf0e73078fcb8b3cfad370d169c379f66c7140fee50c775d40da096c
-    name: xray
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.1/xray-0.0.1.tgz
-    version: 0.0.1
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T11:39:02.397048494Z"
+      description: A Helm chart for xray
+      digest: 60e17ef5fedc128bceb18c78ec9b717103437e39de4a277412fcf24f903f8edb
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.11/xray-0.0.11.tgz
+      version: 0.0.11
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T11:26:14.77529428Z"
+      description: A Helm chart for xray
+      digest: 24807b7e306d766722ea4828f735b20fff89ac6972e085be8a38b35afd9cbb84
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.10/xray-0.0.10.tgz
+      version: 0.0.10
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T09:57:51.349496606Z"
+      description: A Helm chart for xray
+      digest: 3cb853b0e191f63b8270f5da24dbcb802b134ed2d38f0e5e8ba20fb9837ecd93
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.9/xray-0.0.9.tgz
+      version: 0.0.9
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T09:17:20.028758984Z"
+      description: A Helm chart for xray
+      digest: 80facc2dfe37ed3ca63134b5f489ae4c2d2159ba35381fe1c051dc90bd261ae2
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.8/xray-0.0.8.tgz
+      version: 0.0.8
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T08:54:12.43386935Z"
+      description: A Helm chart for xray
+      digest: 3a66c8a4c60e647fd8d27b385bb7b7fc9f2e011f3eb9ff4dfb2b8322dbbaf1af
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.7/xray-0.0.7.tgz
+      version: 0.0.7
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T08:49:24.808922678Z"
+      description: A Helm chart for xray
+      digest: 01e869b3fff5204e73428acf7a03d5d1fe5529b5f7b9d3d9b1b7d45357060a4d
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.6/xray-0.0.6.tgz
+      version: 0.0.6
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T08:49:06.055021179Z"
+      description: A Helm chart for Kubernetes
+      digest: a20a98e7c50acd40f217ac43d381c5ac19a4778ae887c28c4b590f66f4dd7fa4
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.5/xray-0.0.5.tgz
+      version: 0.0.5
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T08:47:20.498807608Z"
+      description: A Helm chart for Kubernetes
+      digest: 0903b3972894ab2ded4152c0eec2ed9404ba765a668264d72463c443910c5a65
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.4/xray-0.0.4.tgz
+      version: 0.0.4
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T08:41:28.060424941Z"
+      description: A Helm chart for Kubernetes
+      digest: 312ccd54738510b65796bb2ea5310fe1d06d79ddae416e9d108a34ff1dbdfad3
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.3/xray-0.0.3.tgz
+      version: 0.0.3
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T08:38:58.837044875Z"
+      description: A Helm chart for Kubernetes
+      digest: 58df91567dae744d3c7d8c2393c9cac7db1eef54e99af6ce4929bb3a1e273b14
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.2/xray-0.0.2.tgz
+      version: 0.0.2
+    - apiVersion: v2
+      appVersion: 25.12.8
+      created: "2026-01-04T08:35:40.253206934Z"
+      description: A Helm chart for Kubernetes
+      digest: b1e8569edf0e73078fcb8b3cfad370d169c379f66c7140fee50c775d40da096c
+      name: xray
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/xray-0.0.1/xray-0.0.1.tgz
+      version: 0.0.1
   yamtrack:
-  - apiVersion: v2
-    appVersion: 0.24.8
-    created: "2026-01-02T11:03:17.652675074Z"
-    description: A Helm chart for Kubernetes
-    digest: 2d607446600b1f6d19f96188d0de3f0dcaae304f1ef0b3bbddbd4926cc5905c3
-    name: yamtrack
-    type: application
-    urls:
-    - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
-    version: 0.0.4
+    - apiVersion: v2
+      appVersion: 0.24.8
+      created: "2026-01-02T11:03:17.652675074Z"
+      description: A Helm chart for Kubernetes
+      digest: 2d607446600b1f6d19f96188d0de3f0dcaae304f1ef0b3bbddbd4926cc5905c3
+      name: yamtrack
+      type: application
+      urls:
+        - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
+      version: 0.0.4
 generated: "2026-01-17T11:34:07.750200882Z"

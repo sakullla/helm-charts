@@ -15,8 +15,8 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Checkout gh-pages
         run: |
@@ -59,8 +59,6 @@ jobs:
                       print(f"✂️ Pruning {chart_name}: {original_count} -> 1")
                       data['entries'][chart_name] = [versions[0]]
                       changes_made = True
-                  else:
-                      print(f"✅ {chart_name} is already clean (1 version).")
           
           if changes_made:
               print("💾 Writing changes back to index.yaml...")
@@ -70,9 +68,17 @@ jobs:
           else:
               print("🎉 No changes needed.")
 
+      # 修复了这里的引号和语法问题
       - name: Commit and Push
         run: |
-          if [[ -n $(git status -s) ]]; then
-            echo "📦 Committing changes..."
+          # 检查 index.yaml 是否有变化
+          if git diff --quiet index.yaml; then
+            echo "✅ No changes detected in index.yaml. Everything is clean."
+          else
+            echo "📦 Changes detected. Committing..."
+            
             git add index.yaml
-            git commit -m "chore: prune index.yaml via python script [skip ci
+            git commit -m "chore: prune index.yaml via python script [skip ci]"
+            
+            # 使用 Token 进行推送，防止权限错误
+            git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages

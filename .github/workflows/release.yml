@@ -31,35 +31,3 @@ jobs:
         uses: helm/chart-releaser-action@v1.5.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Cleanup Old Releases (Keep last 5)
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # 1. 获取 charts 目录下所有的 chart 名字 (例如 certimate, project-b)
-          # 这里的 ls -d charts/*/ 会列出目录，xargs basename 只取文件夹名
-          CHARTS=$(ls -d charts/*/ | xargs -n 1 basename)
-
-          # 2. 遍历每一个 Chart
-          for CHART_NAME in $CHARTS; do
-            echo "🧹 正在检查清理 Chart: $CHART_NAME ..."
-
-            # 3. 使用 gh 命令行列出该 Chart 的所有 Release
-            # --limit 100:以此防止分页问题
-            # jq 过滤: 筛选出 tag 名字以 "chart名-" 开头的 release
-            # tail -n +6: 保留前5个，从第6个开始选中（即准备删除的目标）
-            
-            RELEASE_TO_DELETE=$(gh release list --limit 100 --json tagName --jq ".[] | select(.tagName | startswith(\"$CHART_NAME-\")) | .tagName" | tail -n +6)
-
-            if [ -z "$RELEASE_TO_DELETE" ]; then
-              echo "   ✅ $CHART_NAME 版本数量未超过 5 个，无需清理。"
-            else
-              echo "   🗑️ 发现旧版本，准备删除:"
-              echo "$RELEASE_TO_DELETE"
-              
-              # 4. 执行删除操作 (删除 Release 同时也删除 Tag)
-              # --cleanup-tag: 同时删除对应的 git tag
-              # -y: 不询问直接确认
-              echo "$RELEASE_TO_DELETE" | xargs -I {} gh release delete "{}" --cleanup-tag -y
-            fi
-          done

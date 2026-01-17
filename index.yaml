@@ -259,6 +259,17 @@ entries:
   dns-server:
   - apiVersion: v2
     appVersion: 14.3.0
+    created: "2026-01-17T02:46:06.815295048Z"
+    description: Self host a DNS server for privacy & security Block ads & malware
+      at DNS level for your entire network!
+    digest: 3975818523647d59eefd9d1bc84a8a94a1e846c298224e4e6972fd335109c4e2
+    name: dns-server
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/dns-server-0.1.5/dns-server-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 14.3.0
     created: "2026-01-17T02:36:58.826244832Z"
     description: Self host a DNS server for privacy & security Block ads & malware
       at DNS level for your entire network!
@@ -1283,4 +1294,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-17T02:36:58.826417654Z"
+generated: "2026-01-17T02:46:06.815508405Z"

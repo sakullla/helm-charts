@@ -1,4 +1,4 @@
-name: Manual Cleanup (Keep Only 1)
+name: Manual Force Cleanup (Fix Limits)
 on: workflow_dispatch
 
 permissions:
@@ -11,28 +11,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Cleanup All Old Releases (Keep 1)
+      - name: Force Cleanup All Charts
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # 获取所有 Chart 名字
           ALL_CHARTS=$(ls -d charts/*/ | xargs -n 1 basename)
-          
+
           for CHART_NAME in $ALL_CHARTS; do
             echo "🔎 Checking Chart: $CHART_NAME"
 
-            # 关键修改：tail -n +2 (保留1个，删除其余所有)
+            # 关键修复：--limit 1000
+            # 确保即使是很久以前的发布也能被扫描到
+            # tail -n +3 表示保留前2个(1,2)，删除第3个及以后
             RELEASES_TO_DELETE=$(gh release list \
-              --limit 100 \
+              --limit 1000 \
               --order desc \
               --json tagName \
               --jq ".[] | select(.tagName | startswith(\"$CHART_NAME-\")) | .tagName" \
-              | tail -n +2)
+              | tail -n +3)
 
             if [ -z "$RELEASES_TO_DELETE" ]; then
-              echo "✅ $CHART_NAME: Clean (Only latest remains)."
+              echo "✅ $CHART_NAME is clean."
             else
-              echo "🗑️ Deleting old versions:"
-              echo "$RELEASES_TO_DELETE"
+              echo "🗑️ Deleting old versions for $CHART_NAME..."
               echo "$RELEASES_TO_DELETE" | xargs -r -I {} gh release delete "{}" --cleanup-tag -y
             fi
           done

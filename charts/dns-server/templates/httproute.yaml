@@ -2,7 +2,8 @@
 {{- $fullName := include "dns-server.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
 {{- $dohPort := .Values.service.dohPort -}}
-{{- $dohPath := .Values.service.dohPath -}}
+{{- /* 直接读取 dohPaths 列表 */ -}}
+{{- $dohPaths := .Values.service.dohPaths -}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -24,9 +25,12 @@ spec:
   {{- end }}
   rules:
     - matches:
+      {{- /* 遍历列表，生成多个 path 匹配规则 */ -}}
+      {{- range $dohPaths }}
         - path:
             type: PathPrefix
-            value: {{ $dohPath }}
+            value: {{ . }}
+      {{- end }}
       filters:
         - type: URLRewrite
           urlRewrite:

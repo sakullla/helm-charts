@@ -1,5 +1,4 @@
 name: Force Cleanup Tags (Nuclear Option)
-description: "Directly deletes Git Tags bypassing Release list. Use when 'gh release delete' fails."
 
 on:
   workflow_dispatch:

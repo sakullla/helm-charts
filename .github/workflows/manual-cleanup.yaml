@@ -1,64 +1,56 @@
-name: Force Cleanup Tags (Nuclear Option)
+name: Manual Prune index.yaml (Keep Latest Only)
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # 手动触发
 
 permissions:
   contents: write
 
 jobs:
-  cleanup-tags:
+  prune-index:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # 必须抓取完整历史才能看到所有 Tag
 
-      - name: Hard Cleanup Git Tags
+      - name: Install yq
+        uses: dcarbone/install-yq-action@v1.1.0
+
+      - name: Prune index.yaml
         run: |
-          # 1. 确保本地有所有远程 Tag
-          git fetch --tags
+          # 1. 配置 Git
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-          # 2. 获取所有 Chart 目录名
-          ALL_CHARTS=$(ls -d charts/*/ | xargs -n 1 basename)
+          # 2. 切换到 gh-pages 分支 (index.yaml 所在位置)
+          echo "🔄 Fetching gh-pages..."
+          git fetch origin gh-pages
+          git checkout gh-pages
 
-          echo "📋 Starting Hard Tag Cleanup..."
+          if [ ! -f index.yaml ]; then
+            echo "❌ Error: index.yaml not found!"
+            exit 1
+          fi
 
-          for CHART_NAME in $ALL_CHARTS; do
-            echo "---------------------------------------------------"
-            echo "🔎 Checking Tags for: $CHART_NAME"
+          echo "📊 Before cleanup (Entry count per chart):"
+          yq '.entries[] | length' index.yaml | head -n 5 || true
 
-            # 3. 列出该 Chart 的所有 Tag
-            # 逻辑说明：
-            # git tag -l: 列出所有 tag
-            # grep -P: 使用正则严格匹配 "Chart名-数字" 或 "Chart名-v数字" 格式
-            #          这样防止 "kavita" 误匹配到 "kavita-web"
-            # sort -V -r: 按版本号倒序排列 (最新的在最上面)
-            
-            MATCHING_TAGS=$(git tag -l | grep -P "^${CHART_NAME}-v?[0-9]" | sort -V -r)
+          # 3. 核心清洗命令
+          # 逻辑：对于 entries 下的每一个数组，删除从索引 1 开始到结束的所有元素
+          # 结果：只保留索引 0 (最新版)
+          echo "✂️ Pruning..."
+          yq -i 'del(.entries[][1:])' index.yaml
 
-            if [ -z "$MATCHING_TAGS" ]; then
-              echo "   (No tags found matching pattern)"
-              continue
-            fi
+          echo "📊 After cleanup (Should be 1):"
+          yq '.entries[] | length' index.yaml | head -n 5 || true
 
-            # 4. 筛选出需要删除的 Tag (跳过前 2 个，选中剩余所有的)
-            TAGS_TO_DELETE=$(echo "$MATCHING_TAGS" | tail -n +3)
-
-            if [ -z "$TAGS_TO_DELETE" ]; then
-              echo "✅ $CHART_NAME is clean (Tags count <= 2)."
-            else
-              echo "🗑️ Found orphaned tags to delete:"
-              echo "$TAGS_TO_DELETE"
-              
-              # 5. 执行远程删除
-              # 将换行符转换为空格，一次性传给 git push 删除
-              # 替换换行符为这个命令需要的格式
-              for TAG in $TAGS_TO_DELETE; do
-                 echo "   🔥 Deleting remote tag: $TAG"
-                 git push origin --delete "$TAG" || echo "   ⚠️ Failed to delete $TAG (maybe already gone)"
-              done
-            fi
-          done
-          echo "🎉 Cleanup finished."
+          # 4. 提交更改
+          if [[ -n $(git status -s) ]]; then
+            echo "💾 Committing changes..."
+            git add index.yaml
+            git commit -m "chore: force prune index.yaml to keep only latest versions"
+            git push origin gh-pages
+            echo "✅ index.yaml has been cleaned and pushed!"
+          else
+            echo "✅ index.yaml was already clean."
+          fi

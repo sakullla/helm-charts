@@ -1,5 +1,6 @@
 {{- if .Values.httpRoute.enabled -}}
 {{- $fullName := include "dns-server.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
 {{- $dohPort := .Values.service.dohPort -}}
 {{- /* 获取路径列表 */ -}}
 {{- $dohPaths := .Values.service.dohPaths -}}
@@ -23,7 +24,7 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   rules:
-    {{- /* 遍历配置的路径列表，为每个路径生成独立的 Rule */ -}}
+    {{- /* 核心修改：在 rules 层级进行循环 */ -}}
     {{- range $dohPaths }}
     - matches:
         - path:
@@ -42,4 +43,15 @@ spec:
           kind: Service
           weight: 50
     {{- end }}
+    {{- /* 最后是默认的根路径匹配 */ -}}
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: {{ $fullName }}
+          port: {{ $svcPort }}
+          group: ''
+          kind: Service
+          weight: 50
 {{- end }}

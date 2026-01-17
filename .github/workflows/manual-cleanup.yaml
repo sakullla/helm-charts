@@ -85,5 +85,4 @@ jobs:
             git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
             
             echo "✅ Successfully pushed cleaned index.yaml!"
-          fi  
-          # ⬆️⬆️⬆️ 必须要有这个 fi，且缩进要和上面的 if 对齐
+          fi

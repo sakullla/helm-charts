@@ -21,20 +21,32 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   rules:
-    {{- range .Values.httpRoute.rules }}
-    {{- with .matches }}
+    {{ range $dohPaths }}
     - matches:
-      {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .filters }}
+        - path:
+            type: PathPrefix
+            value: {{ . }}
       filters:
-      {{- toYaml . | nindent 8 }}
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: {{ $fullName }}
+          port: {{ $dohPort }}
+          group: ''
+          kind: Service
+          weight: 50
     {{- end }}
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
       backendRefs:
         - name: {{ $fullName }}
           port: {{ $svcPort }}
           group: ''
           kind: Service
-          weight: 1
-    {{- end }}
+          weight: 50
 {{- end }}

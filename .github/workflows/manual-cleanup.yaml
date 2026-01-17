@@ -71,14 +71,19 @@ jobs:
       # 修复了这里的引号和语法问题
       - name: Commit and Push
         run: |
-          # 检查 index.yaml 是否有变化
+          # 1. 检查 index.yaml 是否有变化
           if git diff --quiet index.yaml; then
             echo "✅ No changes detected in index.yaml. Everything is clean."
+          
           else
             echo "📦 Changes detected. Committing..."
             
             git add index.yaml
             git commit -m "chore: prune index.yaml via python script [skip ci]"
             
-            # 使用 Token 进行推送，防止权限错误
+            # 2. 使用 Token 进行推送
             git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+            
+            echo "✅ Successfully pushed cleaned index.yaml!"
+          fi  
+          # ⬆️⬆️⬆️ 必须要有这个 fi，且缩进要和上面的 if 对齐

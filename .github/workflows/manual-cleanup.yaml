@@ -1,7 +1,7 @@
-name: Manual Prune index.yaml (Keep Latest Only)
+name: Manual Prune index.yaml (Python Version)
 
 on:
-  workflow_dispatch: # 手动触发
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -13,44 +13,66 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install yq
-        uses: dcarbone/install-yq-action@v1.1.0
-
-      - name: Prune index.yaml
+      - name: Configure Git
         run: |
-          # 1. 配置 Git
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-          # 2. 切换到 gh-pages 分支 (index.yaml 所在位置)
+      - name: Checkout gh-pages
+        run: |
           echo "🔄 Fetching gh-pages..."
           git fetch origin gh-pages
           git checkout gh-pages
+          
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-          if [ ! -f index.yaml ]; then
-            echo "❌ Error: index.yaml not found!"
-            exit 1
-          fi
+      - name: Install PyYAML
+        run: pip install pyyaml
 
-          echo "📊 Before cleanup (Entry count per chart):"
-          yq '.entries[] | length' index.yaml | head -n 5 || true
+      - name: Prune index.yaml with Python
+        shell: python
+        run: |
+          import yaml
+          import os
 
-          # 3. 核心清洗命令
-          # 逻辑：对于 entries 下的每一个数组，删除从索引 1 开始到结束的所有元素
-          # 结果：只保留索引 0 (最新版)
-          echo "✂️ Pruning..."
-          yq -i 'del(.entries[][1:])' index.yaml
+          file_path = 'index.yaml'
+          
+          if not os.path.exists(file_path):
+              print(f"❌ Error: {file_path} not found.")
+              exit(1)
 
-          echo "📊 After cleanup (Should be 1):"
-          yq '.entries[] | length' index.yaml | head -n 5 || true
+          print("📖 Reading index.yaml...")
+          with open(file_path, 'r') as f:
+              data = yaml.safe_load(f)
 
-          # 4. 提交更改
+          changes_made = False
+          
+          # 遍历所有 Chart
+          if 'entries' in data:
+              for chart_name, versions in data['entries'].items():
+                  original_count = len(versions)
+                  if original_count > 1:
+                      # 强制保留第一个元素（最新版），丢弃其余
+                      print(f"✂️ Pruning {chart_name}: {original_count} -> 1")
+                      data['entries'][chart_name] = [versions[0]]
+                      changes_made = True
+                  else:
+                      print(f"✅ {chart_name} is already clean (1 version).")
+          
+          if changes_made:
+              print("💾 Writing changes back to index.yaml...")
+              with open(file_path, 'w') as f:
+                  # default_flow_style=False 保持 YAML 格式美观
+                  yaml.dump(data, f, default_flow_style=False, sort_keys=False)
+          else:
+              print("🎉 No changes needed.")
+
+      - name: Commit and Push
+        run: |
           if [[ -n $(git status -s) ]]; then
-            echo "💾 Committing changes..."
+            echo "📦 Committing changes..."
             git add index.yaml
-            git commit -m "chore: force prune index.yaml to keep only latest versions"
-            git push origin gh-pages
-            echo "✅ index.yaml has been cleaned and pushed!"
-          else
-            echo "✅ index.yaml was already clean."
-          fi
+            git commit -m "chore: prune index.yaml via python script [skip ci

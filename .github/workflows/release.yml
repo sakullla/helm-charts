@@ -38,32 +38,47 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-      # 2. 清理 index.yaml：只保留最新版本
-      # 切换到 gh-pages 分支（cr action 默认发布到此分支），用 yq 裁剪 yaml
+      # 2. 修复版：清理 index.yaml (强制同步最新并在本地裁剪)
       - name: Prune index.yaml (Keep Only Latest)
+        shell: bash
         run: |
-          echo "📥 Checking out gh-pages to prune index.yaml..."
+          echo "🔄 Fetching latest gh-pages..."
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          
+          # 强制拉取远程 gh-pages 分支的最新状态
           git fetch origin gh-pages
-          git checkout gh-pages
+          
+          # 强制切换并重置到 origin/gh-pages (确保包含上一步 chart-releaser 生成的最新记录)
+          git checkout -B gh-pages origin/gh-pages
           
           if [ -f index.yaml ]; then
+            echo "👀 Before pruning (Count per chart):"
+            yq '.entries[] | length' index.yaml | head -n 5
+            
             echo "✂️ Pruning index.yaml to keep only the latest version per chart..."
-            # yq 命令含义：遍历所有 entries，对于每个数组，删除索引 1 及之后的内容（只留索引0，即最新版）
+            # yq: 遍历 entries 下的所有数组，删除索引 1 及之后的内容
             yq -i 'del(.entries[][1:])' index.yaml
             
-            # 检查是否有变化，有则提交
+            echo "👀 After pruning (Should be 1):"
+            yq '.entries[] | length' index.yaml | head -n 5
+            
+            # 检查是否有变化
             if [[ -n $(git status -s) ]]; then
-              git commit -am "chore: prune index.yaml to latest version only"
-              git push origin gh-pages
-              echo "✅ index.yaml pruned and pushed."
+              git add index.yaml
+              git commit -m "chore: prune index.yaml to latest version only [skip ci]"
+              
+              # 使用 Token 显式推送到远程
+              git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
+              echo "✅ index.yaml pruned and forced pushed."
             else
               echo "✅ index.yaml is already clean."
             fi
           else
-            echo "⚠️ No index.yaml found, skipping."
+            echo "⚠️ No index.yaml found on gh-pages branch!"
           fi
           
-          # 切回 main 分支以便后续脚本能正确读取目录结构（虽然本例中清理脚本不强依赖 main，但保持习惯）
+          # 切回 main 分支 (如果后续步骤需要)
           git checkout main
 
       # 3. 清理旧版本 Release/Tag：只保留最近 2 个

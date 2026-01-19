@@ -266,6 +266,16 @@ entries:
   logvar:
   - apiVersion: v2
     appVersion: 1.12.2
+    created: "2026-01-19T13:40:43.93396945Z"
+    description: 一个人人都能部署的基于 js 的弹幕 API 服务器，支持爱优腾芒哔人韩巴弹幕直接获取，兼容弹弹play的搜索、详情查询和弹幕获取接口规范，并提供日志记录，支持vercel/netlify/edgeone/cloudflare/docker/claw等部署方式，不用提前下载弹幕，没有nas或小鸡也能一键部署。
+    digest: c4bcbff117cdec3ee9d2e06f347a1ed31e030e4c7bd3576179d31508232323a0
+    name: logvar
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/logvar-0.1.1/logvar-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.12.2
     created: "2026-01-19T13:13:06.613231884Z"
     description: 一个人人都能部署的基于 js 的弹幕 API 服务器，支持爱优腾芒哔人韩巴弹幕直接获取，兼容弹弹play的搜索、详情查询和弹幕获取接口规范，并提供日志记录，支持vercel/netlify/edgeone/cloudflare/docker/claw等部署方式，不用提前下载弹幕，没有nas或小鸡也能一键部署。
     digest: 57eba86c57e36683873628a871b462150ff2b71a16462290dfd1cfadf0e6c76d
@@ -435,4 +445,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-19T13:13:06.613242703Z"
+generated: "2026-01-19T13:40:43.933988926Z"

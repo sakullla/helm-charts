@@ -123,6 +123,22 @@ entries:
   firecrawl:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-02-01T04:32:11.031482929Z"
+    dependencies:
+    - condition: playwright-service.enabled
+      name: playwright-service
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.1.0
+    description: "\U0001F525 The Web Data API for AI - Turn entire websites into LLM-ready
+      markdown or structured data playwright"
+    digest: e75a859f019161fbe6f7a3e23edca565a633c8b604472867c7cf7e9e8887924d
+    name: firecrawl
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/firecrawl-0.1.1/firecrawl-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-02-01T04:18:49.475275968Z"
     dependencies:
     - condition: playwright-service.enabled
@@ -476,4 +492,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-02-01T04:18:49.475294543Z"
+generated: "2026-02-01T04:32:11.031500592Z"

@@ -1,6 +1,0 @@
-dependencies:
-- name: playwright-service
-  repository: https://sakullla.github.io/helm-charts
-  version: 0.1.0
-digest: sha256:9a601dca590885faea24b82e70082661363f341b16e5ad8e19659e08951a7a42
-generated: "2026-02-01T12:19:10.3223337+08:00"

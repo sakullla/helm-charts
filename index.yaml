@@ -359,6 +359,18 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/oplist-api-0.0.1/oplist-api-0.0.1.tgz
     version: 0.0.1
+  playwright-service:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-02-01T03:50:06.218080468Z"
+    description: "\U0001F525 The Web Data API for AI - Turn entire websites into LLM-ready
+      markdown or structured data playwright"
+    digest: 5e2a2a88eef43c2a7520ee838affd40da74cd303ba75d3f2005d691197df0f70
+    name: playwright-service
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/playwright-service-0.1.0/playwright-service-0.1.0.tgz
+    version: 0.1.0
   qbittorrent:
   - apiVersion: v2
     appVersion: 5.1.4
@@ -447,4 +459,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-01-20T15:15:17.130031239Z"
+generated: "2026-02-01T03:50:06.218096959Z"

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "firecrawl.fullname" . }}-test-connection"
+  labels:
+    {{- include "firecrawl.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "firecrawl.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

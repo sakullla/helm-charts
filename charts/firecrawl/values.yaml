@@ -181,7 +181,7 @@ worker:
   tolerations: []
   affinity: {}
 
-nuq-worker:
+nuqWorker:
   replicaCount: 1
   resources: {}
   nodeSelector: {}

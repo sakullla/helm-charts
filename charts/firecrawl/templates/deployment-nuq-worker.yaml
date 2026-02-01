@@ -6,7 +6,7 @@ metadata:
     {{- include "nuq-worker.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.nuq-worker.replicaCount }}
+  replicas: {{ .Values.nuqWorker.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -76,19 +76,19 @@ spec:
             timeoutSeconds: 5
             successThreshold: 1
             failureThreshold: 3
-          {{- with .Values.nuq-worker.resources }}
+          {{- with .Values.nuqWorker.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- with .Values.nuq-worker.nodeSelector }}
+      {{- with .Values.nuqWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.nuq-worker.affinity }}
+      {{- with .Values.nuqWorker.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.nuq-worker.tolerations }}
+      {{- with .Values.nuqWorker.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

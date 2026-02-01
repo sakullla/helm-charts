@@ -31,11 +31,11 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
-api labels
+common labels
 */}}
-{{- define "api.labels" -}}
+{{- define "firecrawl.labels" -}}
 helm.sh/chart: {{ include "firecrawl.chart" . }}
-{{ include "api.selectorLabels" . }}
+{{ include "firecrawl.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,10 +43,10 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Selector api labels
+Selector  labels
 */}}
-{{- define "api.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "firecrawl.name" . }}-api
+{{- define "firecrawl.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "firecrawl.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

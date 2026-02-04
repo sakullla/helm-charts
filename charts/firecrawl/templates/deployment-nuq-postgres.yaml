@@ -1,0 +1,77 @@
+{{- if .Values.nuqPostgres.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "firecrawl.fullname" . }}-nuq-postgres
+  labels:
+    {{- include "nuq-postgres.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.nuqPostgres.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "nuq-postgres.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "nuq-postgres.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "firecrawl.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.nuqPostgres.image.repository }}:{{ .Values.nuqPostgres.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.nuqPostgres.image.pullPolicy }}
+          ports:
+            - name: db
+              containerPort: {{ .Values.nuqPostgres.service.port }}
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "firecrawl.fullname" . }}-config
+            - secretRef:
+                name: {{ include "firecrawl.fullname" . }}-secret
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+          {{- with .Values.nuqPostgres.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: postgres-storage
+          emptyDir: {}
+      {{- with .Values.nuqPostgres.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nuqPostgres.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nuqPostgres.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

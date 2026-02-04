@@ -92,6 +92,27 @@ app.kubernetes.io/name: {{ include "firecrawl.name" . }}-nuq-worker
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+
+{{/*
+nuq-postgres labels
+*/}}
+{{- define "nuq-postgres.labels" -}}
+helm.sh/chart: {{ include "firecrawl.chart" . }}
+{{ include "nuq-postgres.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector nuq-postgres labels
+*/}}
+{{- define "nuq-postgres.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "firecrawl.name" . }}-nuq-postgres
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
 {{/*
 Create the name of the service account to use
 */}}

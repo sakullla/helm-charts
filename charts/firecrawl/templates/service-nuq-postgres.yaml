@@ -1,0 +1,17 @@
+{{- if .Values.nuqPostgres.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "firecrawl.fullname" . }}-nuq-postgres
+  labels:
+    {{- include "nuq-postgres.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.nuqPostgres.service.type }}
+  ports:
+    - port: {{ .Values.nuqPostgres.service.port }}
+      targetPort: db
+      protocol: TCP
+      name: db
+  selector:
+    {{- include "nuq-postgres.selectorLabels" . | nindent 4 }}
+{{- end }}

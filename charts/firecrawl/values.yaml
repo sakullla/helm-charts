@@ -188,5 +188,20 @@ nuqWorker:
   tolerations: []
   affinity: {}
 
+nuqPostgres:
+  enabled: true
+  image:
+    repository: ghcr.io/firecrawl/nuq-postgres
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 5432
+  replicaCount: 1
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  
 playwright-service:
   enabled: true

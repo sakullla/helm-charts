@@ -1,146 +1,69 @@
-# Helm Charts Repository - Agent Guide
+# Helm Charts 项目指南
 
-## Project Overview
+## 项目概述
 
-This is a **Helm Charts Repository** for Kubernetes applications, hosted on GitHub Pages. The repository contains 39 Helm charts for deploying various applications and services to Kubernetes clusters.
+这是一个个人维护的 Helm Charts 仓库，用于在 Kubernetes 上部署各种自托管应用。仓库托管在 GitHub Pages 上，使用 GitHub Actions 自动发布。
 
-- **Repository**: https://github.com/sakullla/helm-charts.git
-- **Charts Repository URL**: https://sakullla.github.io/helm-charts
-- **License**: GNU General Public License v3.0 (GPL-3.0)
-- **Language**: English (primary), with some Chinese comments in configuration files
-
-## Technology Stack
-
-| Component | Technology |
-|-----------|------------|
-| Package Manager | Helm 3 |
-| Target Platform | Kubernetes |
-| CI/CD | GitHub Actions |
-| Artifact Hosting | GitHub Pages |
-| Configuration Language | YAML |
-| Templating | Go templates (Helm) |
-
-## Repository Structure
+## 项目结构
 
 ```
 helm-charts/
+├── charts/                    # 所有 Helm Charts
+│   ├── adguard-home/         # 每个 Chart 一个目录
+│   │   ├── Chart.yaml        # Chart 元数据
+│   │   ├── values.yaml       # 默认配置值
+│   │   ├── templates/        # Kubernetes 模板
+│   │   │   ├── deployment.yaml
+│   │   │   ├── service.yaml
+│   │   │   ├── ingress.yaml
+│   │   │   ├── httproute.yaml    # Gateway API 支持
+│   │   │   ├── _helpers.tpl      # 模板辅助函数
+│   │   │   └── NOTES.txt         # 部署后说明
+│   │   └── tests/            # 测试模板
+│   └── ...                   # 其他 Charts
 ├── .github/
 │   └── workflows/
-│       └── release.yml       # GitHub Actions workflow for chart releases
-├── charts/                   # All Helm charts (39 charts)
-│   ├── adguard-home/
-│   ├── affine/
-│   ├── ani-rss/
-│   ├── astrbot/
-│   ├── browserless-chromium/
-│   ├── calibre-web-automated/
-│   ├── certimate/
-│   ├── chartdb/
-│   ├── ddns-go/
-│   ├── dns-server/
-│   ├── firecrawl/
-│   ├── frp/
-│   ├── headplane/
-│   ├── headscale/
-│   ├── hedgedoc/
-│   ├── hedgedoc-backend/
-│   ├── hubproxy/
-│   ├── hugo-site/
-│   ├── kavita/
-│   ├── kirara-agent/
-│   ├── koipy/
-│   ├── lobehub/
-│   ├── logvar/
-│   ├── miaospeed/
-│   ├── misaka-danmu-server/
-│   ├── misub/
-│   ├── newapi/
-│   ├── next-ai-draw-io/
-│   ├── openlist/
-│   ├── oplist-api/
-│   ├── playwright-service/
-│   ├── qbittorrent/
-│   ├── saveany-bot/
-│   ├── searxng/
-│   ├── substore/
-│   ├── tabby-web/
-│   ├── vaultwarden/
-│   ├── xray/
-│   └── yamtrack/
-├── .idea/                    # IntelliJ IDEA configuration
-└── LICENSE                   # GPL-3.0 License
+│       └── release.yml       # 自动发布工作流
+└── README.md                 # 使用文档
 ```
 
-## Chart Structure
+## 开发规范
 
-Each Helm chart follows the standard Helm directory structure:
+### 添加新 Chart
 
-```
-charts/<chart-name>/
-├── Chart.yaml                # Chart metadata (name, version, description, dependencies)
-├── values.yaml               # Default configuration values
-├── .helmignore               # Patterns to ignore when packaging
-└── templates/
-    ├── _helpers.tpl          # Named templates and helper functions
-    ├── deployment.yaml       # Kubernetes Deployment resource
-    ├── service.yaml          # Kubernetes Service resource
-    ├── serviceaccount.yaml   # Kubernetes ServiceAccount resource
-    ├── ingress.yaml          # Kubernetes Ingress resource (optional)
-    ├── httproute.yaml        # Gateway API HTTPRoute (optional)
-    ├── hpa.yaml              # HorizontalPodAutoscaler (optional)
-    ├── pvc.yaml              # PersistentVolumeClaim (optional)
-    ├── configmap.yaml        # ConfigMap for configuration (optional)
-    ├── secret.yaml           # Secret for sensitive data (optional)
-    └── tests/
-        └── test-connection.yaml  # Helm test hooks
-```
+1. 使用 `helm create` 创建基础结构
+2. 修改 `Chart.yaml`：
+   - 填写正确的 `name` 和 `description`
+   - 设置合适的 `version`（从 0.0.1 开始）
+   - 设置 `appVersion` 为应用的实际版本
+3. 配置 `values.yaml`：
+   - 提供合理的默认值
+   - 添加详细的注释说明
+   - 支持通用配置：replicaCount, image, service, ingress, httpRoute, persistence, resources 等
+4. 编写模板文件：
+   - 使用 `_helpers.tpl` 中的辅助函数
+   - 支持多种服务类型（ClusterIP, NodePort, LoadBalancer）
+   - 支持 Ingress 和 Gateway API HTTPRoute
+5. 编写 `NOTES.txt`：提供部署后的访问说明
 
-### Standard Template Files
+### 通用配置标准
 
-- **deployment.yaml**: Main application deployment with configurable replicas, resources, probes
-- **service.yaml**: Exposes the application within the cluster
-- **serviceaccount.yaml**: RBAC service account configuration
-- **ingress.yaml**: Traditional Kubernetes Ingress for external access
-- **httproute.yaml**: Gateway API HTTPRoute (modern alternative to Ingress)
-- **hpa.yaml**: Horizontal Pod Autoscaler for automatic scaling
-- **pvc.yaml**: Persistent volume claims for data persistence
-- **configmap.yaml**: Non-sensitive configuration data
-- **secret.yaml**: Sensitive data like passwords and API keys
-
-### Common Values Pattern
-
-All charts follow a consistent `values.yaml` structure:
+所有 Charts 应支持以下配置：
 
 ```yaml
-# Core settings
+# 基础配置
 replicaCount: 1
 image:
-  repository: <docker-image>
+  repository: <app>/app
   pullPolicy: IfNotPresent
-  tag: ""  # Defaults to chart appVersion
+  tag: ""
 
-# Naming overrides
-nameOverride: ""
-fullnameOverride: ""
-
-# Service account
-serviceAccount:
-  create: true
-  automount: true
-  annotations: {}
-  name: ""
-
-# Pod settings
-podAnnotations: {}
-podLabels: {}
-podSecurityContext: {}
-securityContext: {}
-
-# Networking
+# 服务配置
 service:
   type: ClusterIP
-  port: <port>
+  port: <app-port>
 
+# Ingress 配置
 ingress:
   enabled: false
   className: ""
@@ -148,210 +71,82 @@ ingress:
   hosts: []
   tls: []
 
+# Gateway API HTTPRoute 配置
 httpRoute:
   enabled: false
-  # ... Gateway API configuration
+  parentRefs: []
+  hostnames: []
+  rules: []
 
-# Resource management
+# 持久化配置
+persistence:
+  enabled: false
+  size: 1Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+
+# 资源限制
 resources: {}
+
+# 扩缩容
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
-
-# Persistence
-persistence:
-  enabled: false
-  accessMode: ReadWriteOnce
-  size: 1Gi
-  storageClass: ""
-
-# Scheduling
-nodeSelector: {}
-tolerations: []
-affinity: {}
-
-# Probes (varies by chart)
-livenessProbe: {}
-readinessProbe: {}
-startupProbe: {}
 ```
 
-## Build and Release Process
+### 模板辅助函数
 
-### Automated Release Workflow
+所有 Charts 共享标准的 `_helpers.tpl` 模板：
 
-The repository uses GitHub Actions (`.github/workflows/release.yml`) that triggers on pushes to `main` branch when changes are made under `charts/**`:
+- `{{- define "<chart-name>.name" -}}` - Chart 名称
+- `{{- define "<chart-name>.fullname" -}}` - 完整资源名称
+- `{{- define "<chart-name>.chart" -}}` - Chart 信息
+- `{{- define "<chart-name>.selectorLabels" -}}` - 选择器标签
+- `{{- define "<chart-name>.commonLabels" -}}` - 通用标签
+- `{{- define "<chart-name>.serviceAccountName" -}}` - 服务账号名称
 
-1. **Chart Packaging**: Uses `helm/chart-releaser-action@v1.5.0` to package and release charts
-2. **Index Management**: Automatically updates `index.yaml` on the `gh-pages` branch
-3. **Version Pruning**: Keeps only the latest version of each chart in the index
-4. **Release Cleanup**: Retains only the 2 most recent releases per chart
+## CI/CD 流程
 
-### Version Management
+### 自动发布
 
-- **Chart Version**: Incremented manually in `Chart.yaml` when chart templates change
-- **App Version**: Updated when the underlying application version changes
-- Follows **Semantic Versioning** (https://semver.org/)
+- 触发条件：`main` 分支的 `charts/**` 路径变更
+- 使用 `helm/chart-releaser-action` 发布 Charts
+- 自动裁剪 `index.yaml` 只保留最新版本
+- 自动清理旧 Release/Tag，只保留最近 2 个
 
-### Dependencies
+### 版本管理
 
-Some charts have dependencies (e.g., `firecrawl` depends on `playwright-service`):
+- Chart 版本遵循 [SemVer](https://semver.org/)
+- 每次修改 Chart 时更新 `version`
+- `appVersion` 应与应用镜像版本保持一致
 
-```yaml
-dependencies:
-  - name: playwright-service
-    version: 0.1.1
-    repository: https://sakullla.github.io/helm-charts
-    condition: playwright-service.enabled
-```
+## 常见问题
 
-## Development Guidelines
-
-### Creating a New Chart
-
-1. Use `helm create <chart-name>` or copy an existing chart as template
-2. Update `Chart.yaml` with:
-   - `apiVersion: v2`
-   - `type: application`
-   - Appropriate `version` and `appVersion`
-   - `description` describing the application
-3. Configure `values.yaml` with sensible defaults
-4. Update templates to use the helper functions from `_helpers.tpl`
-5. Add test hooks in `templates/tests/`
-6. Ensure `.helmignore` excludes unnecessary files
-
-### Naming Conventions
-
-- Chart names: lowercase with hyphens (e.g., `adguard-home`, `calibre-web-automated`)
-- Template helpers: `<chart-name>.<function-name>` (e.g., `adguard-home.fullname`)
-- Resource names: Use `{{ include "<chart-name>.fullname" . }}` pattern
-- Labels: Follow Helm 3 standard labels (see `_helpers.tpl`)
-
-### Template Best Practices
-
-1. **Always use helper templates** for naming:
-   ```yaml
-   name: {{ include "chart-name.fullname" . }}
-   labels:
-     {{- include "chart-name.labels" . | nindent 4 }}
-   ```
-
-2. **Conditional rendering** using `with` and `if`:
-   ```yaml
-   {{- with .Values.podAnnotations }}
-   annotations:
-     {{- toYaml . | nindent 8 }}
-   {{- end }}
-   ```
-
-3. **Quote values** that might be interpreted as non-strings:
-   ```yaml
-   app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-   ```
-
-### Testing Charts
-
-Each chart includes a test hook in `templates/tests/test-connection.yaml`:
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: "{{ include "chart-name.fullname" . }}-test-connection"
-  annotations:
-    "helm.sh/hook": test
-spec:
-  containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['{{ include "chart-name.fullname" . }}:{{ .Values.service.port }}']
-  restartPolicy: Never
-```
-
-Run tests with: `helm test <release-name>`
-
-## CI/CD Commands
-
-### Local Chart Validation
+### 如何测试 Chart 更改
 
 ```bash
-# Lint a chart
-helm lint charts/<chart-name>
+# 模板渲染测试
+helm template my-release charts/<chart-name>
 
-# Validate templates
-helm template <release-name> charts/<chart-name>
+# 安装测试（dry-run）
+helm install my-release charts/<chart-name> --dry-run --debug
 
-# Package a chart
-helm package charts/<chart-name>
-
-# Install locally for testing
-helm install <release-name> charts/<chart-name> --dry-run
-
-# Run chart tests
-helm test <release-name>
+# 实际安装测试
+helm install my-release charts/<chart-name>
 ```
 
-### Dependency Management
+### 如何更新已发布的 Chart
 
-```bash
-# Update chart dependencies
-helm dependency update charts/<chart-name>
+1. 修改 Chart 文件
+2. 更新 `Chart.yaml` 中的 `version`
+3. 提交并推送到 `main` 分支
+4. CI 将自动发布新版本
 
-# Build dependency charts
-helm dependency build charts/<chart-name>
-```
+## 外部依赖
 
-## Special Chart Configurations
-
-### Multi-Component Charts
-
-Some charts deploy multiple components:
-
-- **frp**: Deploys both `frps` (server) and `frpc` (client) with conditional enabling
-- **firecrawl**: Deploys API, worker, and nuq-postgres components
-
-### Gateway API Support
-
-Modern charts include `httproute.yaml` for Gateway API (alternative to Ingress):
-
-```yaml
-httpRoute:
-  enabled: false
-  parentRefs:
-    - name: gateway
-      sectionName: http
-  hostnames:
-    - chart-example.local
-```
-
-## Security Considerations
-
-1. **Default Security Contexts**: Charts provide commented security context examples
-2. **Service Accounts**: Created by default with minimal permissions
-3. **Secrets**: Support for managing sensitive data via `secrets:` in values.yaml
-4. **Network Policies**: Not included by default; cluster-level configuration recommended
-
-## Common Issues and Solutions
-
-### Release Fails
-- Ensure `version` in `Chart.yaml` is incremented for changes
-- Check that `appVersion` matches the container image tag if pinned
-
-### Template Errors
-- Validate YAML indentation (2 spaces standard)
-- Check that all `{{` and `}}` are properly balanced
-- Verify helper templates match chart name
-
-### Index Not Updating
-- The workflow only triggers on changes to `charts/**`
-- Check GitHub Actions logs for errors in the release workflow
-
-## References
-
-- [Helm Documentation](https://helm.sh/docs/)
-- [Helm Chart Best Practices](https://helm.sh/docs/chart_best_practices/)
-- [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/)
-- [Semantic Versioning](https://semver.org/)
+- Kubernetes 1.20+
+- Helm 3.8.0+
+- 可选：Ingress Controller（Nginx, Traefik 等）
+- 可选：Gateway API 控制器

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs:*)",
+      "WebFetch(domain:)",
+      "mcp__acp__Write"
+    ]
+  }
+}

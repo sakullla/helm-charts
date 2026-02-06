@@ -166,6 +166,12 @@ tolerations: []
 
 affinity: {}
 
+persistence:
+  enabled: false
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  storageClass: ""
+
 # Valkey 依赖配置 (Redis 的开源替代)
 # 启用后将自动部署 Valkey 实例
 # Chart: https://github.com/valkey-io/valkey-helm

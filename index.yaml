@@ -98,6 +98,23 @@ entries:
   claude-relay-service:
   - apiVersion: v2
     appVersion: 1.1.269
+    created: "2026-02-06T16:24:11.996866272Z"
+    dependencies:
+    - alias: valkey
+      condition: valkey.enabled
+      name: valkey
+      repository: https://valkey-io.github.io/valkey-helm
+      version: ~0.9.0
+    description: Claude Relay Service - 一站式 Claude API 中转服务，支持多账号管理、用量统计、Web 管理界面，内置
+      Valkey 缓存，兼容 Claude Code CLI。
+    digest: 6f29625058b922540887c1d4f16c3f7d7f330ba7e03101822a6cf14f83f95528
+    name: claude-relay-service
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/claude-relay-service-0.1.1/claude-relay-service-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.1.269
     created: "2026-02-06T15:51:57.165277575Z"
     dependencies:
     - alias: valkey
@@ -494,4 +511,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-02-06T15:51:57.165295058Z"
+generated: "2026-02-06T16:24:11.996890357Z"

@@ -1,0 +1,27 @@
+apiVersion: v2
+name: <CHART-NAME>
+description: A Helm chart for <APPLICATION>
+
+# A chart can be either an 'application' or a 'library' chart.
+type: application
+
+# Chart version (follows SemVer)
+version: 0.1.0
+
+# Application version
+appVersion: "1.0.0"
+
+# Dependencies (optional)
+dependencies:
+  # Example: Valkey (Redis alternative)
+  - name: valkey
+    version: ~2.0.0
+    repository: https://valkey-io.github.io/valkey-helm
+    condition: valkey.enabled
+    alias: valkey
+  
+  # Example: PostgreSQL
+  # - name: postgresql
+  #   version: ~15.0.0
+  #   repository: https://charts.bitnami.com/bitnami
+  #   condition: postgresql.enabled

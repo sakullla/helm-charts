@@ -1,0 +1,178 @@
+# Default values for <CHART-NAME>.
+# This is a reference values.yaml following best practices.
+
+# Base configuration
+replicaCount: 1
+
+image:
+  repository: <REPO>/<IMAGE>
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Service Account
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 8080
+  # nodePort: 30080  # Only for NodePort
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
+
+# Gateway API HTTPRoute
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - chart-example.local
+  rules: []
+    # - matches:
+    #     - path:
+    #         type: PathPrefix
+    #         value: /
+
+# Health probes
+startupProbe:
+  tcpSocket:
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 30
+  timeoutSeconds: 10
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 30
+  timeoutSeconds: 10
+  failureThreshold: 3
+
+# Resource limits
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# Autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+  # metrics: []
+  # behavior: {}
+
+# Persistence
+persistence:
+  enabled: false
+  size: 1Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  existingClaim: ""
+  annotations: {}
+  # volumeMode: Filesystem
+  # selector: {}
+
+# Storage volumes
+volumes: []
+  # - name: data
+  #   persistentVolumeClaim:
+  #     claimName: my-pvc
+
+volumeMounts: []
+  # - name: data
+  #   mountPath: /data
+
+# Scheduling
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Application configuration
+# Non-sensitive values go to ConfigMap
+env: {}
+  # LOG_LEVEL: info
+  # PORT: "8080"
+
+# Sensitive values go to Secret (base64 encoded)
+secrets: {}
+  # API_KEY: ""
+  # DATABASE_URL: ""
+
+# Extra environment variables
+extraEnv: []
+  # - name: SPECIAL_VAR
+  #   value: "special"
+
+# Dependencies
+# Add to Chart.yaml:
+# dependencies:
+#   - name: valkey
+#     version: ~2.0.0
+#     repository: https://valkey-io.github.io/valkey-helm
+#     condition: valkey.enabled
+valkey:
+  enabled: false
+  replica:
+    enabled: false
+  auth:
+    enabled: false
+  dataStorage:
+    enabled: true
+    requestedSize: 1Gi

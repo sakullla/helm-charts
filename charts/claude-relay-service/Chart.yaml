@@ -26,7 +26,7 @@ appVersion: "1.1.269"
 # 依赖配置
 dependencies:
   - name: valkey
-    version: ~2.0.0
+    version: ~0.9.0
     repository: https://valkey-io.github.io/valkey-helm
     condition: valkey.enabled
     alias: valkey

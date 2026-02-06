@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sakullla's Helm Garden</title>
+    
+    <!-- 预连接关键域名 -->
+    <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin>
+    <link rel="preconnect" href="https://github.githubassets.com" crossorigin>
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="./avatar.jpg" as="image">
+    
+    <!-- CSS 资源 -->
     <link href="https://cdn.staticfile.net/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.staticfile.net/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
+    <!-- 关键 CSS 内联 -->
     <style>
         /* --- 全局背景 --- */
         body {
@@ -58,7 +68,7 @@
             background: #2d2d2d;
             border-radius: 12px;
             padding: 18px;
-            margin: 25px auto 15px; /* 底部间距调小，给搜索框腾位置 */
+            margin: 25px auto 15px;
             max-width: 650px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             text-align: left;
@@ -66,7 +76,7 @@
         .cmd-text { color: #ff79c6; font-family: 'Consolas', monospace; font-size: 0.95em; word-break: break-all; }
         .cmd-label { color: #8be9fd; font-size: 0.85em; margin-bottom: 5px; display: block; font-weight: bold;}
 
-        /* --- 🟢 新增：唯美搜索框 --- */
+        /* --- 搜索框 --- */
         .search-wrapper {
             max-width: 650px;
             margin: 0 auto 30px;
@@ -74,7 +84,7 @@
         }
         .search-input {
             width: 100%;
-            padding: 12px 20px 12px 50px; /* 左边留出图标位置 */
+            padding: 12px 20px 12px 50px;
             border-radius: 50px;
             border: 2px solid rgba(255, 154, 158, 0.3);
             background: rgba(255, 255, 255, 0.6);
@@ -151,6 +161,9 @@
         @keyframes slideDown { 0% { transform: translateY(-50px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         @keyframes fadeOut { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-30px); opacity: 0; } }
         .hide-toast { animation: fadeOut 0.5s forwards; }
+        
+        /* 隐藏类 */
+        .d-none { display: none !important; }
     </style>
 </head>
 <body>
@@ -163,7 +176,7 @@
         <div class="col-lg-10 glass-container">
             <div class="text-center">
                 <div class="avatar-container">
-                    <img src="./avatar.jpg" class="avatar" alt="Avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                    <img src="./avatar.jpg" class="avatar" alt="Avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" loading="lazy">
                 </div>
                 <h1>Sakullla's Helm Garden</h1>
                 <p class="subtitle">🌸 欢迎来到我的云原生魔法后花园 🌸</p>
@@ -187,7 +200,7 @@
                 <h4 class="mt-3 text-secondary">正在加载 Charts...</h4>
             </div>
             
-            <div id="error-msg" class="alert alert-danger text-center shadow-sm" style="display:none; border-radius: 15px;"></div>
+            <div id="error-msg" class="alert alert-danger text-center shadow-sm d-none" style="border-radius: 15px;"></div>
             <div class="row g-4" id="chart-list"></div>
             
             <div class="text-center mt-5 text-muted">
@@ -197,129 +210,199 @@
     </div>
 </div>
 
-<script src="https://cdn.staticfile.net/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.staticfile.net/js-yaml/4.1.0/js-yaml.min.js"></script>
+<!-- 延迟加载非关键脚本 -->
+<script defer src="https://cdn.staticfile.net/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <script>
-    // 🟢 定义全局变量存储数据，方便搜索过滤
+    // 全局变量存储数据
     let globalCharts = []; 
-    const repoName = 'sakullla'; // 你的仓库名
+    const repoName = 'sakullla';
 
-    $(document).ready(function() {
+    // DOM 元素缓存
+    const elements = {};
+    
+    // DOM 就绪后初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    function init() {
+        // 缓存 DOM 元素引用
+        elements.repoCmd = document.getElementById('repo-cmd');
+        elements.searchInput = document.getElementById('search-input');
+        elements.loading = document.getElementById('loading');
+        elements.errorMsg = document.getElementById('error-msg');
+        elements.chartList = document.getElementById('chart-list');
+        elements.toastBox = document.getElementById('toast-box');
+
         const repoUrl = 'https://sakullla.github.io/helm-charts';
-        
         const fullCmd = `helm repo add ${repoName} ${repoUrl}`;
-        $('#repo-cmd').text(fullCmd);
+        elements.repoCmd.textContent = fullCmd;
 
-        $.ajax({
-            url: './index.yaml',
-            dataType: 'text',
-            success: function(yamlText) {
-                try {
-                    const doc = jsyaml.load(yamlText);
-                    // 预处理数据：将对象转换为数组，只取最新版
-                    if (doc.entries) {
-                        globalCharts = Object.keys(doc.entries).map(key => doc.entries[key][0]);
-                        // 初始渲染
-                        renderCharts(globalCharts);
-                    } else {
-                        renderCharts([]);
-                    }
-                } catch (e) {
-                    showError('YAML 解析失败: ' + e.message);
+        // 绑定搜索事件
+        elements.searchInput.addEventListener('input', debounce(handleSearch, 150));
+
+        // 加载数据
+        loadCharts();
+    }
+
+    async function loadCharts() {
+        try {
+            const response = await fetch('./index.yaml');
+            if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error('未找到 index.yaml 文件');
                 }
-            },
-            error: function(xhr) {
-                if(xhr.status === 404) {
-                    showError('未找到 index.yaml 文件');
-                } else {
-                    showError('网络加载失败');
-                }
+                throw new Error(`HTTP ${response.status}`);
             }
-        });
-
-        // 🟢 绑定搜索事件
-        $('#search-input').on('input', function() {
-            const keyword = $(this).val().toLowerCase().trim();
-            if (!keyword) {
-                renderCharts(globalCharts); // 为空显示全部
-                return;
-            }
-
-            // 过滤逻辑
-            const filtered = globalCharts.filter(chart => {
-                const name = (chart.name || '').toLowerCase();
-                const desc = (chart.description || '').toLowerCase();
-                return name.includes(keyword) || desc.includes(keyword);
-            });
-
-            renderCharts(filtered);
-        });
-
-        function renderCharts(charts) {
-            $('#loading').hide();
-            const list = $('#chart-list');
-            list.empty(); // 清空当前列表
+            const yamlText = await response.text();
             
-            if (!charts || charts.length === 0) {
-                list.html('<div class="col-12 text-center text-muted py-5"><h5>🍃 没有找到相关 Charts</h5></div>');
+            // 等待 js-yaml 加载完成
+            await waitForJsYaml();
+            
+            const doc = jsyaml.load(yamlText);
+            if (doc.entries) {
+                globalCharts = Object.keys(doc.entries).map(key => doc.entries[key][0]);
+                renderCharts(globalCharts);
+            } else {
+                renderCharts([]);
+            }
+        } catch (error) {
+            showError('网络加载失败: ' + error.message);
+        }
+    }
+
+    function waitForJsYaml() {
+        return new Promise((resolve, reject) => {
+            if (typeof jsyaml !== 'undefined') {
+                resolve();
                 return;
             }
+            // 轮询检查 js-yaml 是否加载
+            const checkInterval = setInterval(() => {
+                if (typeof jsyaml !== 'undefined') {
+                    clearInterval(checkInterval);
+                    clearTimeout(timeout);
+                    resolve();
+                }
+            }, 50);
+            const timeout = setTimeout(() => {
+                clearInterval(checkInterval);
+                reject(new Error('js-yaml 加载超时'));
+            }, 10000);
+        });
+    }
 
-            // 按字母排序
-            charts.sort((a, b) => a.name.localeCompare(b.name));
+    function handleSearch(e) {
+        const keyword = e.target.value.toLowerCase().trim();
+        if (!keyword) {
+            renderCharts(globalCharts);
+            return;
+        }
 
-            charts.forEach(chart => {
-                const installCmd = `helm install my-${chart.name} ${repoName}/${chart.name}`;
-                
-                const html = `
-                <div class="col-md-6 col-lg-4">
-                    <div class="chart-card">
-                        <div class="card-header-custom">
-                            <i class="fas fa-cube me-2"></i>${chart.name}
-                            <span class="version-badge">${chart.version}</span>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <p class="card-desc">${chart.description || '暂无描述'}</p>
-                            <div class="mt-auto">
-                                <p class="text-muted mb-2"><small><i class="fas fa-code-branch me-1"></i>Ver: ${chart.appVersion || '-'}</small></p>
-                                <button class="btn btn-custom" onclick="copyCmd('${installCmd}')">
-                                    <i class="fas fa-copy me-1"></i> 复制安装命令
-                                </button>
-                            </div>
+        const filtered = globalCharts.filter(chart => {
+            const name = (chart.name || '').toLowerCase();
+            const desc = (chart.description || '').toLowerCase();
+            return name.includes(keyword) || desc.includes(keyword);
+        });
+
+        renderCharts(filtered);
+    }
+
+    function renderCharts(charts) {
+        elements.loading.classList.add('d-none');
+        
+        if (!charts || charts.length === 0) {
+            elements.chartList.innerHTML = '<div class="col-12 text-center text-muted py-5"><h5>🍃 没有找到相关 Charts</h5></div>';
+            return;
+        }
+
+        // 按字母排序
+        const sortedCharts = [...charts].sort((a, b) => a.name.localeCompare(b.name));
+
+        // 使用 DocumentFragment 批量插入
+        const fragment = document.createDocumentFragment();
+        
+        sortedCharts.forEach(chart => {
+            const installCmd = `helm install my-${chart.name} ${repoName}/${chart.name}`;
+            const escapedCmd = installCmd.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            
+            const col = document.createElement('div');
+            col.className = 'col-md-6 col-lg-4';
+            col.innerHTML = `
+                <div class="chart-card">
+                    <div class="card-header-custom">
+                        <i class="fas fa-cube me-2"></i>${escapeHtml(chart.name)}
+                        <span class="version-badge">${escapeHtml(chart.version)}</span>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <p class="card-desc">${escapeHtml(chart.description) || '暂无描述'}</p>
+                        <div class="mt-auto">
+                            <p class="text-muted mb-2"><small><i class="fas fa-code-branch me-1"></i>Ver: ${escapeHtml(chart.appVersion) || '-'}</small></p>
+                            <button class="btn btn-custom" data-cmd="${escapedCmd}">
+                                <i class="fas fa-copy me-1"></i> 复制安装命令
+                            </button>
                         </div>
                     </div>
-                </div>`;
-                list.append(html);
-            });
-        }
+                </div>
+            `;
+            
+            // 绑定点击事件
+            const btn = col.querySelector('.btn-custom');
+            btn.addEventListener('click', () => copyCmd(btn.dataset.cmd));
+            
+            fragment.appendChild(col);
+        });
 
-        function showError(msg) {
-            $('#loading').hide();
-            $('#error-msg').html('<i class="fas fa-exclamation-circle me-2"></i> ' + msg).show();
-        }
-    });
+        elements.chartList.innerHTML = '';
+        elements.chartList.appendChild(fragment);
+    }
+
+    function showError(msg) {
+        elements.loading.classList.add('d-none');
+        elements.errorMsg.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i> ' + escapeHtml(msg);
+        elements.errorMsg.classList.remove('d-none');
+    }
 
     function showToast(message) {
-        const toast = $(`
-            <div class="sakura-toast">
-                <i class="fas fa-check-circle"></i>
-                <span>${message}</span>
-            </div>
-        `);
-        $('#toast-box').append(toast);
+        const toast = document.createElement('div');
+        toast.className = 'sakura-toast';
+        toast.innerHTML = `<i class="fas fa-check-circle"></i><span>${escapeHtml(message)}</span>`;
+        elements.toastBox.appendChild(toast);
+        
         setTimeout(() => {
-            toast.addClass('hide-toast');
-            toast.on('animationend', function() { $(this).remove(); });
+            toast.classList.add('hide-toast');
+            toast.addEventListener('animationend', () => toast.remove());
         }, 3000);
     }
 
-    function copyCmd(text) {
-        navigator.clipboard.writeText(text).then(() => {
+    async function copyCmd(text) {
+        try {
+            await navigator.clipboard.writeText(text);
             showToast('复制成功！快去安装吧 ✨');
-        }).catch(err => {
+        } catch (err) {
+            // 降级方案
             prompt('复制失败，请手动复制:', text);
-        });
+        }
+    }
+
+    // 防抖函数
+    function debounce(fn, delay) {
+        let timer = null;
+        return function(...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => fn.apply(this, args), delay);
+        };
+    }
+
+    // HTML 转义防止 XSS
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 </script>
 </body>

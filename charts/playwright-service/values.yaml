@@ -159,6 +159,12 @@ volumeMounts: []
 env:
   PORT: "3000"
 
+
+# 敏感信息配置
+# 会被写入 Secret 并挂载到容器中
+secrets: {}
+  # DATABASE_URL: "postgresql://user:password@host:5432/db"
+  # API_KEY: "your-secret-key"
 nodeSelector: {}
 
 tolerations: []

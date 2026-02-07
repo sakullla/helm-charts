@@ -96,7 +96,7 @@ helm search repo sakullla
 helm install <release-name> sakullla/<chart-name>
 
 # 示例：安装 Vaultwarden
-helm install my-vaultwarden 12976/vaultwarden
+helm install my-vaultwarden sakullla/vaultwarden
 ```
 
 ### 自定义配置

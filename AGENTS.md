@@ -1,41 +1,128 @@
-﻿# Repository Guidelines
+﻿# AGENTS.md
 
-## Project Structure & Module Organization
+## Purpose
 
-This repository hosts Helm charts for self-hosted applications. Charts live under `charts/`, with one chart per directory (for example, `charts/adguard-home/`). Each chart typically contains:
+This repository stores Helm charts for self-hosted applications under `charts/`.
+The goal of this guide is to make chart changes consistent, reviewable, and releasable.
 
-- `Chart.yaml`: chart metadata and versioning.
-- `values.yaml`: default configuration values with comments.
-- `templates/`: Kubernetes manifests (e.g., `deployment.yaml`, `service.yaml`, `ingress.yaml`, `httproute.yaml`, `_helpers.tpl`, `NOTES.txt`).
-- `tests/`: Helm test templates when applicable.
+## Repository Layout
 
-CI workflows are in `.github/workflows/`, and repository-level usage notes live in `README.md`.
+- `charts/<chart-name>/Chart.yaml`: chart metadata, `version`, `appVersion`.
+- `charts/<chart-name>/values.yaml`: defaults and user-facing configuration.
+- `charts/<chart-name>/templates/`: manifests and helpers (for example `_helpers.tpl`).
+- `charts/<chart-name>/tests/`: optional Helm test templates.
+- `.github/workflows/`: release/publish automation.
 
-## Build, Test, and Development Commands
+## Non-Negotiable Rules (Must Follow)
 
-Use Helm to render or validate changes locally:
+1. Any change under `charts/<chart-name>/` MUST bump `charts/<chart-name>/Chart.yaml` `version` (SemVer).
+2. If the chart default image/application version changes, update `appVersion` accordingly.
+3. `values.yaml` keys added or changed MUST be documented with concise comments.
+4. YAML indentation MUST be 2 spaces (no tabs).
+5. Reuse naming/labels/selectors helpers in `_helpers.tpl`; avoid duplicating label/name logic in multiple templates.
+6. Do not mix unrelated refactors with functional chart changes in one PR unless explicitly requested.
 
-- `helm template my-release charts/<chart-name>`: render templates to YAML for quick review.
-- `helm install my-release charts/<chart-name> --dry-run --debug`: simulate an install and catch schema/template errors.
-- `helm install my-release charts/<chart-name>`: install to a cluster for full validation.
+## Standard Values Compatibility
 
-## Coding Style & Naming Conventions
+When reasonable for the chart, keep support for these common blocks and naming:
 
-- Follow Helm conventions and use helpers in `templates/_helpers.tpl` for names, labels, and selectors.
-- Keep values in `values.yaml` documented with clear comments.
-- Standard config blocks should be supported: `replicaCount`, `image`, `service`, `ingress`, `httpRoute`, `persistence`, `resources`, `autoscaling`.
-- Indentation: YAML should use 2 spaces.
+- `replicaCount`
+- `image`
+- `service`
+- `ingress`
+- `httpRoute`
+- `persistence`
+- `resources`
+- `autoscaling`
 
-## Testing Guidelines
+If a chart intentionally does not support one of these blocks, document that in chart README/notes.
 
-Helm does not enforce a framework here. Use template rendering and `--dry-run --debug` to validate charts. If adding `tests/`, follow Helm test hook conventions.
+## Change Workflow (Agent Checklist)
 
-## Commit & Pull Request Guidelines
+For each changed chart:
 
-- Bump `Chart.yaml` `version` for any chart change (SemVer).
-- Keep `appVersion` aligned with the application image version.
-- PRs should describe the chart change, include example values if behavior changes, and mention any required Kubernetes or controller versions.
+1. Identify chart scope:
+   - Which files changed?
+   - Is behavior changed or only metadata/docs?
+2. Update versions:
+   - Bump `Chart.yaml` `version`.
+   - Align `appVersion` if app/image version changed.
+3. Validate template quality:
+   - Prefer helpers for names/labels/selectors.
+   - Keep labels/selectors stable unless change is intentional and documented.
+   - Check `ingress`/`httpRoute` rendering logic for compatibility.
+4. Validate defaults:
+   - New values have comments.
+   - Defaults are safe and installable.
+5. Run local validation commands:
+   - `helm template my-release charts/<chart-name>`
+   - `helm install my-release charts/<chart-name> --dry-run --debug`
+6. Summarize impact:
+   - User-facing behavior changes.
+   - Required Kubernetes/controller assumptions.
+   - Any migration notes.
 
-## Release & CI Notes
+## Validation Commands
 
-Charts are published via GitHub Actions when `charts/**` changes on `main`. The release workflow trims old versions and tags, keeping only the most recent releases.
+Use these commands from repository root:
+
+- Render:
+  - `helm template my-release charts/<chart-name>`
+- Dry-run install:
+  - `helm install my-release charts/<chart-name> --dry-run --debug`
+- Optional real install validation:
+  - `helm install my-release charts/<chart-name>`
+
+If multiple charts were changed, run validation for each changed chart.
+
+## PR / Commit Expectations
+
+### Commit
+
+- Keep commits scoped and readable.
+- Commit message should state chart + intent.
+  - Example: `feat(adguard-home): add httpRoute support`
+  - Example: `fix(adguard-home): correct service selector labels`
+  - Example: `chore(adguard-home): bump chart version to 1.2.4`
+
+### Pull Request Description
+
+PR should include:
+
+1. What changed (templates/values/behavior).
+2. Why it changed.
+3. Version updates:
+   - old/new `Chart.yaml` `version`
+   - old/new `appVersion` (if applicable)
+4. Example values for new options.
+5. Validation evidence:
+   - commands run
+   - key output/result summary
+6. Compatibility notes:
+   - minimum Kubernetes version if relevant
+   - ingress controller / Gateway API assumptions if relevant
+
+## Common Risk Checks
+
+Before finalizing, explicitly check:
+
+1. Selector drift: service selector still matches workload labels.
+2. Name drift: fullname helpers still produce expected resource names.
+3. Conditional resources: toggles (`ingress.enabled`, `httpRoute.enabled`, `autoscaling.enabled`, etc.) render cleanly on/off.
+4. Persistence changes: PVC names and mount paths remain stable unless intentionally changed.
+5. Breaking defaults: changed ports, probes, or paths are called out.
+
+## Agent Response Style for This Repo
+
+When proposing or applying chart changes, always report:
+
+1. Which chart(s) were touched.
+2. Whether `Chart.yaml` version bump was done.
+3. Whether `appVersion` update was needed/done.
+4. Which Helm validation commands were run and results.
+5. Any known risks or follow-up actions.
+
+## Release Context
+
+Charts are published by GitHub Actions when `charts/**` changes on `main`.
+Assume chart version correctness is release-critical.

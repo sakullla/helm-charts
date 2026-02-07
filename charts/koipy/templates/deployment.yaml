@@ -45,7 +45,7 @@ spec:
           envFrom:
             {{- if .Values.env }}
             - configMapRef:
-                name: {{ include "koipy.fullname" . }}-config
+                name: {{ include "koipy.fullname" . }}-env
             {{- end }}
             {{- if .Values.secrets }}
             - secretRef:
@@ -76,4 +76,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-

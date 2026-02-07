@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/core-configmap.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -45,7 +45,7 @@ spec:
           envFrom:
             {{- if .Values.env }}
             - configMapRef:
-                name: {{ include "koipy.fullname" . }}-config
+                name: {{ include "koipy.fullname" . }}-env
             {{- end }}
             {{- if .Values.secrets }}
             - secretRef:

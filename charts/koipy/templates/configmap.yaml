@@ -1,10 +1,12 @@
-﻿apiVersion: v1
+{{- if .Values.env }}
+apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "koipy.fullname" . }}-config
+  name: {{ include "koipy.fullname" . }}-env
   labels:
     {{- include "koipy.labels" . | nindent 4 }}
 data:
-  config.yaml: |
-    {{- .Values.koipyConfig  | toYaml | nindent 4 }}
-
+  {{- range $key, $val := .Values.env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+{{- end }}

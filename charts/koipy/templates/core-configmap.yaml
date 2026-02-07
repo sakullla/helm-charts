@@ -1,0 +1,11 @@
+{{- if .Values.koipyConfig }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "koipy.fullname" . }}-config
+  labels:
+    {{- include "koipy.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    {{- .Values.koipyConfig | toYaml | nindent 4 }}
+{{- end }}

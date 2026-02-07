@@ -1,4 +1,4 @@
-# Default values for headscale.
+﻿# Default values for headscale.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -168,6 +168,9 @@ persistence:
 env:
   dns_records.json: '[]'
 
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
@@ -175,3 +178,4 @@ tolerations: []
 affinity: {}
 
 headscaleConfig: {}
+

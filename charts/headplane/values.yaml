@@ -1,4 +1,4 @@
-# Default values for headplane.
+﻿# Default values for headplane.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -154,6 +154,12 @@ persistence:
   size: 500Mi
   storageClass: ""
 
+# Environment variables (non-sensitive)
+env: {}
+  # EXAMPLE_KEY: "example-value"
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
@@ -161,3 +167,4 @@ tolerations: []
 affinity: {}
 
 headplaneConfig: {}
+

@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "logvar.fullname" . }}
@@ -41,11 +41,17 @@ spec:
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if or .Values.env .Values.secrets }}
           envFrom:
+            {{- if .Values.env }}
             - configMapRef:
                 name: {{ include "logvar.fullname" . }}-config
+            {{- end }}
+            {{- if .Values.secrets }}
             - secretRef:
                 name: {{ include "logvar.fullname" . }}-secret
+            {{- end }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -93,3 +99,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+

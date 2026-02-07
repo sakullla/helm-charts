@@ -1,4 +1,4 @@
-{{- if .Values.frpc.enabled -}}
+﻿{{- if .Values.frpc.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,3 +9,4 @@ data:
   frpc.toml: |
     {{ .Values.frpc.config | nindent 4 }}
 {{- end }}
+

@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "misub.fullname" . }}
@@ -48,11 +48,17 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          {{- if or .Values.env .Values.secrets }}
           envFrom:
+            {{- if .Values.env }}
             - configMapRef:
                 name: {{ include "misub.fullname" . }}-config
+            {{- end }}
+            {{- if .Values.secrets }}
             - secretRef:
                 name: {{ include "misub.fullname" . }}-secret
+            {{- end }}
+          {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
@@ -89,3 +95,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+

@@ -1,4 +1,4 @@
-# Default values for openlist.
+﻿# Default values for openlist.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -166,8 +166,12 @@ env:
   TZ: "Asia/Shanghai"
   UMASK: "022"
 
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

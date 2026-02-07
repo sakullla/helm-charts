@@ -1,4 +1,4 @@
-# Default values for affine.
+﻿# Default values for affine.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -159,10 +159,12 @@ persistence:
   storageClass: ""
 
 env: {}
+# Sensitive environment variables
 secrets: {}
-
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

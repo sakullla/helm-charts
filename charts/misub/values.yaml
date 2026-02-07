@@ -1,4 +1,4 @@
-# Default values for misub.
+﻿# Default values for misub.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -154,6 +154,7 @@ env:
   # CORS_ORIGINS: "https://example.com,http://localhost:5173"
   # MISUB_PUBLIC_URL: "https://your-domain.com"
   # MISUB_CALLBACK_URL: "https://your-domain.com"
+# Sensitive environment variables
 secrets:
   ADMIN_PASSWORD: "change_me"
   COOKIE_SECRET: "change_me_too"
@@ -169,3 +170,4 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+

@@ -1,4 +1,4 @@
-apiVersion: v1
+﻿apiVersion: v1
 kind: Pod
 metadata:
   name: "{{ include "lobehub.fullname" . }}-test-connection"
@@ -13,3 +13,4 @@ spec:
       command: ['wget']
       args: ['{{ include "lobehub.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
+

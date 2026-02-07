@@ -1,4 +1,4 @@
-{{- if not .Values.useHostPort -}}
+﻿{{- if not .Values.useHostPort -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -21,7 +21,7 @@ spec:
   selector:
     {{- include "xray.selectorLabels" . | nindent 4 }}
   
-  # [核心逻辑] 同样根据 inbound 动态生成 Service 端口
+  # [鏍稿績閫昏緫] 鍚屾牱鏍规嵁 inbound 鍔ㄦ€佺敓鎴?Service 绔彛
   ports:
   {{- range $index, $inbound := .Values.xrayConfig.inbounds }}
     {{- $net := $inbound.settings.network | default "tcp" }}
@@ -43,3 +43,4 @@ spec:
     {{- end }}
   {{- end }}
 {{- end -}}
+

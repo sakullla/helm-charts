@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "astrbot.fullname" . }}
@@ -42,6 +42,17 @@ spec:
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if or .Values.env .Values.secrets }}
+          envFrom:
+            {{- if .Values.env }}
+            - configMapRef:
+                name: {{ include "astrbot.fullname" . }}-config
+            {{- end }}
+            {{- if .Values.secrets }}
+            - secretRef:
+                name: {{ include "astrbot.fullname" . }}-secret
+            {{- end }}
+          {{- end }}
           env:
             - name: TZ
               value: "Asia/Shanghai"
@@ -66,10 +77,10 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
-            # 挂载数据目录
+            # 鎸傝浇鏁版嵁鐩綍
             - name: data
               mountPath: /AstrBot/data
-            # 挂载宿主机时间 (只读)
+            # 鎸傝浇瀹夸富鏈烘椂闂?(鍙)
             - name: host-time
               mountPath: /etc/localtime
               readOnly: true
@@ -93,3 +104,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+

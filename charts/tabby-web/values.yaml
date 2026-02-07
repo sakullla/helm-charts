@@ -1,4 +1,4 @@
-# Default values for tabby-web.
+﻿# Default values for tabby-web.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -165,6 +165,7 @@ env:
   PORT: "3004"
   DEBUG: "False"
 
+# Sensitive environment variables
 secrets:
   DATABASE_URL: ""
   SOCIAL_AUTH_GITHUB_KEY: ""
@@ -175,3 +176,4 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+

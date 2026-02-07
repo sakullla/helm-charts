@@ -1,4 +1,4 @@
-apiVersion: v1
+﻿apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "browserless-chromium.fullname" . }}
@@ -13,3 +13,4 @@ spec:
       name: ws
   selector:
     {{- include "browserless-chromium.selectorLabels" . | nindent 4 }}
+

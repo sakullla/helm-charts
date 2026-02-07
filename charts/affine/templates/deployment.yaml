@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "affine.fullname" . }}
@@ -45,11 +45,17 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['sh', '-c', 'node ./scripts/self-host-predeploy.js']
+          {{- if or .Values.env .Values.secrets }}
           envFrom:
+            {{- if .Values.env }}
             - configMapRef:
                 name: {{ include "affine.fullname" . }}-config
+            {{- end }}
+            {{- if .Values.secrets }}
             - secretRef:
                 name: {{ include "affine.fullname" . }}-secret
+            {{- end }}
+          {{- end }}
           {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
@@ -125,3 +131,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+

@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "claude-relay-service.fullname" . }}
@@ -49,6 +49,7 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           {{- if or .Values.env .Values.secrets }}
+          {{- if or .Values.env .Values.secrets }}
           envFrom:
             {{- if .Values.env }}
             - configMapRef:
@@ -59,9 +60,10 @@ spec:
                 name: {{ include "claude-relay-service.fullname" . }}-secret
             {{- end }}
           {{- end }}
+          {{- end }}
           env:
             {{- if .Values.valkey.enabled }}
-            # 覆盖 Redis 主机名为内置 Valkey 服务 (standalone 模式)
+            # 瑕嗙洊 Redis 涓绘満鍚嶄负鍐呯疆 Valkey 鏈嶅姟 (standalone 妯″紡)
             - name: REDIS_HOST
               value: "{{ .Release.Name }}-valkey"
             {{- end }}
@@ -114,3 +116,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+

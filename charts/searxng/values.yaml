@@ -1,4 +1,4 @@
-# Default values for searxng.
+﻿# Default values for searxng.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -150,8 +150,15 @@ autoscaling:
 
 config: {}
 
+# Environment variables (non-sensitive)
+env: {}
+  # EXAMPLE_KEY: "example-value"
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

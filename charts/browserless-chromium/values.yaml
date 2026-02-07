@@ -1,4 +1,4 @@
-# Default values for browserless-chromium.
+﻿# Default values for browserless-chromium.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -169,8 +169,12 @@ env:
   TIMEOUT: "60000"
   CORS: "true"
   
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

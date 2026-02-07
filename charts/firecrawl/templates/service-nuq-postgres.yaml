@@ -1,4 +1,4 @@
-{{- if .Values.nuqPostgres.enabled -}}
+﻿{{- if .Values.nuqPostgres.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -15,3 +15,4 @@ spec:
   selector:
     {{- include "nuq-postgres.selectorLabels" . | nindent 4 }}
 {{- end }}
+

@@ -1,4 +1,4 @@
-{{- if .Values.httpRoute.enabled -}}
+﻿{{- if .Values.httpRoute.enabled -}}
 {{- $fullName := include "headplane.fullname" . -}}
 {{- $headscaleFullName := include "headscale.fullname.override" . -}}
 {{- $svcPort := .Values.service.port -}}
@@ -44,3 +44,4 @@ spec:
           kind: Service
           weight: 50
 {{- end }}
+

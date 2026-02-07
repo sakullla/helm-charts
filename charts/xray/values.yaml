@@ -1,4 +1,4 @@
-# Default values for xray.
+﻿# Default values for xray.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -70,6 +70,12 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 
+# Environment variables (non-sensitive)
+env: {}
+  # EXAMPLE_KEY: "example-value"
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
@@ -77,12 +83,12 @@ tolerations: []
 affinity: {}
 
 
-# [开关] HostPort 模式
+# [寮€鍏砞 HostPort 妯″紡
 useHostPort: true
 service: {}
-  # # 策略: SingleStack, PreferDualStack, RequireDualStack
+  # # 绛栫暐: SingleStack, PreferDualStack, RequireDualStack
   # ipFamilyPolicy: RequireDualStack
-  # # 协议栈列表
+  # # 鍗忚鏍堝垪琛?
   # ipFamilies:
   #   - IPv4
   #   - IPv6
@@ -91,7 +97,7 @@ service: {}
 
 
 
-# Xray 统一配置
+# Xray 缁熶竴閰嶇疆
 xrayConfig: {}
 #   log:
 #     loglevel: warning
@@ -115,11 +121,11 @@ xrayConfig: {}
 #         network: "tcp,udp"
 #         method: "2022-blake3-aes-128-gcm"
         
-#         # [归位] 直接在 settings 里定义服务端密码
-#         # "auto" 表示自动生成，也可以填固定字符串
+#         # [褰掍綅] 鐩存帴锟?settings 閲屽畾涔夋湇鍔＄瀵嗙爜
+#         # "auto" 琛ㄧず鑷姩鐢熸垚锛屼篃鍙互濉浐瀹氬瓧绗︿覆
 #         password: "auto"
         
-#         # [归位] 直接在 settings 里定义客户端列表
+#         # [褰掍綅] 鐩存帴锟?settings 閲屽畾涔夊鎴风鍒楄〃
 #         clients:
 #           - email: user1
 #             password: "auto"
@@ -143,3 +149,4 @@ xrayConfig: {}
 #           domainStrategy: UseIP
 #     - protocol: blackhole
 #       tag: block
+

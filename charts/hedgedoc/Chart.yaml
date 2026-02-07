@@ -1,6 +1,6 @@
-apiVersion: v2
+﻿apiVersion: v2
 name: hedgedoc
-description: A Helm chart for Kubernetes
+description: 协作式 Markdown 笔记服务
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -15,7 +15,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.0.8
+version: 0.0.9
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -27,3 +27,4 @@ dependencies:
   - name: hedgedoc-backend
     version:  0.0.4
     repository: https://sakullla.github.io/helm-charts
+

@@ -1,4 +1,4 @@
-# Default values for lobehub.
+﻿# Default values for lobehub.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -161,10 +161,12 @@ volumeMounts: []
   #   mountPath: "/etc/foo"
   #   readOnly: true
 env: {}
+# Sensitive environment variables
 secrets: {}
-
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

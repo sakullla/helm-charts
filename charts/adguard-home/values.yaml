@@ -1,4 +1,4 @@
-# Default values for adguard-home.
+﻿# Default values for adguard-home.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -158,6 +158,12 @@ persistence:
   size: 1Gi
   storageClass: ""
 
+# Environment variables (non-sensitive)
+env: {}
+  # EXAMPLE_KEY: "example-value"
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []

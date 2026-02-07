@@ -1,4 +1,4 @@
-# Default values for certimate.
+﻿# Default values for certimate.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -157,6 +157,12 @@ persistence:
   storageClass: ""
   mountPath: /app/pb_data
 
+# Environment variables (non-sensitive)
+env: {}
+  # EXAMPLE_KEY: "example-value"
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
@@ -164,3 +170,4 @@ tolerations: []
 affinity: {}
 
 syncHostTime: true
+

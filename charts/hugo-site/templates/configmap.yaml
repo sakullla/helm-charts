@@ -1,0 +1,11 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "hugo-site.fullname" . }}-config
+  labels:
+    {{- include "hugo-site.labels" . | nindent 4 }}
+data:
+  {{- range $key, $val := .Values.env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+

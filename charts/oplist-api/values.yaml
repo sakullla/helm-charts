@@ -1,4 +1,4 @@
-# Default values for oplist-api.
+﻿# Default values for oplist-api.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -186,8 +186,12 @@ env:
   OPLIST_QUARKPAN_UID: ""
   OPLIST_QUARKPAN_KEY: ""
 
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

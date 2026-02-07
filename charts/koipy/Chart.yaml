@@ -1,6 +1,6 @@
-apiVersion: v2
+﻿apiVersion: v2
 name: koipy
-description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试​机器人（Telegram bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
+description: 用于代理连通性检测的测试机器人
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -15,10 +15,11 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.2
+version: 0.1.3
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "1.12.2"
+

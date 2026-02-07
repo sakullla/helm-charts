@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "firecrawl.fullname" . }}-worker
@@ -53,11 +53,17 @@ spec:
               value: "worker"
             - name: PORT
               value: "3005"
+          {{- if or .Values.env .Values.secrets }}
           envFrom:
+            {{- if .Values.env }}
             - configMapRef:
                 name: {{ include "firecrawl.fullname" . }}-config
+            {{- end }}
+            {{- if .Values.secrets }}
             - secretRef:
                 name: {{ include "firecrawl.fullname" . }}-secret
+            {{- end }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: /liveness
@@ -83,3 +89,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+

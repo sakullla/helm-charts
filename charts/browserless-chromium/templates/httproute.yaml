@@ -1,4 +1,4 @@
-{{- if .Values.httpRoute.enabled -}}
+﻿{{- if .Values.httpRoute.enabled -}}
 {{- $fullName := include "browserless-chromium.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
 apiVersion: gateway.networking.k8s.io/v1
@@ -36,3 +36,4 @@ spec:
           weight: 1
     {{- end }}
 {{- end }}
+

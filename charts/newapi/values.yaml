@@ -1,4 +1,4 @@
-# Default values for newapi.
+﻿# Default values for newapi.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -170,10 +170,12 @@ volumeMounts:
     readOnly: false
 
 env: {}
+# Sensitive environment variables
 secrets: {}
-
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

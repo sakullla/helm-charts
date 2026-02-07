@@ -1,4 +1,4 @@
-# Default values for miaospeed.
+﻿# Default values for miaospeed.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -107,24 +107,30 @@ volumeMounts: []
   #   mountPath: "/etc/foo"
   #   readOnly: true
 
+# Environment variables (non-sensitive)
+env: {}
+  # EXAMPLE_KEY: "example-value"
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
 
-# 核心应用配置 (对应 docker 启动参数)
+# 鏍稿績搴旂敤閰嶇疆 (瀵瑰簲 docker 鍚姩鍙傛暟)
 appConfig:
-  # 监听地址和端口 (-bind)
+  # 鐩戝惉鍦板潃鍜岀鍙?(-bind)
   bind: "0.0.0.0:8765"
-  # 访问路径 (-path)
+  # 璁块棶璺緞 (-path)
   path: "miaospeed"
-  # 你的 Token (-token)
+  # 浣犵殑 Token (-token)
   token: "SbbieN2e{Q?W"
-  # 是否开启 mTLS (-mtls)
+  # 鏄惁寮€鍚?mTLS (-mtls)
   mtls: true
-  # 其他额外参数，例如并发数、限速等 (-connthread, -speedlimit)
-  # 格式为字符串列表
+  # 鍏朵粬棰濆鍙傛暟锛屼緥濡傚苟鍙戞暟銆侀檺閫熺瓑 (-connthread, -speedlimit)
+  # 鏍煎紡涓哄瓧绗︿覆鍒楄〃
   extraArgs: []
   # - "-connthread"
   # - "32"
@@ -133,6 +139,7 @@ appConfig:
 frp:
   enabled: false
   # frpc:
-  #   enabled: true # 设置为 true 开启服务端
+  #   enabled: true # 璁剧疆涓?true 寮€鍚湇鍔＄
   #   replicaCount: 1
   #   config: |
+

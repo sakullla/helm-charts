@@ -1,4 +1,4 @@
-# Default values for astrbot.
+﻿# Default values for astrbot.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -157,8 +157,15 @@ persistence:
   size: 5Gi
   storageClass: ""
 
+# Environment variables (non-sensitive)
+env: {}
+  # EXAMPLE_KEY: "example-value"
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

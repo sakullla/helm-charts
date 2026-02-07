@@ -1,4 +1,4 @@
-# Default values for saveany-bot.
+﻿# Default values for saveany-bot.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -85,8 +85,15 @@ volumeMounts: []
 
 config: {}
 
+# Environment variables (non-sensitive)
+env: {}
+  # EXAMPLE_KEY: "example-value"
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

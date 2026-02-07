@@ -1,4 +1,4 @@
-{{- if .Values.frps.enabled -}}
+﻿{{- if .Values.frps.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -40,6 +40,17 @@ spec:
           {{- end }}
           image: "{{ .Values.frps.image.repository }}:{{ .Values.frps.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.frps.image.pullPolicy }}
+          {{- if or .Values.env .Values.secrets }}
+          envFrom:
+            {{- if .Values.env }}
+            - configMapRef:
+                name: {{ include "frp.fullname" . }}-config
+            {{- end }}
+            {{- if .Values.secrets }}
+            - secretRef:
+                name: {{ include "frp.fullname" . }}-secret
+            {{- end }}
+          {{- end }}
           command: ["/usr/bin/frps"]
           args: ["-c", "/etc/frp/frps.toml"]
           ports:
@@ -87,3 +98,4 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
 {{- end }}
+

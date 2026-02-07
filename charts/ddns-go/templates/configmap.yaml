@@ -1,0 +1,11 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ddns-go.fullname" . }}-config
+  labels:
+    {{- include "ddns-go.labels" . | nindent 4 }}
+data:
+  {{- range $key, $val := .Values.env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+

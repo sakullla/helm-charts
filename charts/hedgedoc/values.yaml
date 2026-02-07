@@ -1,4 +1,4 @@
-# Default values for hedgedoc.
+﻿# Default values for hedgedoc.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -142,9 +142,12 @@ volumeMounts: []
   #   readOnly: true
 
 env: {}
-
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

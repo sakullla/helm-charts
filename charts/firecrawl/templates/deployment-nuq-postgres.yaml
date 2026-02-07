@@ -1,4 +1,4 @@
-{{- if .Values.nuqPostgres.enabled -}}
+﻿{{- if .Values.nuqPostgres.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -47,11 +47,17 @@ spec:
             - name: db
               containerPort: {{ .Values.nuqPostgres.service.port }}
               protocol: TCP
+          {{- if or .Values.env .Values.secrets }}
           envFrom:
+            {{- if .Values.env }}
             - configMapRef:
                 name: {{ include "firecrawl.fullname" . }}-config
+            {{- end }}
+            {{- if .Values.secrets }}
             - secretRef:
                 name: {{ include "firecrawl.fullname" . }}-secret
+            {{- end }}
+          {{- end }}
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
@@ -75,3 +81,4 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
 {{- end }}
+

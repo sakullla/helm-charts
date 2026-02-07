@@ -1,4 +1,4 @@
-# Default values for chartdb.
+﻿# Default values for chartdb.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -160,9 +160,15 @@ volumeMounts: []
   #   mountPath: "/etc/foo"
   #   readOnly: true
 
+# Environment variables (non-sensitive)
+env: {}
+  # EXAMPLE_KEY: "example-value"
+# Sensitive environment variables
 secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

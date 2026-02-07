@@ -1,8 +1,8 @@
-{{- if .Values.httpRoute.enabled -}}
+﻿{{- if .Values.httpRoute.enabled -}}
 {{- $fullName := include "dns-server.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
 {{- $dohPort := .Values.service.dohPort -}}
-{{- /* 获取路径列表 */ -}}
+{{- /* 鑾峰彇璺緞鍒楄〃 */ -}}
 {{- $dohPaths := .Values.service.dohPaths -}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -53,3 +53,4 @@ spec:
           kind: Service
           weight: 50
 {{- end }}
+

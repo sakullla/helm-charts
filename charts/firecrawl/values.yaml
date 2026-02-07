@@ -1,4 +1,4 @@
-# Default values for firecrawl.
+﻿# Default values for firecrawl.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -165,8 +165,9 @@ volumeMounts: []
   #   readOnly: true
 
 env: {}
+# Sensitive environment variables
 secrets: {}
-
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
@@ -205,3 +206,4 @@ nuqPostgres:
   
 playwright-service:
   enabled: true
+

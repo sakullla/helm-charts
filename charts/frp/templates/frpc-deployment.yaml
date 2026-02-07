@@ -1,4 +1,4 @@
-{{- if .Values.frpc.enabled -}}
+﻿{{- if .Values.frpc.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -40,6 +40,17 @@ spec:
           {{- end }}
           image: "{{ .Values.frpc.image.repository }}:{{ .Values.frpc.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.frpc.image.pullPolicy }}
+          {{- if or .Values.env .Values.secrets }}
+          envFrom:
+            {{- if .Values.env }}
+            - configMapRef:
+                name: {{ include "frp.fullname" . }}-config
+            {{- end }}
+            {{- if .Values.secrets }}
+            - secretRef:
+                name: {{ include "frp.fullname" . }}-secret
+            {{- end }}
+          {{- end }}
           args: ["-c", "/etc/frp/frpc.toml"]
           {{- with .Values.resources }}
           resources:
@@ -66,3 +77,4 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
 {{- end }}
+

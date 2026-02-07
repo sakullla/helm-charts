@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "firecrawl.fullname" . }}-nuq-worker
@@ -53,11 +53,17 @@ spec:
               value: "nuq-worker"
             - name: NUQ_WORKER_PORT
               value: "3006"
+          {{- if or .Values.env .Values.secrets }}
           envFrom:
+            {{- if .Values.env }}
             - configMapRef:
                 name: {{ include "firecrawl.fullname" . }}-config
+            {{- end }}
+            {{- if .Values.secrets }}
             - secretRef:
                 name: {{ include "firecrawl.fullname" . }}-secret
+            {{- end }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: /health
@@ -92,3 +98,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+

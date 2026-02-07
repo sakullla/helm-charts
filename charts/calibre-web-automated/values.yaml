@@ -1,4 +1,4 @@
-# Default values for calibre-web-automated.
+﻿# Default values for calibre-web-automated.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -162,8 +162,12 @@ env:
   TZ: "Asia/Shanghai"
   NETWORK_SHARE_MODE: "true"
 
+# Sensitive environment variables
+secrets: {}
+  # EXAMPLE_SECRET: "example-secret"
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+

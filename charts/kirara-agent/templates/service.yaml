@@ -1,4 +1,4 @@
-apiVersion: v1
+﻿apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "kirara-agent.fullname" . }}
@@ -13,3 +13,4 @@ spec:
       name: http
   selector:
     {{- include "kirara-agent.selectorLabels" . | nindent 4 }}
+

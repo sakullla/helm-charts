@@ -1,4 +1,4 @@
-﻿# Default values for logvar.
+# Default values for logvar.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -158,17 +158,15 @@ persistence:
   size: 1Gi
   storageClass: ""
 
-# 鏅€氱幆澧冨彉閲?(ConfigMap)
+# 普通环境变量 (ConfigMap)
 env: {}
 
-# 鏁忔劅鐜鍙橀噺 (Secret)
-# 杩欎簺鍊间細鑷姩鐢熸垚 Secret 骞舵寕杞?
-# Sensitive environment variables
+# 敏感环境变量 (Secret)
+# 这些值会自动生成 Secret 并挂载
 secrets: {}
-  # EXAMPLE_SECRET: "example-secret"
+
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
-

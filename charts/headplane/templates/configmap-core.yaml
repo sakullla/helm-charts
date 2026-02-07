@@ -1,0 +1,11 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "headplane.fullname" . }}-config
+  labels:
+    {{- include "headplane.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    {{- $global := get .Values "global" | default dict }}
+    {{- $config := get $global "headplaneConfig" | default .Values.headplaneConfig }}
+    {{- $config | toYaml | nindent 4 }}

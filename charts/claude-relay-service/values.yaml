@@ -123,8 +123,8 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-# 鍋ュ悍妫€鏌ユ帰閽堥厤缃?
-# 鍙傝€?docker-compose.yml 涓殑 healthcheck 閰嶇疆
+# 健康检查探针配?
+# 参?docker-compose.yml 中的 healthcheck 配置
 # interval: 30s, timeout: 10s, retries: 3
 livenessProbe:
   httpGet:
@@ -142,15 +142,15 @@ readinessProbe:
   periodSeconds: 30
   timeoutSeconds: 10
   failureThreshold: 3
-# 鍚姩鎺㈤拡 - 浣跨敤 tcpSocket 妫€娴嬬鍙ｆ槸鍚﹀氨缁?
-# 闃叉搴旂敤鍚姩鎱㈡椂琚繃鏃╅噸鍚紝鍙渶绔彛鐩戝惉鍗冲彲璁や负鍚姩鎴愬姛
+# 启动探针 - 使用 tcpSocket 检测端口是否就?
+# 防止应用启动慢时被过早重启，只需端口监听即可认为启动成功
 startupProbe:
   tcpSocket:
     port: http
   initialDelaySeconds: 5
   periodSeconds: 10
   timeoutSeconds: 5
-  failureThreshold: 6  # 6 * 10s = 60s 鍚姩鏃堕棿
+  failureThreshold: 6  # 6 * 10s = 60s 启动时间
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
@@ -172,75 +172,74 @@ persistence:
   size: 5Gi
   storageClass: ""
 
-# Valkey 渚濊禆閰嶇疆 (Redis 鐨勫紑婧愭浛浠?
-# 鍚敤鍚庡皢鑷姩閮ㄧ讲 Valkey 瀹炰緥
+# Valkey 依赖配置 (Redis 的开源替?
+# 启用后将自动部署 Valkey 实例
 # Chart: https://github.com/valkey-io/valkey-helm
 valkey:
   enabled: true
-  # 绂佺敤 replica 浠ヤ娇鐢?standalone 妯″紡
+  # 禁用 replica 以使?standalone 模式
   replica:
     enabled: false
   auth:
     enabled: false
-  # standalone 妯″紡涓嬬殑鎸佷箙鍖栭厤缃娇鐢?dataStorage
+  # standalone 模式下的持久化配置使?dataStorage
   dataStorage:
     enabled: true
     requestedSize: 1Gi
 
-# 鐜鍙橀噺閰嶇疆锛堥潪鏁忔劅锛?
-# 浼氳鍐欏叆 ConfigMap 骞舵寕杞藉埌瀹瑰櫒涓?
+# 环境变量配置（非敏感?
+# 会被写入 ConfigMap 并挂载到容器?
 env:
-  # 馃寪 鏈嶅姟鍣ㄩ厤缃?
+  # 🌐 服务器配?
   NODE_ENV: "production"
   PORT: "3000"
   HOST: "0.0.0.0"
-  # 馃敡 璇锋眰浣撳ぇ灏忛厤缃?
+  # 🔧 请求体大小配?
   REQUEST_MAX_SIZE_MB: "60"
-  # 馃攼 瀹夊叏閰嶇疆锛堥潪鏁忔劅閮ㄥ垎锛?
+  # 🔐 安全配置（非敏感部分?
   ADMIN_SESSION_TIMEOUT: "86400000"
   API_KEY_PREFIX: "cr_"
-  # 馃搳 Valkey/Redis 閰嶇疆
-  # 濡傛灉浣跨敤鍐呯疆 Valkey 渚濊禆锛宒eployment 浼氳嚜鍔ㄨ鐩?REDIS_HOST
-  # 濡傛灉浣跨敤澶栭儴 Redis/Valkey锛岃璁剧疆涓哄疄闄呯殑涓绘満鍦板潃
+  # 📊 Valkey/Redis 配置
+  # 如果使用内置 Valkey 依赖，deployment 会自动覆?REDIS_HOST
+  # 如果使用外部 Redis/Valkey，请设置为实际的主机地址
   REDIS_HOST: "valkey"
   REDIS_PORT: "6379"
   REDIS_DB: "0"
   # REDIS_ENABLE_TLS: ""
-  # 馃幆 Claude API 閰嶇疆
+  # 🎯 Claude API 配置
   CLAUDE_API_URL: "https://api.anthropic.com/v1/messages"
   CLAUDE_API_VERSION: "2023-06-01"
   CLAUDE_BETA_HEADER: "claude-code-20250219,oauth-2025-04-20,interleaved-thinking-2025-05-14,fine-grained-tool-streaming-2025-05-14"
-  # 馃寪 浠ｇ悊閰嶇疆
+  # 🌐 代理配置
   DEFAULT_PROXY_TIMEOUT: "60000"
   MAX_PROXY_RETRIES: "3"
   PROXY_USE_IPV4: "true"
   # PROXY_KEEP_ALIVE: ""
   # PROXY_MAX_SOCKETS: ""
   # PROXY_MAX_FREE_SOCKETS: ""
-  # 馃搱 浣跨敤闄愬埗
+  # 📈 使用限制
   DEFAULT_TOKEN_LIMIT: "1000000"
-  # 馃摑 鏃ュ織閰嶇疆
+  # 📝 日志配置
   LOG_LEVEL: "info"
   LOG_MAX_SIZE: "10m"
   LOG_MAX_FILES: "5"
-  # 馃敡 绯荤粺閰嶇疆
+  # 🔧 系统配置
   CLEANUP_INTERVAL: "3600000"
   TOKEN_USAGE_RETENTION: "2592000000"
   HEALTH_CHECK_INTERVAL: "60000"
   TIMEZONE_OFFSET: "8"
-  # 馃帹 Web 鐣岄潰閰嶇疆
+  # 🎨 Web 界面配置
   WEB_TITLE: "Claude Relay Service"
   WEB_DESCRIPTION: "Multi-account Claude API relay service"
   WEB_LOGO_URL: "/assets/logo.png"
-  # 馃洜锔?寮€鍙戦厤缃?
+  # 🛠?开发配?
   DEBUG: "false"
   ENABLE_CORS: "true"
   TRUST_PROXY: "true"
 
-# 鏁忔劅淇℃伅閰嶇疆
-# 浼氳鍐欏叆 Secret 骞舵寕杞藉埌瀹瑰櫒涓?
-# 鈿狅笍 蹇呭～: JWT_SECRET (鑷冲皯32瀛楃鐨勯殢鏈哄瓧绗︿覆), ENCRYPTION_KEY (32瀛楃鐨勫姞瀵嗗瘑閽?
-# Sensitive environment variables
+# 敏感信息配置
+# 会被写入 Secret 并挂载到容器?
+# ⚠️ 必填: JWT_SECRET (至少32字符的随机字符串), ENCRYPTION_KEY (32字符的加密密?
 secrets: {}
   # JWT_SECRET: "your-jwt-secret-min-32-characters-long"
   # ENCRYPTION_KEY: "32-char-encryption-key-required"
@@ -248,7 +247,7 @@ secrets: {}
   # ADMIN_USERNAME: ""
   # ADMIN_PASSWORD: ""
 
-# 棰濆鐜鍙橀噺锛堢敤浜庤鐩?ConfigMap 涓殑閰嶇疆鎴栨坊鍔犳柊鍙橀噺锛?
+# 额外环境变量（用于覆?ConfigMap 中的配置或添加新变量?
 extraEnv: {}
   # CUSTOM_VAR: "custom-value"
 

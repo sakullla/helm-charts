@@ -1,13 +1,12 @@
-﻿apiVersion: v1
+{{- if .Values.env }}
+apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "headscale.fullname" . }}-config
+  name: {{ include "headscale.fullname" . }}-env
   labels:
     {{- include "headscale.labels" . | nindent 4 }}
 data:
-  config.yaml: |
-    {{- .Values.global.headscaleConfig | default .Values.headscaleConfig | toYaml | nindent 4 }}
   {{- range $key, $val := .Values.env }}
   {{ $key }}: {{ $val | quote }}
   {{- end }}
-
+{{- end }}

@@ -1,10 +1,12 @@
-﻿apiVersion: v1
+{{- if .Values.env }}
+apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "headplane.fullname" . }}-config
+  name: {{ include "headplane.fullname" . }}-env
   labels:
     {{- include "headplane.labels" . | nindent 4 }}
 data:
-  config.yaml: |
-    {{- .Values.global.headplaneConfig  | default .Values.headplaneConfig  | toYaml | nindent 4 }}
-
+  {{- range $key, $val := .Values.env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+{{- end }}

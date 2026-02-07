@@ -1,10 +1,12 @@
-﻿apiVersion: v1
+{{- if .Values.env }}
+apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "xray.fullname" . }}-config
+  name: {{ include "xray.fullname" . }}-env
   labels:
     {{- include "xray.labels" . | nindent 4 }}
 data:
-  config.json: |
-    {{- .Values.xrayConfig | toPrettyJson | nindent 4 }}
-
+  {{- range $key, $val := .Values.env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+{{- end }}

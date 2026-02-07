@@ -17,6 +17,8 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/core: {{ include (print $.Template.BasePath "/configmap-core.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -47,7 +49,7 @@ spec:
           envFrom:
             {{- if .Values.env }}
             - configMapRef:
-                name: {{ include "headscale.fullname" . }}-config
+                name: {{ include "headscale.fullname" . }}-env
             {{- end }}
             {{- if .Values.secrets }}
             - secretRef:
@@ -105,4 +107,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-

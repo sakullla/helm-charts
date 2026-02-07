@@ -3,407 +3,1210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sakullla's Helm Garden</title>
+    <title>🌸 Sakullla's Helm Garden 🌸</title>
     
-    <!-- 预连接关键域名 -->
+    <!-- Preconnect -->
     <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin>
-    <link rel="preconnect" href="https://github.githubassets.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- 预加载关键资源 -->
-    <link rel="preload" href="./avatar.jpg" as="image">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- CSS 资源 -->
-    <link href="https://cdn.staticfile.net/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS -->
     <link href="https://cdn.staticfile.net/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <!-- 关键 CSS 内联 -->
     <style>
-        /* --- 全局背景 --- */
+        :root {
+            --pink-primary: #ff69b4;
+            --pink-light: #ffb6d9;
+            --pink-dark: #ff1493;
+            --purple-primary: #da70d6;
+            --purple-light: #f0b8f5;
+            --blue-primary: #87ceeb;
+            --blue-light: #b0e0e6;
+            --mint: #98fb98;
+            --peach: #ffd4a3;
+            --bg-primary: #fff5f7;
+            --bg-secondary: #ffe4e9;
+            --bg-card: #ffffff;
+            --text-primary: #5a4a6b;
+            --text-secondary: #8b7a9f;
+            --shadow: rgba(255, 105, 180, 0.15);
+            --border: rgba(255, 182, 217, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: url('./bg.jpg') center/cover fixed no-repeat, 
-                        linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            font-family: 'Nunito', 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: 'Nunito', 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4f3 50%, #ffd4e9 100%);
+            color: var(--text-primary);
             min-height: 100vh;
-        }
-
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            z-index: -1;
-        }
-
-        /* --- 主容器 --- */
-        .glass-container {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-            margin-top: 50px;
-            margin-bottom: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-        }
-
-        /* --- 头像 --- */
-        .avatar-container {
-            position: relative; width: 120px; height: 120px; margin: 0 auto 15px;
-        }
-        .avatar {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            border: 4px solid #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            object-fit: cover;
-            transition: transform 0.5s ease-in-out;
-            background-color: white;
-        }
-        .avatar:hover { transform: rotate(15deg) scale(1.1); }
-
-        h1 { color: #4a4a4a; font-weight: 800; letter-spacing: 1px; }
-        .subtitle { color: #666; font-size: 1rem; font-weight: 500; }
-
-        /* --- 命令框 --- */
-        .cmd-box-wrapper {
-            background: #2d2d2d;
-            border-radius: 12px;
-            padding: 18px;
-            margin: 25px auto 15px;
-            max-width: 650px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            text-align: left;
-        }
-        .cmd-text { color: #ff79c6; font-family: 'Consolas', monospace; font-size: 0.95em; word-break: break-all; }
-        .cmd-label { color: #8be9fd; font-size: 0.85em; margin-bottom: 5px; display: block; font-weight: bold;}
-
-        /* --- 搜索框 --- */
-        .search-wrapper {
-            max-width: 650px;
-            margin: 0 auto 30px;
             position: relative;
+            overflow-x: hidden;
         }
-        .search-input {
+
+        /* 樱花动画背景 */
+        .sakura-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 12px 20px 12px 50px;
-            border-radius: 50px;
-            border: 2px solid rgba(255, 154, 158, 0.3);
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(5px);
-            font-size: 1rem;
-            color: #555;
-            transition: all 0.3s ease;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
-        .search-input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.95);
-            border-color: #ff9a9e;
-            box-shadow: 0 0 15px rgba(255, 154, 158, 0.3);
-        }
-        .search-icon {
+
+        .sakura {
             position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ff9a9e;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #ffb6d9, #ff69b4);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 装饰性星星 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            color: var(--pink-light);
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 1.5rem 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 1.5rem 0 2rem;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            filter: drop-shadow(0 10px 30px rgba(255, 105, 180, 0.3));
+        }
+
+        .avatar-glow {
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                var(--pink-primary),
+                var(--purple-primary),
+                var(--blue-primary),
+                var(--pink-primary)
+            );
+            animation: rotate 4s linear infinite;
+            filter: blur(8px);
+            opacity: 0.6;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .avatar-border {
+            position: absolute;
+            inset: -4px;
+            background: white;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .avatar {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            z-index: 2;
+            border: 4px solid white;
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
         }
 
-        /* --- 卡片 --- */
-        .chart-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            transition: all 0.3s;
+        .sparkle {
+            position: absolute;
+            color: #ffd700;
+            animation: sparkleFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkleFloat {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+        }
+
+        .title {
+            font-size: 2.75rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--pink-primary), var(--purple-primary), var(--blue-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+        }
+
+        .title::before,
+        .title::after {
+            content: '✨';
+            position: absolute;
+            font-size: 1.5rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .title::before {
+            left: -2.5rem;
+            top: 0;
+        }
+
+        .title::after {
+            right: -2.5rem;
+            top: 0;
+            animation-delay: 1s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* 可爱的统计卡片 */
+        .stats {
+            display: inline-flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            background: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 3rem;
+            border: 2px solid var(--pink-light);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:not(:last-child)::after {
+            content: '·';
+            position: absolute;
+            right: -0.5rem;
+            color: var(--pink-light);
+            font-size: 1.5rem;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.1);
+        }
+
+        .stat-icon {
+            font-size: 1.25rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .stat-card:nth-child(1) .stat-icon { animation-delay: 0s; }
+        .stat-card:nth-child(2) .stat-icon { animation-delay: 1s; }
+        .stat-card:nth-child(3) .stat-icon { animation-delay: 2s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .stat-content {
+            display: flex;
+            align-items: baseline;
+            gap: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--pink-primary), var(--purple-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* 可爱的命令框 */
+        .cmd-section {
+            max-width: 900px;
+            margin: 0 auto 2rem;
+        }
+
+        .cmd-box {
+            background: linear-gradient(135deg, #fff 0%, #fffaf0 100%);
+            border: 3px solid var(--pink-light);
+            border-radius: 2rem;
+            padding: 1.5rem;
+            position: relative;
+            box-shadow: 0 10px 30px var(--shadow);
             overflow: hidden;
-            height: 100%;
-            border: 1px solid rgba(255,255,255,1);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
+
+        .cmd-box::before {
+            content: '💻';
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+
+        .cmd-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--pink-primary);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .cmd-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .cmd-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .cmd-dot:nth-child(1) { background: linear-gradient(135deg, #ff6b9d, #ff4757); }
+        .cmd-dot:nth-child(2) { background: linear-gradient(135deg, #ffd93d, #ffa502); }
+        .cmd-dot:nth-child(3) { background: linear-gradient(135deg, #6bcf7f, #1dd1a1); }
+
+        .cmd-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            padding: 1.25rem;
+            border-radius: 1.5rem;
+            border: 2px solid var(--border);
+        }
+
+        .cmd-text {
+            flex: 1;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1rem;
+            color: var(--pink-dark);
+            word-break: break-all;
+            font-weight: 600;
+        }
+
+        .cmd-copy {
+            background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .cmd-copy:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .cmd-copy:active {
+            transform: scale(0.95);
+        }
+
+        /* 搜索框 */
+        .search-wrapper {
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.25rem 1.5rem 1.25rem 4rem;
+            background: white;
+            border: 3px solid var(--pink-light);
+            border-radius: 2rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--pink-primary);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--pink-primary);
+            font-size: 1.5rem;
+            pointer-events: none;
+        }
+
+        /* Charts 区域 */
+        .charts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .charts-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--pink-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .charts-count {
+            background: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 1.5rem;
+            border: 2px solid var(--pink-light);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .chart-card {
+            background: white;
+            border: 3px solid var(--pink-light);
+            border-radius: 1.75rem;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .chart-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--pink-primary), var(--purple-primary), var(--blue-primary));
+            transform: translateY(-100%);
+            transition: transform 0.4s ease;
+        }
+
+        .chart-card:hover::before {
+            transform: translateY(0);
+        }
+
         .chart-card:hover {
-            transform: translateY(-8px); 
-            box-shadow: 0 15px 30px rgba(255, 117, 140, 0.25);
+            transform: translateY(-10px) rotate(-1deg);
+            border-color: var(--pink-primary);
+            box-shadow: 0 20px 50px rgba(255, 105, 180, 0.4);
         }
-        .card-header-custom {
-            background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%);
-            color: white; padding: 15px 25px; font-weight: 700; font-size: 1.1rem;
+
+        .chart-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
         }
-        .card-body { padding: 25px; }
-        .card-desc { color: #666; font-size: 0.9rem; min-height: 45px; }
+
+        .chart-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--pink-primary), var(--purple-primary));
+            border-radius: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.75rem;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+            transform: rotate(-5deg);
+            transition: all 0.3s ease;
+        }
+
+        .chart-card:hover .chart-icon {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        .chart-versions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
         .version-badge {
-            background: rgba(255,255,255,0.3); color: #fff;
-            padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; float: right;
+            background: linear-gradient(135deg, var(--pink-light), var(--purple-light));
+            color: var(--pink-dark);
+            padding: 0.4rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(255, 105, 180, 0.2);
         }
 
-        .btn-custom {
-            background: linear-gradient(to right, #ff758c, #ff7eb3);
-            color: white; border: none; border-radius: 50px; width: 100%; padding: 10px;
-            font-weight: 600; transition: 0.3s;
-        }
-        .btn-custom:hover {
-            transform: scale(1.02); box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4); color: white;
+        .app-version-badge {
+            background: linear-gradient(135deg, var(--blue-light), var(--mint));
+            color: #2d7a5e;
+            padding: 0.4rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(135, 206, 235, 0.2);
         }
 
-        /* --- 消息气泡 (Toast) --- */
-        #toast-box {
-            position: fixed; top: 30px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none;
+        .chart-name {
+            font-size: 1.35rem;
+            font-weight: 900;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
         }
-        .sakura-toast {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 12px 25px;
-            border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.3);
-            border: 2px solid #ff9a9e;
-            color: #ff758c;
-            font-weight: bold;
-            display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
-            animation: slideDown 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+
+        .chart-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+            min-height: 3rem;
         }
-        @keyframes slideDown { 0% { transform: translateY(-50px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
-        @keyframes fadeOut { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-30px); opacity: 0; } }
-        .hide-toast { animation: fadeOut 0.5s forwards; }
-        
-        /* 隐藏类 */
-        .d-none { display: none !important; }
+
+        .chart-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 1.5rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 2px solid var(--pink-light);
+            color: var(--pink-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--pink-light);
+            transform: scale(1.05);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 5rem 0;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .spinner-heart {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: heartBeat 1.5s ease-in-out infinite;
+        }
+
+        .spinner-heart::before,
+        .spinner-heart::after {
+            content: '💗';
+            position: absolute;
+            font-size: 4rem;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading-text {
+            color: var(--pink-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-text {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        /* Toast 通知 */
+        .toast-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .toast {
+            background: white;
+            border: 3px solid var(--pink-light);
+            border-radius: 1.5rem;
+            padding: 1.25rem 1.75rem;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 320px;
+            animation: toastIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes toastIn {
+            from {
+                transform: translateX(400px) rotate(10deg);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .toast.fade-out {
+            animation: toastOut 0.4s ease forwards;
+        }
+
+        @keyframes toastOut {
+            to {
+                transform: translateX(400px) rotate(-10deg);
+                opacity: 0;
+            }
+        }
+
+        .toast-icon {
+            font-size: 1.75rem;
+        }
+
+        .toast-message {
+            flex: 1;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .footer a {
+            color: var(--pink-primary);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--pink-dark);
+            text-decoration: underline;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .title::before,
+            .title::after {
+                display: none;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                gap: 1rem;
+            }
+
+            .stat-card {
+                min-width: 140px;
+                padding: 1rem 1.5rem;
+            }
+
+            .toast-container {
+                left: 1rem;
+                right: 1rem;
+                top: 1rem;
+            }
+
+            .toast {
+                min-width: auto;
+            }
+
+            .cmd-content {
+                flex-direction: column;
+            }
+
+            .cmd-copy {
+                width: 100%;
+            }
+        }
+
+        .d-none {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
+    <!-- 樱花背景 -->
+    <div class="sakura-container" id="sakuraContainer"></div>
+    
+    <!-- 星星装饰 -->
+    <div class="stars" id="starsContainer"></div>
 
-<div class="overlay"></div>
-<div id="toast-box"></div>
+    <!-- Toast 通知 -->
+    <div class="toast-container" id="toastContainer"></div>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-10 glass-container">
-            <div class="text-center">
-                <div class="avatar-container">
-                    <img src="./avatar.jpg" class="avatar" alt="Avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" loading="lazy">
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="avatar-wrapper">
+                <div class="avatar-glow"></div>
+                <div class="avatar-border"></div>
+                <img src="./avatar.jpg" alt="Avatar" class="avatar" 
+                     onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                <div class="sparkles">
+                    <i class="fas fa-sparkles sparkle" style="top: 10%; left: -10%; animation-delay: 0s;"></i>
+                    <i class="fas fa-sparkles sparkle" style="top: -5%; right: 10%; animation-delay: 0.7s;"></i>
+                    <i class="fas fa-sparkles sparkle" style="bottom: 15%; left: 5%; animation-delay: 1.4s;"></i>
                 </div>
-                <h1>Sakullla's Helm Garden</h1>
-                <p class="subtitle">🌸 欢迎来到我的云原生魔法后花园 🌸</p>
-                
-                <div class="cmd-box-wrapper">
-                    <span class="cmd-label"><i class="fas fa-terminal me-2"></i>Terminal</span>
-                    <div class="cmd-text" id="repo-cmd">Loading...</div>
-                </div>
-
-                <div class="search-wrapper">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="search-input" class="search-input" placeholder="✨ 搜索 Chart 名称或描述...">
-                </div>
-
             </div>
-
-            <hr class="my-4" style="border-top: 2px dashed rgba(0,0,0,0.1);">
+            <h1 class="title">Helm Garden</h1>
+            <p class="subtitle">🌸 欢迎来到我的云原生魔法后花园 🌸</p>
             
-            <div id="loading" class="text-center py-5">
-                <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status"></div>
-                <h4 class="mt-3 text-secondary">正在加载 Charts...</h4>
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="chartCount">0</div>
+                        <div class="stat-label">Charts</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎨</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="categoryCount">∞</div>
+                        <div class="stat-label">可能</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💖</div>
+                    <div class="stat-content">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">用心</div>
+                    </div>
+                </div>
             </div>
-            
-            <div id="error-msg" class="alert alert-danger text-center shadow-sm d-none" style="border-radius: 15px;"></div>
-            <div class="row g-4" id="chart-list"></div>
-            
-            <div class="text-center mt-5 text-muted">
-                <p style="font-size: 0.85rem; opacity: 0.7;">Hosted with 💖 by GitHub Pages</p>
+        </header>
+
+        <!-- 命令区 -->
+        <div class="cmd-section">
+            <div class="cmd-box">
+                <div class="cmd-header">
+                    <div class="cmd-dots">
+                        <div class="cmd-dot"></div>
+                        <div class="cmd-dot"></div>
+                        <div class="cmd-dot"></div>
+                    </div>
+                    <span>✨ 添加魔法仓库</span>
+                </div>
+                <div class="cmd-content">
+                    <div class="cmd-text" id="repoCmd">helm repo add sakullla https://sakullla.github.io/helm-charts</div>
+                    <button class="cmd-copy" onclick="copyRepoCmd()">
+                        <i class="fas fa-copy"></i>
+                        复制咒语
+                    </button>
+                </div>
             </div>
         </div>
+
+        <!-- 搜索 -->
+        <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" 
+                   id="searchInput" 
+                   class="search-input" 
+                   placeholder="🔍 搜索你喜欢的 Chart...">
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">
+            <div class="loading-spinner">
+                <div class="spinner-heart"></div>
+            </div>
+            <div class="loading-text">正在施展魔法中...</div>
+        </div>
+
+        <!-- Charts 网格 -->
+        <div id="chartsSection" class="d-none">
+            <div class="charts-header">
+                <h2 class="charts-title">
+                    <i class="fas fa-magic"></i>
+                    魔法 Charts 收藏
+                </h2>
+                <div class="charts-count">
+                    <span id="displayCount">0</span> / <span id="totalCount">0</span> 个
+                </div>
+            </div>
+            <div class="charts-grid" id="chartsGrid"></div>
+        </div>
+
+        <!-- 空状态 -->
+        <div id="emptyState" class="empty-state d-none">
+            <div class="empty-icon">🔍✨</div>
+            <div class="empty-text">哎呀，没有找到相关的 Chart 呢~</div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                🌸 用 <a href="https://helm.sh" target="_blank">Helm</a> 制作
+                · 托管于 <a href="https://pages.github.com" target="_blank">GitHub Pages</a> 🌸
+            </p>
+        </footer>
     </div>
-</div>
 
-<!-- 延迟加载非关键脚本 -->
-<script defer src="https://cdn.staticfile.net/js-yaml/4.1.0/js-yaml.min.js"></script>
-
-<script>
-    // 全局变量存储数据
-    let globalCharts = []; 
-    const repoName = 'sakullla';
-
-    // DOM 元素缓存
-    const elements = {};
+    <script defer src="https://cdn.staticfile.net/js-yaml/4.1.0/js-yaml.min.js"></script>
     
-    // DOM 就绪后初始化
-    if (document.readyState === 'loading') {
+    <script>
+        const REPO_NAME = 'sakullla';
+        const REPO_URL = 'https://sakullla.github.io/helm-charts';
+        
+        let allCharts = [];
+        let filteredCharts = [];
+
+        // DOM 元素
+        const elements = {
+            loading: document.getElementById('loading'),
+            chartsSection: document.getElementById('chartsSection'),
+            chartsGrid: document.getElementById('chartsGrid'),
+            emptyState: document.getElementById('emptyState'),
+            searchInput: document.getElementById('searchInput'),
+            chartCount: document.getElementById('chartCount'),
+            displayCount: document.getElementById('displayCount'),
+            totalCount: document.getElementById('totalCount'),
+            toastContainer: document.getElementById('toastContainer'),
+            repoCmd: document.getElementById('repoCmd'),
+            sakuraContainer: document.getElementById('sakuraContainer'),
+            starsContainer: document.getElementById('starsContainer')
+        };
+
+        // 初始化
         document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
 
-    function init() {
-        // 缓存 DOM 元素引用
-        elements.repoCmd = document.getElementById('repo-cmd');
-        elements.searchInput = document.getElementById('search-input');
-        elements.loading = document.getElementById('loading');
-        elements.errorMsg = document.getElementById('error-msg');
-        elements.chartList = document.getElementById('chart-list');
-        elements.toastBox = document.getElementById('toast-box');
-
-        const repoUrl = 'https://sakullla.github.io/helm-charts';
-        const fullCmd = `helm repo add ${repoName} ${repoUrl}`;
-        elements.repoCmd.textContent = fullCmd;
-
-        // 绑定搜索事件
-        elements.searchInput.addEventListener('input', debounce(handleSearch, 150));
-
-        // 加载数据
-        loadCharts();
-    }
-
-    async function loadCharts() {
-        try {
-            const response = await fetch('./index.yaml');
-            if (!response.ok) {
-                if (response.status === 404) {
-                    throw new Error('未找到 index.yaml 文件');
-                }
-                throw new Error(`HTTP ${response.status}`);
-            }
-            const yamlText = await response.text();
+        async function init() {
+            elements.repoCmd.textContent = `helm repo add ${REPO_NAME} ${REPO_URL}`;
+            elements.searchInput.addEventListener('input', debounce(handleSearch, 300));
             
-            // 等待 js-yaml 加载完成
-            await waitForJsYaml();
+            // 创建樱花和星星
+            createSakura();
+            createStars();
             
-            const doc = jsyaml.load(yamlText);
-            if (doc.entries) {
-                globalCharts = Object.keys(doc.entries).map(key => doc.entries[key][0]);
-                renderCharts(globalCharts);
-            } else {
-                renderCharts([]);
-            }
-        } catch (error) {
-            showError('网络加载失败: ' + error.message);
+            await loadCharts();
         }
-    }
 
-    function waitForJsYaml() {
-        return new Promise((resolve, reject) => {
-            if (typeof jsyaml !== 'undefined') {
-                resolve();
+        // 创建飘落的樱花
+        function createSakura() {
+            for (let i = 0; i < 20; i++) {
+                const sakura = document.createElement('div');
+                sakura.className = 'sakura';
+                sakura.style.left = Math.random() * 100 + '%';
+                sakura.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                sakura.style.animationDelay = Math.random() * 5 + 's';
+                elements.sakuraContainer.appendChild(sakura);
+            }
+        }
+
+        // 创建闪烁的星星
+        function createStars() {
+            const starPositions = [
+                { top: '10%', left: '15%', delay: '0s' },
+                { top: '20%', right: '20%', delay: '0.5s' },
+                { top: '40%', left: '10%', delay: '1s' },
+                { top: '60%', right: '15%', delay: '1.5s' },
+                { top: '70%', left: '25%', delay: '2s' },
+                { top: '30%', right: '30%', delay: '2.5s' }
+            ];
+
+            starPositions.forEach(pos => {
+                const star = document.createElement('i');
+                star.className = 'fas fa-star star';
+                Object.assign(star.style, {
+                    top: pos.top,
+                    left: pos.left,
+                    right: pos.right,
+                    animationDelay: pos.delay
+                });
+                elements.starsContainer.appendChild(star);
+            });
+        }
+
+        async function loadCharts() {
+            try {
+                const response = await fetch('./index.yaml');
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const yamlText = await response.text();
+                await waitForJsYaml();
+                
+                const data = jsyaml.load(yamlText);
+                
+                if (data?.entries) {
+                    allCharts = Object.keys(data.entries).map(key => ({
+                        name: key,
+                        ...data.entries[key][0]
+                    }));
+                    allCharts.sort((a, b) => a.name.localeCompare(b.name));
+                }
+                
+                filteredCharts = [...allCharts];
+                renderCharts();
+                updateStats();
+                
+            } catch (error) {
+                console.error('加载失败:', error);
+                showToast('哎呀，魔法失效了 ' + error.message, '❌');
+            } finally {
+                elements.loading.classList.add('d-none');
+                elements.chartsSection.classList.remove('d-none');
+            }
+        }
+
+        function waitForJsYaml() {
+            return new Promise((resolve, reject) => {
+                if (typeof jsyaml !== 'undefined') return resolve();
+                
+                const check = setInterval(() => {
+                    if (typeof jsyaml !== 'undefined') {
+                        clearInterval(check);
+                        clearTimeout(timeout);
+                        resolve();
+                    }
+                }, 50);
+                
+                const timeout = setTimeout(() => {
+                    clearInterval(check);
+                    reject(new Error('js-yaml 加载超时'));
+                }, 10000);
+            });
+        }
+
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (!query) {
+                filteredCharts = [...allCharts];
+            } else {
+                filteredCharts = allCharts.filter(chart => 
+                    chart.name.toLowerCase().includes(query) ||
+                    (chart.description || '').toLowerCase().includes(query)
+                );
+            }
+            
+            renderCharts();
+        }
+
+        function renderCharts() {
+            const isEmpty = filteredCharts.length === 0;
+            
+            elements.emptyState.classList.toggle('d-none', !isEmpty);
+            elements.chartsGrid.classList.toggle('d-none', isEmpty);
+            
+            if (isEmpty) {
+                elements.displayCount.textContent = '0';
                 return;
             }
-            // 轮询检查 js-yaml 是否加载
-            const checkInterval = setInterval(() => {
-                if (typeof jsyaml !== 'undefined') {
-                    clearInterval(checkInterval);
-                    clearTimeout(timeout);
-                    resolve();
-                }
-            }, 50);
-            const timeout = setTimeout(() => {
-                clearInterval(checkInterval);
-                reject(new Error('js-yaml 加载超时'));
-            }, 10000);
-        });
-    }
-
-    function handleSearch(e) {
-        const keyword = e.target.value.toLowerCase().trim();
-        if (!keyword) {
-            renderCharts(globalCharts);
-            return;
-        }
-
-        const filtered = globalCharts.filter(chart => {
-            const name = (chart.name || '').toLowerCase();
-            const desc = (chart.description || '').toLowerCase();
-            return name.includes(keyword) || desc.includes(keyword);
-        });
-
-        renderCharts(filtered);
-    }
-
-    function renderCharts(charts) {
-        elements.loading.classList.add('d-none');
-        
-        if (!charts || charts.length === 0) {
-            elements.chartList.innerHTML = '<div class="col-12 text-center text-muted py-5"><h5>🍃 没有找到相关 Charts</h5></div>';
-            return;
-        }
-
-        // 按字母排序
-        const sortedCharts = [...charts].sort((a, b) => a.name.localeCompare(b.name));
-
-        // 使用 DocumentFragment 批量插入
-        const fragment = document.createDocumentFragment();
-        
-        sortedCharts.forEach(chart => {
-            const installCmd = `helm install my-${chart.name} ${repoName}/${chart.name}`;
-            const escapedCmd = installCmd.replace(/'/g, "\\'").replace(/"/g, '&quot;');
             
-            const col = document.createElement('div');
-            col.className = 'col-md-6 col-lg-4';
-            col.innerHTML = `
-                <div class="chart-card">
-                    <div class="card-header-custom">
-                        <i class="fas fa-cube me-2"></i>${escapeHtml(chart.name)}
-                        <span class="version-badge">${escapeHtml(chart.version)}</span>
+            elements.displayCount.textContent = filteredCharts.length;
+            
+            const fragment = document.createDocumentFragment();
+            
+            filteredCharts.forEach(chart => {
+                const card = createChartCard(chart);
+                fragment.appendChild(card);
+            });
+            
+            elements.chartsGrid.innerHTML = '';
+            elements.chartsGrid.appendChild(fragment);
+        }
+
+        function createChartCard(chart) {
+            const div = document.createElement('div');
+            div.className = 'chart-card';
+            
+            const installCmd = `helm install my-${chart.name} ${REPO_NAME}/${chart.name}`;
+            
+            div.innerHTML = `
+                <div class="chart-header">
+                    <div class="chart-icon">
+                        <i class="fas fa-cube"></i>
                     </div>
-                    <div class="card-body d-flex flex-column">
-                        <p class="card-desc">${escapeHtml(chart.description) || '暂无描述'}</p>
-                        <div class="mt-auto">
-                            <p class="text-muted mb-2"><small><i class="fas fa-code-branch me-1"></i>Ver: ${escapeHtml(chart.appVersion) || '-'}</small></p>
-                            <button class="btn btn-custom" data-cmd="${escapedCmd}">
-                                <i class="fas fa-copy me-1"></i> 复制安装命令
-                            </button>
-                        </div>
+                    <div class="chart-versions">
+                        <div class="version-badge">v${escapeHtml(chart.version)}</div>
+                        ${chart.appVersion ? `<div class="app-version-badge">${escapeHtml(chart.appVersion)}</div>` : ''}
                     </div>
+                </div>
+                <h3 class="chart-name">${escapeHtml(chart.name)}</h3>
+                <p class="chart-description">${escapeHtml(chart.description || '暂无描述')}</p>
+                <div class="chart-actions">
+                    <button class="btn btn-primary" onclick='copyInstallCmd(${JSON.stringify(installCmd)})'>
+                        <i class="fas fa-magic"></i>
+                        一键安装
+                    </button>
+                    <button class="btn btn-secondary" onclick='viewChart(${JSON.stringify(chart.name)})'>
+                        <i class="fas fa-heart"></i>
+                    </button>
                 </div>
             `;
             
-            // 绑定点击事件
-            const btn = col.querySelector('.btn-custom');
-            btn.addEventListener('click', () => copyCmd(btn.dataset.cmd));
-            
-            fragment.appendChild(col);
-        });
-
-        elements.chartList.innerHTML = '';
-        elements.chartList.appendChild(fragment);
-    }
-
-    function showError(msg) {
-        elements.loading.classList.add('d-none');
-        elements.errorMsg.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i> ' + escapeHtml(msg);
-        elements.errorMsg.classList.remove('d-none');
-    }
-
-    function showToast(message) {
-        const toast = document.createElement('div');
-        toast.className = 'sakura-toast';
-        toast.innerHTML = `<i class="fas fa-check-circle"></i><span>${escapeHtml(message)}</span>`;
-        elements.toastBox.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.classList.add('hide-toast');
-            toast.addEventListener('animationend', () => toast.remove());
-        }, 3000);
-    }
-
-    async function copyCmd(text) {
-        try {
-            await navigator.clipboard.writeText(text);
-            showToast('复制成功！快去安装吧 ✨');
-        } catch (err) {
-            // 降级方案
-            prompt('复制失败，请手动复制:', text);
+            return div;
         }
-    }
 
-    // 防抖函数
-    function debounce(fn, delay) {
-        let timer = null;
-        return function(...args) {
-            clearTimeout(timer);
-            timer = setTimeout(() => fn.apply(this, args), delay);
-        };
-    }
+        function updateStats() {
+            elements.totalCount.textContent = allCharts.length;
+            animateValue(elements.chartCount, 0, allCharts.length, 2000);
+        }
 
-    // HTML 转义防止 XSS
-    function escapeHtml(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-</script>
+        function animateValue(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    element.textContent = end;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        async function copyRepoCmd() {
+            const cmd = elements.repoCmd.textContent;
+            await copyToClipboard(cmd);
+            showToast('魔法咒语已复制到剪贴板啦！', '✨');
+        }
+
+        async function copyInstallCmd(cmd) {
+            await copyToClipboard(cmd);
+            showToast('安装命令已复制！快去施展魔法吧~', '🎉');
+        }
+
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+            } catch (err) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+        }
+
+        function viewChart(chartName) {
+            showToast(`${chartName} 的详细信息`, '💝');
+        }
+
+        function showToast(message, icon = '💖') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            
+            toast.innerHTML = `
+                <div class="toast-icon">${icon}</div>
+                <div class="toast-message">${escapeHtml(message)}</div>
+            `;
+            
+            elements.toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
 </body>
 </html>

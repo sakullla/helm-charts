@@ -1,0 +1,176 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Repository Overview
+
+**Current Branch: gh-pages**
+
+This is the GitHub Pages branch for the Helm charts repository. It serves two purposes:
+1. **Helm Repository Index**: Hosts `index.yaml` - the Helm repository index file consumed by `helm repo add`
+2. **Web UI**: Provides a user-friendly web interface (`index.html`) for browsing available charts
+
+The actual chart sources live on the `main` branch. This branch contains only published artifacts.
+
+## Branch Structure
+
+### gh-pages Branch (Current)
+```
+.
+├── index.html          # Interactive web UI for chart browsing
+├── index.yaml          # Helm repository index (auto-generated)
+├── avatar.jpg          # UI avatar image
+├── bg.jpg             # UI background image (if exists)
+└── charts/            # Published chart packages (.tgz files)
+```
+
+### main Branch
+Contains chart source code, CI/CD workflows, and development documentation. Switch to `main` for chart development.
+
+## Working with This Branch
+
+### index.yaml Management
+
+The `index.yaml` file is automatically generated and maintained by CI/CD:
+- **DO NOT** manually edit `index.yaml` - it's regenerated on every chart release
+- The file is pruned to keep only the latest version of each chart
+- Manual pruning can be triggered via GitHub Actions workflow dispatch
+
+### index.html (Web UI)
+
+The web interface provides:
+- Visual chart browser with search functionality
+- One-click command copying for `helm install`
+- Responsive design with glassmorphism styling
+- Real-time chart data from `index.yaml`
+
+#### Key Features
+- Fetches and parses `index.yaml` using js-yaml
+- Client-side search filtering by chart name/description
+- Copy-to-clipboard functionality for Helm commands
+- Toast notifications for user actions
+- Mobile-responsive layout
+
+#### Modifying index.html
+
+When updating the web UI:
+
+1. **Assets**: Ensure `avatar.jpg` exists (fallback to GitHub logo)
+2. **CDN Dependencies**:
+   - Bootstrap 5.1.3 (styling)
+   - Font Awesome 6.0.0 (icons)
+   - js-yaml 4.1.0 (YAML parsing)
+3. **Performance**: Critical CSS is inlined, scripts are deferred
+4. **Branding**: Update repository name in `repoName` variable if forking
+
+#### Testing index.html Locally
+
+```bash
+# Serve locally (requires Python)
+python -m http.server 8000
+
+# Or use any static file server
+npx serve .
+
+# Navigate to http://localhost:8000
+```
+
+### Chart Packages
+
+The `charts/` directory contains Helm chart archives (`.tgz` files):
+- Automatically published by CI when chart versions change
+- Downloaded by `helm install` commands
+- Organized by chart name (e.g., `charts/claude-relay-service/`)
+
+**DO NOT** manually add or remove chart packages - they're managed by the release workflow.
+
+## CI/CD Integration
+
+### Automated Updates
+
+This branch receives automatic commits from GitHub Actions:
+- `chore: prune index.yaml [skip ci]` - Index cleanup after releases
+- `Update index.yaml` - Chart releases via helm/chart-releaser-action
+
+All commits use `[skip ci]` to prevent workflow loops.
+
+### Manual Cleanup
+
+If `index.yaml` becomes bloated (multiple versions per chart):
+
+1. Go to GitHub Actions → "Manual Prune index.yaml"
+2. Click "Run workflow" → Select `gh-pages` branch
+3. The Python script will prune to 1 version per chart
+
+## Common Tasks
+
+### Update Web UI Styling
+
+Edit `index.html` inline CSS or add external stylesheet:
+
+```bash
+# Make changes to index.html
+git add index.html
+git commit -m "chore: update web UI styling"
+git push origin gh-pages
+```
+
+Changes are live immediately (GitHub Pages auto-deploys).
+
+### Add Custom Branding
+
+1. Replace `avatar.jpg` with your image (120x120px recommended)
+2. Update colors in `index.html` CSS variables:
+   - `#ff9a9e`, `#fecfef` - Primary gradient
+   - `#ff758c`, `#ff7eb3` - Button gradient
+   - `.glass-container` - Background opacity
+
+### View Published Charts
+
+```bash
+# Clone and switch to this branch
+git checkout gh-pages
+
+# List all published chart versions
+ls -R charts/
+
+# Inspect index.yaml structure
+cat index.yaml | head -100
+```
+
+## Troubleshooting
+
+### "index.yaml not found" Error
+
+If the web UI fails to load:
+1. Check that `index.yaml` exists in the root
+2. Verify GitHub Pages is enabled (Settings → Pages)
+3. Check browser console for CORS/fetch errors
+
+### Charts Not Appearing in Web UI
+
+1. Confirm `index.yaml` contains the chart under `entries:`
+2. Clear browser cache (Ctrl+Shift+R)
+3. Check browser console for JavaScript errors
+4. Verify js-yaml CDN loaded successfully
+
+### Outdated Chart Versions Showing
+
+The index may contain multiple versions:
+1. Run manual cleanup workflow (see above)
+2. Or wait for next chart release (auto-pruning runs)
+
+## DO NOT
+
+- Commit chart source code here (belongs in `main` branch)
+- Edit `index.yaml` manually (regenerated by CI)
+- Delete chart `.tgz` files (breaks Helm installs)
+- Force-push this branch (breaks published URLs)
+- Add large binary files (impacts clone/page load times)
+
+## Reference Documentation
+
+For chart development, testing, and architecture:
+- Switch to `main` branch and read `CLAUDE.md` there
+- Review `README.md` for user-facing chart documentation
+- Check `.github/workflows/release.yml` for CI/CD details

@@ -1,196 +1,254 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+本文件为 Claude Code 提供仓库工作指南。
 
-## Repository Overview
+## 仓库概述
 
-This is a Helm charts repository hosting 40+ production-ready charts for self-hosted Kubernetes applications. Charts are distributed via GitHub Pages at `https://sakullla.github.io/helm-charts` and automatically published through GitHub Actions.
+这是一个 Helm Charts 仓库，托管 40+ 个自托管应用的生产级 Chart。通过 GitHub Pages 在 `https://sakullla.github.io/helm-charts` 发布，并通过 GitHub Actions 自动化发布。
 
-## Build & Development Commands
+## 核心命令
 
-### Local Chart Validation
+### Chart 开发验证
+
 ```bash
-# Render templates to YAML (quick syntax check)
+# 渲染模板（语法检查）
 helm template my-release charts/<chart-name>
 
-# Simulate install with validation (catches most errors)
+# 模拟安装（捕获大部分错误）
 helm install my-release charts/<chart-name> --dry-run --debug
 
-# Test actual installation on local cluster
+# 在本地集群测试
 helm install my-release charts/<chart-name>
 
-# View default values
+# 查看默认配置
 helm show values charts/<chart-name>
+
+# Lint 检查
+helm lint charts/<chart-name>
 ```
 
-### Repository Operations
+### 仓库操作
+
 ```bash
-# Add the published repository
+# 添加已发布的仓库
 helm repo add sakullla https://sakullla.github.io/helm-charts
 helm repo update
 
-# Search available charts
+# 搜索 Chart
 helm search repo sakullla
 ```
 
-## Chart Architecture
+## Chart 标准结构
 
-### Standard Structure
-Every chart follows this template structure:
 ```
 charts/<chart-name>/
-├── Chart.yaml              # Chart metadata, version, appVersion, dependencies
-├── values.yaml             # Default configuration with inline documentation
+├── Chart.yaml              # 元数据、版本、依赖
+├── values.yaml             # 默认配置（含注释）
 ├── templates/
-│   ├── _helpers.tpl        # Template helpers (names, labels, selectors)
-│   ├── deployment.yaml     # Main workload
-│   ├── service.yaml        # Service definition
-│   ├── ingress.yaml        # Optional Ingress (enabled via values)
-│   ├── httproute.yaml      # Optional Gateway API HTTPRoute
-│   ├── pvc.yaml            # Optional PersistentVolumeClaim
-│   ├── hpa.yaml            # Optional HorizontalPodAutoscaler
-│   ├── serviceaccount.yaml # ServiceAccount
-│   └── NOTES.txt           # Post-install instructions
-└── tests/                  # Helm test pods (when applicable)
+│   ├── _helpers.tpl        # 辅助函数
+│   ├── deployment.yaml     # 主工作负载
+│   ├── service.yaml        # 服务定义
+│   ├── ingress.yaml        # Ingress（可选）
+│   ├── httproute.yaml      # Gateway API（可选）
+│   ├── pvc.yaml            # 持久化卷（可选）
+│   ├── serviceaccount.yaml # 服务账户
+│   └── NOTES.txt           # 安装后说明
+└── tests/                  # 测试（如适用）
 ```
 
-### Common Template Patterns
-All charts use `_helpers.tpl` for:
-- `<chart-name>.name`: Chart name (from `.Chart.Name` or `nameOverride`)
-- `<chart-name>.fullname`: Full resource name (handles release name collision)
-- `<chart-name>.chart`: Chart name+version for `helm.sh/chart` label
-- `<chart-name>.labels`: Standard labels (chart, version, managed-by)
-- `<chart-name>.selectorLabels`: Selector labels (name, instance)
-- `<chart-name>.serviceAccountName`: ServiceAccount name resolution
+## 模板辅助函数
 
-### Network Exposure Options
-Charts support multiple ingress methods (mutually compatible):
-1. **Ingress** (nginx/traefik) - set `ingress.enabled: true`
-2. **Gateway API HTTPRoute** - set `httpRoute.enabled: true`
-3. **LoadBalancer/NodePort** - via `service.type`
-4. **Port-forward** - for local testing only
+所有 Chart 在 `_helpers.tpl` 中定义：
 
-### Standard Values Schema
-All charts implement these standard configuration blocks:
+- `<chart>.name`: Chart 名称
+- `<chart>.fullname`: 完整资源名称
+- `<chart>.chart`: Chart 名称+版本
+- `<chart>.labels`: 标准标签
+- `<chart>.selectorLabels`: 选择器标签
+- `<chart>.serviceAccountName`: ServiceAccount 名称
+
+## 网络暴露方式
+
+Chart 支持多种方式（可组合）：
+
+1. **Ingress** - 设置 `ingress.enabled: true`
+2. **Gateway API HTTPRoute** - 设置 `httpRoute.enabled: true`
+3. **LoadBalancer/NodePort** - 通过 `service.type`
+4. **Port-forward** - 仅用于本地测试
+
+## 标准 Values 结构
+
 ```yaml
 replicaCount: 1
 image:
   repository: <app-image>
   pullPolicy: IfNotPresent
-  tag: ""  # defaults to Chart.appVersion
+  tag: ""  # 默认使用 Chart.appVersion
+
 service:
   type: ClusterIP
   port: <app-port>
+
 ingress:
   enabled: false
   className: ""
-  annotations: {}
   hosts: []
-  tls: []
+
 httpRoute:
   enabled: false
   parentRefs: []
   hostnames: []
-  rules: []
+
 persistence:
   enabled: false
-  accessMode: ReadWriteOnce
   size: 1Gi
   storageClass: ""
+
 resources: {}
+
+# 普通环境变量（ConfigMap）
+env: {}
+
+# 敏感信息（Secret）
+secrets: {}
+
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
+
 nodeSelector: {}
 tolerations: []
 affinity: {}
 ```
 
-### Chart Dependencies
-Some charts include Helm dependencies (e.g., `claude-relay-service` includes `valkey`):
-- Dependencies declared in `Chart.yaml` under `dependencies`
-- Sub-chart values configured under the dependency alias in `values.yaml`
-- Use `helm dependency update charts/<chart-name>` to fetch dependencies locally
+## 版本管理
 
-## Version Management
+### Chart 版本（SemVer）
 
-### SemVer for Chart Versions
-- **MAJOR**: Breaking changes to values schema or behavior
-- **MINOR**: New features (e.g., adding HTTPRoute support)
-- **PATCH**: Bug fixes, documentation, non-breaking updates
+- **MAJOR**: 破坏性变更
+- **MINOR**: 新功能
+- **PATCH**: Bug 修复
 
-### AppVersion vs Chart Version
-- `version` in `Chart.yaml`: The chart itself (increment on ANY change)
-- `appVersion`: The application container image version (tracks upstream)
-- `image.tag` in `values.yaml`: If empty, defaults to `appVersion`
+### 版本字段
 
-**CRITICAL**: Always bump `Chart.yaml` `version` when modifying any chart files. CI will only publish charts with changed versions.
+- `version` (Chart.yaml): Chart 本身版本（任何修改都需升级）
+- `appVersion` (Chart.yaml): 应用版本（跟踪上游）
+- `image.tag` (values.yaml): 为空时使用 `appVersion`
 
-## CI/CD Pipeline
+**关键**: 修改任何 Chart 文件时，必须升级 `Chart.yaml` 中的 `version`。CI 仅发布版本变更的 Chart。
 
-### Release Workflow (`.github/workflows/release.yml`)
-Triggered on push to `main` when `charts/**` changes:
+## CI/CD 流程
 
-1. **Chart Release**: Uses `helm/chart-releaser-action` to:
-   - Package changed charts
-   - Create GitHub releases with tags (`<chart-name>-<version>`)
-   - Update `index.yaml` on `gh-pages` branch
+### Release 工作流 (`.github/workflows/release.yml`)
 
-2. **Index Pruning**: Python script keeps only the latest version per chart in `index.yaml` to prevent bloat
+在 `main` 分支的 `charts/**` 变更时触发：
 
-3. **Release Cleanup**: Deletes old GitHub releases/tags, keeping only last 2 per chart
+1. **Chart Release**: 使用 `helm/chart-releaser-action`
+   - 打包变更的 Chart
+   - 创建 GitHub Release（标签：`<chart-name>-<version>`）
+   - 更新 `gh-pages` 分支的 `index.yaml`
 
-### Key CI Details
-- Only charts with modified `Chart.yaml` versions are released
-- Workflow uses `secrets.GITHUB_TOKEN` for authentication
-- Commits to `gh-pages` use `[skip ci]` to prevent loops
-- Cleanup targets only charts modified in the current push
+2. **Index 清理**: Python 脚本将每个 Chart 只保留最新版本
 
-## Chart Development Guidelines
+3. **Release 清理**: 删除旧的 GitHub Release/Tag，每个 Chart 保留最近 2 个
 
-### When Creating/Modifying Charts
-1. Follow the standard template structure shown above
-2. Use helpers from `_helpers.tpl` for all names/labels
-3. Document all `values.yaml` options with inline comments
-4. Implement both `ingress` and `httpRoute` support (conditional)
-5. Add `NOTES.txt` with post-install access instructions
-6. Test with `--dry-run --debug` before committing
+### CI 关键点
 
-### Values Documentation Style
+- 只有 `Chart.yaml` 版本变更的 Chart 会被发布
+- 使用 `secrets.GITHUB_TOKEN` 认证
+- `gh-pages` 提交使用 `[skip ci]` 防止循环
+- 清理仅针对当前推送修改的 Chart
+
+## Chart 开发指南
+
+### 创建/修改 Chart 时
+
+1. 遵循标准模板结构
+2. 所有名称/标签使用 `_helpers.tpl` 中的辅助函数
+3. 在 `values.yaml` 中添加内联注释文档
+4. 同时实现 `ingress` 和 `httpRoute` 支持（条件启用）
+5. 在 `NOTES.txt` 中提供安装后访问说明
+6. 提交前使用 `--dry-run --debug` 测试
+
+### Values 文档风格
+
 ```yaml
-# Brief description of the setting
-# Additional context if needed (default behavior, constraints)
+# 设置的简要描述
+# 额外的上下文说明（默认行为、约束等）
 settingName: defaultValue
 ```
 
-### Probe Configuration
-Charts use startup/liveness/readiness probes:
-- **startupProbe**: High `failureThreshold` * `periodSeconds` for slow startup
-- **livenessProbe**: Restarts unhealthy pods
-- **readinessProbe**: Controls service endpoint membership
+### 探针配置
 
-Most charts use `tcpSocket` probes on the main service port. HTTP-based applications may use `httpGet` instead.
+Chart 使用 startup/liveness/readiness 探针：
 
-## Special Notes
+- **startupProbe**: 高 `failureThreshold` * `periodSeconds` 适应慢启动
+- **livenessProbe**: 重启不健康的 Pod
+- **readinessProbe**: 控制服务端点成员资格
 
-### Chinese Documentation
-The `README.md` is in Chinese (repository target audience). Chart descriptions in `Chart.yaml` may be English or Chinese.
+大多数 Chart 使用主端口的 `tcpSocket` 探针。HTTP 应用可使用 `httpGet`。
 
-### Available Skills
-This repository includes two Claude Code skills:
-- `git-workflow`: Git operations (branching, rebasing, commits)
-- `helm-chart-builder`: Create/refactor charts following repository patterns
+## Chart 依赖
 
-Use `/git-workflow` or `/helm-chart-builder` to invoke these skills.
+某些 Chart 包含 Helm 依赖（如 `firecrawl` 包含 `playwright-service`）：
 
-### Commit Message Format
-Follow semantic commit style:
+- 依赖在 `Chart.yaml` 的 `dependencies` 中声明
+- 子 Chart 值在 `values.yaml` 的依赖别名下配置
+- 本地开发使用 `helm dependency update charts/<chart-name>` 获取依赖
+
+## 开发最佳实践
+
+### 必须遵循
+
+1. **版本升级**: 修改任何文件都升级 Chart 版本
+2. **测试充分**: 至少通过 lint 和 dry-run
+3. **文档完整**: values.yaml 所有选项都有注释
+4. **网络支持**: 同时支持 Ingress 和 HTTPRoute
+5. **资源合理**: 提供适当的资源请求和限制
+
+### 推荐做法
+
+1. **安全配置**: 设置 securityContext
+2. **探针配置**: 根据应用特性配置合理的探针
+3. **NOTES.txt**: 提供清晰的使用说明
+4. **命名一致**: 使用辅助函数保持命名一致性
+
+## Commit 消息格式
+
+遵循语义化提交：
+
 - `feat(chart-name): add new feature`
 - `fix(chart-name): resolve issue`
 - `chore: update CI configuration`
+- `docs: update README`
 
-### Do Not Create
-- Additional README files per chart (use `NOTES.txt` for usage)
-- Generic `.helmignore` files (not needed in this repository)
-- Chart documentation in separate docs folders (inline `values.yaml` comments suffice)
+## 不要创建
+
+- 每个 Chart 的单独 README（使用 `NOTES.txt`）
+- `.helmignore` 文件（本仓库不需要）
+- 独立的文档文件夹（`values.yaml` 内联注释即可）
+
+## 可用技能
+
+仓库包含两个 Claude Code 技能：
+
+- `git-workflow`: Git 操作
+- `helm-chart-builder`: 创建/重构 Chart
+
+使用 `/git-workflow` 或 `/helm-chart-builder` 调用。
+
+## 资源建议
+
+| 应用类型 | CPU 请求 | 内存请求 | CPU 限制 | 内存限制 |
+|---------|----------|----------|----------|----------|
+| 轻量工具 | 10m | 50Mi | 100m | 128Mi |
+| 常规应用 | 50m | 128Mi | 500m | 512Mi |
+| AI 应用 | 100m | 256Mi | 1000m | 1Gi |
+| 浏览器服务 | 200m | 512Mi | 2000m | 2Gi |
+
+## 注意事项
+
+- README.md 使用中文（目标受众）
+- Chart.yaml 描述可以是中英文
+- 所有 Chart 必须有中文和英文的使用说明

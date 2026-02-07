@@ -161,9 +161,6 @@ persistence:
   size: 500Mi
   storageClass: ""
 
-env: {}
-
-
 # 环境变量配置（非敏感）
 # 会被写入 ConfigMap 并挂载到容器中
 env: {}

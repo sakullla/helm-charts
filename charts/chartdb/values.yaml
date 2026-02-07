@@ -156,11 +156,6 @@ volumes: []
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts: []
-  # - name: foo
-  #   mountPath: "/etc/foo"
-  #   readOnly: true
-
-secrets: {}
 
 # 环境变量配置（非敏感）
 # 会被写入 ConfigMap 并挂载到容器中

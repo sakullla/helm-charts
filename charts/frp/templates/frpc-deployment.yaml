@@ -13,7 +13,9 @@ spec:
   template:
     metadata:
       annotations:
-        cchecksum/config: {{ include (print $.Template.BasePath "/frpc-configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        checksum/frpc-config: {{ include (print $.Template.BasePath "/frpc-configmap.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

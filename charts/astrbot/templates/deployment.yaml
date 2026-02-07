@@ -15,10 +15,12 @@ spec:
       {{- include "astrbot.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "astrbot.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
@@ -77,10 +79,8 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
-            # 鎸傝浇鏁版嵁鐩綍
             - name: data
               mountPath: /AstrBot/data
-            # 鎸傝浇瀹夸富鏈烘椂闂?(鍙)
             - name: host-time
               mountPath: /etc/localtime
               readOnly: true

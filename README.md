@@ -3,178 +3,142 @@
 [![Release Charts](https://github.com/sakullla/helm-charts/actions/workflows/release.yml/badge.svg)](https://github.com/sakullla/helm-charts/actions/workflows/release.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-这是一个用于 Kubernetes 的 Helm Charts 仓库，包含各种自托管应用的 Helm Charts。
-
-## 目录
-
-- [简介](#简介)
-- [快速开始](#快速开始)
-- [可用 Charts](#可用-charts)
-- [使用方法](#使用方法)
-- [配置](#配置)
-- [开发](#开发)
-- [许可证](#许可证)
-
-## 简介
-
-本仓库提供了一系列精心配置的 Helm Charts，帮助您在 Kubernetes 集群上快速部署各种自托管应用。所有 Charts 都遵循 Helm 最佳实践，并支持多种配置选项。
+精选的 Kubernetes Helm Charts 集合，包含 40+ 种自托管应用。
 
 ## 快速开始
 
-### 前提条件
-
-- Kubernetes 1.20+
-- Helm 3.8.0+
-
-### 添加仓库
-
 ```bash
+# 添加仓库
 helm repo add sakullla https://sakullla.github.io/helm-charts
 helm repo update
-```
 
-### 安装 Chart
-
-```bash
-# 安装 AdGuard Home
-helm install my-adguard-home sakullla/adguard-home
-
-# 查看所有可用的 charts
+# 搜索可用的 Charts
 helm search repo sakullla
+
+# 安装应用
+helm install my-app sakullla/<chart-name>
 ```
 
 ## 可用 Charts
 
-| Chart | 描述 | 版本 |
-|-------|------|------|
-| [adguard-home](charts/adguard-home) | 网络级广告和跟踪器拦截 DNS 服务器 | 0.1.8 |
-| [affine](charts/affine) | 下一代知识库管理工具 | 0.0.1 |
-| [ani-rss](charts/ani-rss) | 动漫 RSS 自动下载工具 | - |
-| [astrbot](charts/astrbot) | 多平台聊天机器人框架 | - |
-| [browserless-chromium](charts/browserless-chromium) | 无头 Chrome/Chromium 浏览器服务 | - |
-| [calibre-web-automated](charts/calibre-web-automated) | Calibre 电子书管理 Web 界面 | - |
-| [certimate](charts/certimate) | SSL 证书自动化管理工具 | - |
-| [chartdb](charts/chartdb) | 数据库图表可视化工具 | - |
-| [ddns-go](charts/ddns-go) | 自动 DDNS 工具 | - |
-| [dns-server](charts/dns-server) | DNS 服务器 | - |
-| [firecrawl](charts/firecrawl) | 网站爬虫和数据提取工具 | - |
-| [frp](charts/frp) | 快速反向代理 (FRP) | - |
-| [headplane](charts/headplane) | Headscale Web UI | - |
-| [headscale](charts/headscale) | Tailscale 控制服务器 | - |
-| [hedgedoc](charts/hedgedoc) | 实时协作文档编辑器 | - |
-| [hedgedoc-backend](charts/hedgedoc-backend) | HedgeDoc 后端服务 | - |
-| [hubproxy](charts/hubproxy) | Docker Hub 代理 | - |
-| [hugo-site](charts/hugo-site) | Hugo 静态网站生成器 | - |
-| [kavita](charts/kavita) | 电子书、漫画和 PDF 阅读器 | - |
-| [kirara-agent](charts/kirara-agent) | Kirara AI Agent | - |
-| [koipy](charts/koipy) | 代理工具 | - |
-| [lobehub](charts/lobehub) | Lobe Chat AI 聊天界面 | - |
-| [logvar](charts/logvar) | 日志变量收集工具 | - |
-| [miaospeed](charts/miaospeed) | 网络速度测试工具 | - |
-| [misaka-danmu-server](charts/misaka-danmu-server) | 弹幕服务器 | - |
-| [misub](charts/misub) | 订阅管理工具 | - |
-| [newapi](charts/newapi) | API 管理工具 | - |
-| [next-ai-draw-io](charts/next-ai-draw-io) | AI 绘图工具 | - |
-| [openlist](charts/openlist) | 开源列表管理 | - |
-| [oplist-api](charts/oplist-api) | OpenList API 服务 | - |
-| [playwright-service](charts/playwright-service) | Playwright 自动化测试服务 | - |
-| [qbittorrent](charts/qbittorrent) | BitTorrent 客户端 | - |
-| [saveany-bot](charts/saveany-bot) | 内容保存机器人 | - |
-| [searxng](charts/searxng) | 隐私保护的元搜索引擎 | - |
-| [substore](charts/substore) | 订阅转换工具 | - |
-| [tabby-web](charts/tabby-web) | Tabby 终端 Web 版本 | - |
-| [vaultwarden](charts/vaultwarden) | Bitwarden 兼容的密码管理器 | - |
-| [xray](charts/xray) | Xray 代理工具 | - |
-| [yamtrack](charts/yamtrack) | 媒体追踪工具 | - |
+### 基础设施工具
 
-## 使用方法
+- **adguard-home** - 网络级广告拦截 DNS 服务器
+- **ddns-go** - 动态 DNS 自动更新
+- **dns-server** - 轻量级 DNS 服务器
+- **frp** - 快速反向代理（内网穿透）
+- **headscale** - Tailscale 开源控制服务器
+- **headplane** - Headscale Web 管理界面
 
-### 基本安装
+### AI 与聊天
 
-```bash
-# 使用默认配置安装
-helm install <release-name> sakullla/<chart-name>
+- **lobehub** - Lobe Chat AI 聊天界面
+- **astrbot** - 多平台聊天机器人框架
+- **kirara-agent** - Kirara AI Agent
+- **newapi** - OneAPI 分支，AI API 网关
 
-# 示例：安装 Vaultwarden
-helm install my-vaultwarden sakullla/vaultwarden
+### 开发工具
+
+- **browserless-chromium** - 无头浏览器服务
+- **playwright-service** - Playwright 自动化测试
+- **hubproxy** - Docker Hub 镜像代理
+- **hugo-site** - Hugo 静态网站生成器
+
+### 知识管理
+
+- **affine** - 下一代知识库工具（Notion 替代）
+- **hedgedoc** - 实时协作 Markdown 编辑器
+- **chartdb** - 数据库 ER 图可视化
+
+### 媒体娱乐
+
+- **kavita** - 电子书、漫画阅读器
+- **qbittorrent** - BitTorrent 客户端
+- **calibre-web-automated** - Calibre Web 界面
+- **ani-rss** - 动漫 RSS 自动下载
+- **yamtrack** - 媒体追踪工具
+- **misaka-danmu-server** - 弹幕服务器
+
+### 网络工具
+
+- **firecrawl** - 网页爬虫和数据提取
+- **searxng** - 隐私保护元搜索引擎
+- **xray** - 代理工具
+- **substore** - 订阅转换工具
+- **miaospeed** - 网络速度测试
+
+### 安全工具
+
+- **vaultwarden** - Bitwarden 密码管理器
+- **certimate** - SSL 证书自动化管理
+
+### 其他
+
+- **saveany-bot** - 内容保存机器人
+- **logvar** - 日志收集工具
+- **tabby-web** - Web 终端
+- **openlist** / **oplist-api** - 列表管理
+
+## 配置指南
+
+### 通用配置
+
+所有 Charts 支持以下配置项：
+
+```yaml
+# 镜像配置
+image:
+  repository: app/image
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+# 副本数
+replicaCount: 1
+
+# 资源限制
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# 持久化存储
+persistence:
+  enabled: true
+  size: 5Gi
+  storageClass: "longhorn"  # 或其他存储类
+  accessMode: ReadWriteOnce
+
+# 环境变量（ConfigMap）
+env:
+  TZ: "Asia/Shanghai"
+  LOG_LEVEL: "info"
+
+# 敏感信息（Secret）
+secrets:
+  DATABASE_URL: "postgresql://user:pass@host:5432/db"
+  API_KEY: "your-secret-key"
 ```
 
-### 自定义配置
+### 网络访问
 
-```bash
-# 使用自定义 values 文件安装
-helm install <release-name> sakullla/<chart-name> -f my-values.yaml
-
-# 使用命令行参数覆盖配置
-helm install <release-name> sakullla/<chart-name> \
-  --set persistence.enabled=true \
-  --set persistence.size=10Gi
-```
-
-### 查看可用配置选项
-
-```bash
-# 查看 Chart 的所有可配置参数
-helm show values sakullla/<chart-name>
-```
-
-### 升级和卸载
-
-```bash
-# 升级 Release
-helm upgrade <release-name> sakullla/<chart-name>
-
-# 卸载 Release
-helm uninstall <release-name>
-```
-
-## 配置
-
-### 通用配置选项
-
-所有 Charts 都支持以下通用配置：
-
-| 参数 | 描述 | 默认值 |
-|------|------|--------|
-| `replicaCount` | Pod 副本数 | `1` |
-| `image.repository` | 镜像仓库 | 应用特定 |
-| `image.tag` | 镜像标签 | ` "" ` (默认使用 appVersion) |
-| `image.pullPolicy` | 镜像拉取策略 | `IfNotPresent` |
-| `service.type` | 服务类型 | `ClusterIP` |
-| `service.port` | 服务端口 | 应用特定 |
-| `ingress.enabled` | 启用 Ingress | `false` |
-| `ingress.className` | Ingress 类名 | `""` |
-| `ingress.hosts` | Ingress 主机配置 | `[]` |
-| `ingress.tls` | Ingress TLS 配置 | `[]` |
-| `httpRoute.enabled` | 启用 Gateway API HTTPRoute | `false` |
-| `persistence.enabled` | 启用持久化存储 | `false` |
-| `persistence.size` | 存储大小 | `1Gi` |
-| `persistence.storageClass` | 存储类 | `""` |
-| `resources` | 资源限制和请求 | `{}` |
-| `nodeSelector` | 节点选择器 | `{}` |
-| `tolerations` | 容忍配置 | `[]` |
-| `affinity` | 亲和性配置 | `{}` |
-| `autoscaling.enabled` | 启用 HPA | `false` |
-
-### 网络访问方式
-
-本仓库的 Charts 支持多种网络访问方式：
-
-#### 1. Ingress（推荐用于生产环境）
+#### 1. Ingress（推荐）
 
 ```yaml
 ingress:
   enabled: true
   className: nginx
   hosts:
-    - host: adguard.example.com
+    - host: app.example.com
       paths:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: adguard-tls
+    - secretName: app-tls
       hosts:
-        - adguard.example.com
+        - app.example.com
 ```
 
 #### 2. Gateway API HTTPRoute
@@ -184,82 +148,487 @@ httpRoute:
   enabled: true
   parentRefs:
     - name: gateway
-      sectionName: http
+      namespace: kube-system
   hostnames:
-    - adguard.example.com
+    - app.example.com
 ```
 
-#### 3. LoadBalancer
+#### 3. NodePort / LoadBalancer
 
 ```yaml
 service:
-  type: LoadBalancer
+  type: NodePort  # 或 LoadBalancer
+  port: 80
 ```
 
-#### 4. NodePort
+## 应用配置示例
 
-```yaml
-service:
-  type: NodePort
-```
-
-#### 5. Port Forward（仅用于测试）
+### AdGuard Home (广告拦截)
 
 ```bash
-kubectl port-forward svc/<release-name> 8080:3000
+helm install adguard sakullla/adguard-home -f - <<EOF
+persistence:
+  enabled: true
+  size: 1Gi
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: adguard.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+EOF
 ```
 
-### 持久化存储
+### Vaultwarden (密码管理)
 
-大多数应用支持持久化存储来保存数据：
+```bash
+helm install vault sakullla/vaultwarden -f - <<EOF
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: longhorn
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: vault.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: vault-tls
+      hosts:
+        - vault.example.com
+
+secrets:
+  ADMIN_TOKEN: "your-admin-token"
+  SMTP_HOST: "smtp.gmail.com"
+  SMTP_FROM: "vault@example.com"
+  SMTP_USERNAME: "user@gmail.com"
+  SMTP_PASSWORD: "app-password"
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+EOF
+```
+
+### Lobe Chat (AI 聊天)
+
+```bash
+helm install chat sakullla/lobehub -f - <<EOF
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: traefik-gateway
+      namespace: kube-system
+  hostnames:
+    - chat.example.com
+
+env:
+  APP_URL: "https://chat.example.com"
+  NEXT_PUBLIC_BASE_PATH: ""
+
+secrets:
+  DATABASE_URL: "postgresql://lobehub:pass@postgres:5432/lobehub"
+  OPENAI_API_KEY: "sk-xxxxxxxxxxxxxxxx"
+  OPENAI_PROXY_URL: "https://api.openai.com/v1"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+EOF
+```
+
+### Firecrawl (网页爬虫)
+
+```bash
+helm install firecrawl sakullla/firecrawl -f - <<EOF
+env:
+  REDIS_URL: "redis://valkey.default:6379"
+  PLAYWRIGHT_SERVICE_URL: "http://firecrawl-playwright-service:3000"
+
+secrets:
+  DATABASE_URL: "postgresql://firecrawl:pass@postgres:5432/firecrawl"
+  API_KEY: "fc-your-api-key"
+
+# 启用内置的 Playwright 服务
+playwright-service:
+  enabled: true
+
+# 如果使用外部 PostgreSQL，可以禁用内置的
+nuqPostgres:
+  enabled: false
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+# Worker 配置
+worker:
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+EOF
+```
+
+### SearXNG (搜索引擎)
+
+```bash
+helm install search sakullla/searxng -f - <<EOF
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: search.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+env:
+  BASE_URL: "https://search.example.com"
+  INSTANCE_NAME: "My Search"
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+EOF
+```
+
+### qBittorrent (BT 客户端)
+
+```bash
+helm install qb sakullla/qbittorrent -f - <<EOF
+persistence:
+  enabled: true
+  size: 100Gi
+  storageClass: longhorn
+
+env:
+  WEBUI_PORT: "8080"
+  PUID: "1000"
+  PGID: "1000"
+  TZ: "Asia/Shanghai"
+
+service:
+  type: LoadBalancer  # 或使用 Ingress
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+EOF
+```
+
+### DDNS-GO (动态 DNS)
+
+```bash
+helm install ddns sakullla/ddns-go -f - <<EOF
+persistence:
+  enabled: true
+  size: 500Mi
+
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: gateway
+  hostnames:
+    - ddns.example.com
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 50Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+EOF
+```
+
+### Headscale (VPN 控制器)
+
+```bash
+helm install vpn sakullla/headscale -f - <<EOF
+persistence:
+  enabled: true
+  size: 1Gi
+
+env:
+  SERVER_URL: "https://vpn.example.com"
+  LISTEN_ADDR: "0.0.0.0:8080"
+
+secrets:
+  NOISE_PRIVATE_KEY: "your-noise-key"
+  PRIVATE_KEY: "your-private-key"
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: vpn.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+EOF
+```
+
+### Kavita (电子书阅读)
+
+```bash
+helm install books sakullla/kavita -f - <<EOF
+persistence:
+  enabled: true
+  size: 50Gi  # 根据书库大小调整
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: books.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+EOF
+```
+
+### NewAPI (API 网关)
+
+```bash
+helm install api sakullla/newapi -f - <<EOF
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: gateway
+  hostnames:
+    - api.example.com
+
+env:
+  REDIS_HOST: "valkey.default"
+  REDIS_PORT: "6379"
+
+secrets:
+  DATABASE_URL: "postgresql://newapi:pass@postgres:5432/newapi"
+  REDIS_PASSWORD: "redis-password"
+  SESSION_SECRET: "random-session-secret"
+  JWT_SECRET: "random-jwt-secret"
+
+persistence:
+  enabled: true
+  size: 5Gi
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+EOF
+```
+
+## 高级配置
+
+### 使用 Values 文件
+
+创建 `my-values.yaml`：
+
+```yaml
+image:
+  tag: "v1.2.3"
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: app.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+```
+
+安装：
+
+```bash
+helm install my-app sakullla/<chart-name> -f my-values.yaml
+```
+
+### 查看配置选项
+
+```bash
+# 查看 Chart 的所有可配置参数
+helm show values sakullla/<chart-name>
+
+# 查看 Chart 信息
+helm show chart sakullla/<chart-name>
+```
+
+### 升级和管理
+
+```bash
+# 升级应用
+helm upgrade my-app sakullla/<chart-name> -f my-values.yaml
+
+# 查看历史版本
+helm history my-app
+
+# 回滚
+helm rollback my-app 1
+
+# 卸载
+helm uninstall my-app
+```
+
+## 资源建议
+
+| 应用类型 | CPU 请求 | 内存请求 | CPU 限制 | 内存限制 |
+|---------|----------|----------|----------|----------|
+| 轻量工具 (DDNS-GO, Certimate) | 10m | 50Mi | 100m | 128Mi |
+| 常规应用 (AdGuard, Vaultwarden) | 50m | 128Mi | 500m | 512Mi |
+| AI 应用 (Lobehub, NewAPI) | 100m | 256Mi | 1000m | 1Gi |
+| 浏览器服务 (Browserless, Playwright) | 200m | 512Mi | 2000m | 2Gi |
+| 媒体服务 (qBittorrent, Kavita) | 100m | 256Mi | 2000m | 2Gi |
+
+## 存储建议
+
+| 应用 | 推荐大小 | 说明 |
+|-----|---------|------|
+| AdGuard Home | 1Gi | 配置和日志 |
+| Vaultwarden | 5-10Gi | 密码库和附件 |
+| qBittorrent | 100Gi+ | 下载目录 |
+| Kavita | 50Gi+ | 根据书库大小 |
+| Lobehub | 5Gi | 聊天记录和配置 |
+| DDNS-GO | 500Mi | 配置文件 |
+| Headscale | 1Gi | 数据库 |
+
+## 常见问题
+
+### 如何持久化数据？
 
 ```yaml
 persistence:
   enabled: true
   size: 10Gi
-  storageClass: standard  # 可选，使用默认存储类则留空
-  accessMode: ReadWriteOnce
+  storageClass: "your-storage-class"  # 留空使用默认
 ```
 
-## 开发
+### 如何配置域名访问？
 
-### 本地测试
-
-```bash
-# 克隆仓库
-git clone https://github.com/sakullla/helm-charts.git
-cd helm-charts
-
-# 渲染模板（用于测试）
-helm template <chart-name> charts/<chart-name>
-
-# 在本地 Kubernetes 集群测试安装
-helm install <release-name> charts/<chart-name> --dry-run
-
-# 使用 Kind 或 Minikube 进行实际测试
-helm install <release-name> charts/<chart-name>
+使用 Ingress：
+```yaml
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: app.example.com
+      paths:
+        - path: /
+          pathType: Prefix
 ```
 
-### 添加新 Chart
-
-1. 使用 Helm 创建新 Chart：
-```bash
-helm create charts/<new-chart-name>
+或使用 Gateway API：
+```yaml
+httpRoute:
+  enabled: true
+  parentRefs:
+    - name: gateway
+      namespace: kube-system
+  hostnames:
+    - app.example.com
 ```
 
-2. 编辑 `Chart.yaml` 和 `values.yaml` 配置
+### 如何配置环境变量？
 
-3. 在 `templates/` 目录中添加 Kubernetes 资源模板
+普通变量：
+```yaml
+env:
+  TZ: "Asia/Shanghai"
+  LOG_LEVEL: "info"
+```
 
-4. 提交并推送更改，CI 将自动发布新版本
+敏感信息：
+```yaml
+secrets:
+  DATABASE_URL: "postgresql://..."
+  API_KEY: "secret-key"
+```
 
-### CI/CD 流程
+### 如何限制资源使用？
 
-本仓库使用 GitHub Actions 自动发布 Charts：
-
-- 每次推送到 `main` 分支且修改了 `charts/` 目录时触发
-- 自动打包并发布 Chart 到 GitHub Pages
-- 自动清理旧版本，只保留最新版本
+```yaml
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+```
 
 ## 贡献
 
@@ -267,8 +636,4 @@ helm create charts/<new-chart-name>
 
 ## 许可证
 
-本项目采用 [GNU General Public License v3.0](LICENSE) 许可证。
-
-## 致谢
-
-感谢所有为本项目做出贡献的开发者。
+[GNU General Public License v3.0](LICENSE)

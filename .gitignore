@@ -1,0 +1,41 @@
+# Helm Charts Repository .gitignore
+
+# Helm dependency charts
+charts/**/charts/
+charts/**/Chart.lock
+
+# Helm package files
+*.tgz
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS files
+Thumbs.db
+desktop.ini
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Python cache (from CI scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Test and development
+.env
+.env.local
+test-values.yaml
+local-values.yaml

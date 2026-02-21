@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "<CHART-NAME>.fullname" . }}
+  name: {{ include "litellm.fullname" . }}
   labels:
-    {{- include "<CHART-NAME>.labels" . | nindent 4 }}
+    {{- include "litellm.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "<CHART-NAME>.selectorLabels" . | nindent 6 }}
+      {{- include "litellm.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -20,7 +20,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "<CHART-NAME>.labels" . | nindent 8 }}
+        {{- include "litellm.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -29,7 +29,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "<CHART-NAME>.serviceAccountName" . }}
+      serviceAccountName: {{ include "litellm.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -52,13 +52,9 @@ spec:
           {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ include "<CHART-NAME>.fullname" . }}-config
+                name: {{ include "litellm.fullname" . }}-config
             - secretRef:
-                name: {{ include "<CHART-NAME>.fullname" . }}-secret
-          {{- with .Values.extraEnv }}
-          env:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+                name: {{ include "litellm.fullname" . }}-secret
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

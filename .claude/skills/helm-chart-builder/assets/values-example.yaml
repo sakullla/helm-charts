@@ -12,6 +12,8 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+command: []
+args: []
 
 # Service Account
 serviceAccount:
@@ -36,6 +38,7 @@ securityContext: {}
 
 # Service configuration
 service:
+  annotations: {}
   type: ClusterIP
   port: 8080
   # nodePort: 30080  # Only for NodePort
@@ -76,27 +79,30 @@ httpRoute:
 startupProbe:
   tcpSocket:
     port: http
-  initialDelaySeconds: 5
+  # Increase for slow-starting apps.
+  failureThreshold: 30
   periodSeconds: 10
   timeoutSeconds: 5
-  failureThreshold: 6
+  successThreshold: 1
 
 livenessProbe:
   httpGet:
     path: /health
     port: http
-  initialDelaySeconds: 10
-  periodSeconds: 30
-  timeoutSeconds: 10
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 5
+  successThreshold: 1
   failureThreshold: 3
 
 readinessProbe:
   httpGet:
-    path: /health
+    path: /ready
     port: http
   initialDelaySeconds: 5
-  periodSeconds: 30
-  timeoutSeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
   failureThreshold: 3
 
 # Resource limits
@@ -159,20 +165,3 @@ secrets: {}
 extraEnv: []
   # - name: SPECIAL_VAR
   #   value: "special"
-
-# Dependencies
-# Add to Chart.yaml:
-# dependencies:
-#   - name: valkey
-#     version: ~2.0.0
-#     repository: https://valkey-io.github.io/valkey-helm
-#     condition: valkey.enabled
-valkey:
-  enabled: false
-  replica:
-    enabled: false
-  auth:
-    enabled: false
-  dataStorage:
-    enabled: true
-    requestedSize: 1Gi

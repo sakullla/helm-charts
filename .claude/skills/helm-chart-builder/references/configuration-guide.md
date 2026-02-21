@@ -1,97 +1,78 @@
 # Helm Chart Configuration Guide
 
-Complete reference for values.yaml structure.
+Reference for `values.yaml` used by `helm-chart-builder`.
 
 ## Table of Contents
 
 1. [Base Configuration](#base-configuration)
-2. [Service Configuration](#service-configuration)
-3. [Ingress](#ingress)
-4. [Gateway API](#gateway-api)
-5. [Health Probes](#health-probes)
-6. [Resources & Scaling](#resources--scaling)
-7. [Storage](#storage)
-8. [Configuration Management](#configuration-management)
-
----
+2. [Service Account and Pod](#service-account-and-pod)
+3. [Service and Traffic](#service-and-traffic)
+4. [Health Probes](#health-probes)
+5. [Resources and Scaling](#resources-and-scaling)
+6. [Storage](#storage)
+7. [Config and Secrets](#config-and-secrets)
 
 ## Base Configuration
 
 ```yaml
-replicaCount: 1                    # Number of pod replicas
+replicaCount: 1
 
 image:
-  repository: nginx                # Container image
-  pullPolicy: IfNotPresent         # IfNotPresent | Always | Never
-  tag: ""                          # Override appVersion
+  repository: ghcr.io/example/app
+  pullPolicy: IfNotPresent
+  tag: ""                        # Defaults to Chart.appVersion
 
-imagePullSecrets: []               # For private registries
-  # - name: regcred
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
 
-nameOverride: ""                   # Override chart name
-fullnameOverride: ""               # Override full release name
+# Optional container startup overrides
+command: []
+args: []
 ```
 
-## Service Account
+## Service Account and Pod
 
 ```yaml
 serviceAccount:
-  create: true                     # Create service account
-  automount: true                  # Auto-mount API credentials
-  annotations: {}                  # IAM roles, etc.
-  name: ""                         # Custom name (default: fullname)
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+securityContext: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
 ```
 
-## Pod Configuration
-
-```yaml
-podAnnotations: {}                 # Prometheus scraping, etc.
-podLabels: {}                      # Additional labels
-
-podSecurityContext:                # Pod-level security
-  fsGroup: 2000
-  runAsNonRoot: true
-
-securityContext:                   # Container-level security
-  capabilities:
-    drop:
-    - ALL
-  readOnlyRootFilesystem: true
-  runAsNonRoot: true
-  runAsUser: 1000
-```
-
-## Service Configuration
+## Service and Traffic
 
 ```yaml
 service:
-  type: ClusterIP                  # ClusterIP | NodePort | LoadBalancer
-  port: 80                         # Service port
-  nodePort: 30080                  # Only for NodePort
-  annotations: {}                  # Cloud provider annotations
+  annotations: {}
+  type: ClusterIP               # ClusterIP | NodePort | LoadBalancer
+  port: 8080
+  # nodePort: 30080             # Only for NodePort
 ```
-
-## Ingress
 
 ```yaml
 ingress:
   enabled: false
-  className: nginx                 # ingress-nginx, traefik, etc.
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt
+  className: ""
+  annotations: {}
   hosts:
-    - host: api.example.com
+    - host: chart-example.local
       paths:
         - path: /
-          pathType: Prefix
-  tls:
-    - secretName: api-tls
-      hosts:
-        - api.example.com
+          pathType: ImplementationSpecific
+  tls: []
 ```
-
-## Gateway API
 
 ```yaml
 httpRoute:
@@ -100,9 +81,8 @@ httpRoute:
   parentRefs:
     - name: gateway
       sectionName: http
-      namespace: default
   hostnames:
-    - api.example.com
+    - chart-example.local
   rules:
     - matches:
         - path:
@@ -112,32 +92,29 @@ httpRoute:
 
 ## Health Probes
 
-### Startup Probe
+`startupProbe` uses TCP probing (`tcpSocket`) by default. This is the preferred baseline for charts in this repo.
 
 ```yaml
 startupProbe:
-  tcpSocket:                       # Fast startup detection
+  tcpSocket:
     port: http
-  initialDelaySeconds: 5
+  failureThreshold: 30
   periodSeconds: 10
   timeoutSeconds: 5
-  failureThreshold: 6              # 6 * 10s = 60s max startup
+  successThreshold: 1
 ```
-
-### Liveness Probe
 
 ```yaml
 livenessProbe:
   httpGet:
     path: /health
     port: http
-  initialDelaySeconds: 10
-  periodSeconds: 30
-  timeoutSeconds: 10
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 5
+  successThreshold: 1
   failureThreshold: 3
 ```
-
-### Readiness Probe
 
 ```yaml
 readinessProbe:
@@ -145,133 +122,70 @@ readinessProbe:
     path: /ready
     port: http
   initialDelaySeconds: 5
-  periodSeconds: 30
-  timeoutSeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
   failureThreshold: 3
 ```
 
-## Resources & Scaling
+## Resources and Scaling
 
 ```yaml
-resources:
-  limits:
-    cpu: 1000m
-    memory: 1Gi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 100
   targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
-  # Custom metrics (optional)
-  metrics: []
-    # - type: Pods
-    #   pods:
-    #     metric:
-    #       name: packets-per-second
-    #     target:
-    #       type: AverageValue
-    #       averageValue: 1k
-  # Scaling behavior (optional)
-  behavior:
-    scaleDown:
-      stabilizationWindowSeconds: 300
-      policies:
-        - type: Percent
-          value: 10
-          periodSeconds: 60
-    scaleUp:
-      stabilizationWindowSeconds: 0
-      policies:
-        - type: Percent
-          value: 100
-          periodSeconds: 15
+  # targetMemoryUtilizationPercentage: 80
 ```
 
 ## Storage
 
-### Persistent Volume Claim
-
 ```yaml
 persistence:
   enabled: false
-  size: 10Gi
-  storageClass: "standard"         # "-" for default
+  size: 1Gi
+  storageClass: ""
   accessMode: ReadWriteOnce
-  existingClaim: ""                # Use existing PVC
-  annotations: {}                  # PV annotations
-  volumeMode: Filesystem           # Filesystem | Block
-  selector: {}                     # Label selector for PV
+  existingClaim: ""
+  annotations: {}
 ```
-
-### Additional Volumes
 
 ```yaml
-volumes: []                        # Additional volumes
-  - name: config
-    configMap:
-      name: my-config
-
-volumeMounts: []                   # Container mounts
-  - name: data
-    mountPath: /data
+volumes: []
+volumeMounts: []
 ```
 
-## Configuration Management
+## Config and Secrets
 
-### ConfigMap (Non-sensitive)
+Use ConfigMap for non-sensitive variables and Secret for credentials.
 
 ```yaml
 env:
-  LOG_LEVEL: info
   PORT: "8080"
-  CACHE_TTL: "300"
+  LOG_LEVEL: info
 ```
-
-### Secret (Sensitive)
 
 ```yaml
 secrets:
-  API_KEY: "sk-xxx"
-  DATABASE_URL: "postgres://..."
+  APP_API_KEY: ""
+  DATABASE_URL: ""
 ```
 
-### Extra Environment Variables
+Optional extra `env` entries:
 
 ```yaml
-extraEnv:
-  - name: SPECIAL_VAR
-    value: "value"
-  - name: POD_NAME
-    valueFrom:
-      fieldRef:
-        fieldPath: metadata.name
-```
-
-## Dependencies
-
-```yaml
-# valkey (Redis alternative)
-valkey:
-  enabled: false
-  replica:
-    enabled: false               # standalone mode
-  auth:
-    enabled: false
-  dataStorage:
-    enabled: true
-    requestedSize: 1Gi
-
-# postgresql
-postgresql:
-  enabled: false
-  auth:
-    postgresPassword: changeme
-  primary:
-    persistence:
-      size: 8Gi
+extraEnv: []
+# - name: POD_NAME
+#   valueFrom:
+#     fieldRef:
+#       fieldPath: metadata.name
 ```

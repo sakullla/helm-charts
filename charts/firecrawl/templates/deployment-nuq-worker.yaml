@@ -77,8 +77,7 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           startupProbe:
-            httpGet:
-              path: /health
+            tcpSocket:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 5

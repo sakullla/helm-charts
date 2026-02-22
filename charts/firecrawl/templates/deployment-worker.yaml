@@ -68,8 +68,7 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           startupProbe:
-            httpGet:
-              path: /liveness
+            tcpSocket:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 5

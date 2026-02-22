@@ -1,0 +1,33 @@
+{{- $backend := index .Values "hedgedoc-backend" -}}
+{{- if and $backend.enabled $backend.autoscaling.enabled }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "hedgedoc-backend.fullname" . }}
+  labels:
+    {{- include "hedgedoc-backend.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "hedgedoc-backend.fullname" . }}
+  minReplicas: {{ $backend.autoscaling.minReplicas }}
+  maxReplicas: {{ $backend.autoscaling.maxReplicas }}
+  metrics:
+    {{- if $backend.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ $backend.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if $backend.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ $backend.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

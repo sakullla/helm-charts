@@ -61,14 +61,49 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+{{/*
+Expand the backend app name.
+*/}}
+{{- define "hedgedoc-backend.name" -}}
+{{- $backend := index .Values "hedgedoc-backend" -}}
+{{- default "hedgedoc-backend" $backend.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
-{{/* 这是一个全局辅助文件，define 必须放在这里或文件顶层 */}}
+{{/*
+Create a default fully qualified backend app name.
+*/}}
+{{- define "hedgedoc-backend.fullname" -}}
+{{- $backend := index .Values "hedgedoc-backend" -}}
+{{- if $backend.fullnameOverride }}
+{{- $backend.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-backend" (include "hedgedoc.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
 
-{{- define "hedgedoc-backend.fullname.override" -}}
-{{- /* 1. 获取 hedgedoc-backend 子 Chart 的 Values (注意名称要和 Chart.yaml 里的依赖名称一致) */ -}}
-{{- $hedgedocBackendValues := index .Values "hedgedoc-backend" -}}
-{{- /* 2. 构造新的上下文，伪造 Chart Name */ -}}
-{{- $hedgedocBackendContext := dict "Values" $hedgedocBackendValues "Release" .Release "Chart" (dict "Name" "hedgedoc-backend") "Template" .Template -}}
-{{- /* 3. 调用子 Chart 的模板 */ -}}
-{{- include "hedgedoc-backend.fullname" $hedgedocBackendContext -}}
-{{- end -}}
+{{/*
+Create backend chart name and version as used by chart label.
+*/}}
+{{- define "hedgedoc-backend.chart" -}}
+{{- printf "%s-%s" "hedgedoc-backend" .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Common backend labels
+*/}}
+{{- define "hedgedoc-backend.labels" -}}
+helm.sh/chart: {{ include "hedgedoc-backend.chart" . }}
+{{ include "hedgedoc-backend.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Backend selector labels
+*/}}
+{{- define "hedgedoc-backend.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "hedgedoc-backend.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

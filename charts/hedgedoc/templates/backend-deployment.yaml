@@ -1,0 +1,99 @@
+{{- $backend := index .Values "hedgedoc-backend" -}}
+{{- if $backend.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hedgedoc-backend.fullname" . }}
+  labels:
+    {{- include "hedgedoc-backend.labels" . | nindent 4 }}
+spec:
+  {{- if not $backend.autoscaling.enabled }}
+  replicas: {{ $backend.replicaCount }}
+  {{- end }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "hedgedoc-backend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/backend-secret.yaml") . | sha256sum }}
+        {{- with $backend.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "hedgedoc-backend.labels" . | nindent 8 }}
+        {{- with $backend.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with $backend.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "hedgedoc.serviceAccountName" . }}
+      {{- with $backend.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: hedgedoc-backend
+          {{- with $backend.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ $backend.image.repository }}:{{ $backend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ $backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ $backend.service.port }}
+              protocol: TCP
+          {{- with $backend.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $backend.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $backend.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $backend.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /usr/src/app/backend/.env
+              subPath: .env
+              readOnly: false
+            - name: upload
+              mountPath: /usr/src/app/backend/uploads
+              readOnly: false
+      volumes:
+        - name: config
+          secret:
+            secretName: {{ include "hedgedoc-backend.fullname" . }}-secret
+        - name: upload
+          {{- if $backend.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "hedgedoc-backend.fullname" . }}-data
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- with $backend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $backend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $backend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

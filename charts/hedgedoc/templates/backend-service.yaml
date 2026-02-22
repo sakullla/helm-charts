@@ -1,0 +1,18 @@
+{{- $backend := index .Values "hedgedoc-backend" -}}
+{{- if $backend.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "hedgedoc-backend.fullname" . }}
+  labels:
+    {{- include "hedgedoc-backend.labels" . | nindent 4 }}
+spec:
+  type: {{ $backend.service.type }}
+  ports:
+    - port: {{ $backend.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "hedgedoc-backend.selectorLabels" . | nindent 4 }}
+{{- end }}

@@ -1,0 +1,117 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+command: []
+args: []
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  annotations: {}
+  type: ClusterIP
+  externalIPs: []
+
+# Length control for generated Service/Container port names.
+# Accepts 1-32, but chart enforces Kubernetes-safe max 15.
+portName:
+  maxLength: 15
+
+probe:
+  startup:
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 30
+  liveness:
+    periodSeconds: 20
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+  readiness:
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 50Mi
+  limits:
+    cpu: 1
+    memory: 300Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+  # metrics: []
+  # behavior: {}
+
+nginx:
+  configPath: /etc/nginx/nginx.conf
+  user: nginx
+  workerProcesses: auto
+  workerConnections: 10240
+  resolver: 1.1.1.1 8.8.8.8 valid=30s ipv6=off
+  protocolDefaults:
+    tcpEnabled: true
+    udpEnabled: true
+  timeouts:
+    tcp:
+      proxyConnectTimeout: 5s
+      proxyTimeout: 60s
+    udp:
+      proxyTimeout: 20s
+  forwards: []
+  # Example:
+  # forwards:
+  #   - name: demo
+  #     listenPort: 30000
+  #     backendHost: example.com
+  #     backendPort: 30000
+  #     tcp:
+  #       enabled: true   # default true
+  #       nodePort: 32000
+  #     udp:
+  #       enabled: true   # default true
+  #       nodePort: 32001
+  extraStreamConfig: ""
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations:
+  - key: iepl
+    operator: Exists
+
+affinity: {}
+
+# Non-sensitive env vars (ConfigMap).
+env: {}
+
+# Sensitive env vars (Secret).
+secrets: {}
+
+extraEnv: []

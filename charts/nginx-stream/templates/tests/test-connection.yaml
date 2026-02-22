@@ -1,0 +1,19 @@
+{{- $probePort := include "nginx-stream.firstTcpPort" . -}}
+{{- if $probePort }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "nginx-stream.fullname" . }}-test-connection"
+  labels:
+    {{- include "nginx-stream.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: tcp-check
+      image: busybox:1.36
+      command: ["sh", "-c"]
+      args:
+        - 'nc -z -w 3 {{ include "nginx-stream.fullname" . }} {{ $probePort }}'
+  restartPolicy: Never
+{{- end }}

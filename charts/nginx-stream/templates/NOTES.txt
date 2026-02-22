@@ -1,0 +1,19 @@
+{{- $probePort := include "nginx-stream.firstTcpPort" . -}}
+{{- $hasForwardPorts := include "nginx-stream.hasForwardPorts" . -}}
+nginx-stream has been deployed.
+
+Namespace: {{ .Release.Namespace }}
+{{- if $hasForwardPorts }}
+Service: {{ include "nginx-stream.fullname" . }}
+Type: {{ .Values.service.type }}
+{{- else }}
+No forward ports configured, so Service is not rendered.
+{{- end }}
+
+{{- if $probePort }}
+Quick TCP check:
+  kubectl run --rm -i --tty tcp-check --image=busybox:1.36 --restart=Never -- \
+    sh -c 'nc -z -w 3 {{ include "nginx-stream.fullname" . }} {{ $probePort }}'
+{{- else }}
+No TCP forward is enabled, so Helm test/probes are not rendered.
+{{- end }}

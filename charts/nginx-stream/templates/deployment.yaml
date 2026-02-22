@@ -1,0 +1,136 @@
+apiVersion: apps/v1
+kind: Deployment
+{{- $probePort := include "nginx-stream.firstTcpPort" . }}
+{{- $tcpDefault := dig "protocolDefaults" "tcpEnabled" true .Values.nginx }}
+{{- $udpDefault := dig "protocolDefaults" "udpEnabled" true .Values.nginx }}
+metadata:
+  name: {{ include "nginx-stream.fullname" . }}
+  labels:
+    {{- include "nginx-stream.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "nginx-stream.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "nginx-stream.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "nginx-stream.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "nginx-stream.fullname" . }}-config
+            - secretRef:
+                name: {{ include "nginx-stream.fullname" . }}-secret
+          {{- with .Values.extraEnv }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            {{- range $idx, $forward := .Values.nginx.forwards }}
+            {{- $tcpEnabled := dig "tcp" "enabled" $tcpDefault $forward }}
+            {{- $udpEnabled := dig "udp" "enabled" $udpDefault $forward }}
+            {{- if and $forward.listenPort $tcpEnabled }}
+            - name: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "tcp") }}
+              containerPort: {{ $forward.listenPort }}
+              protocol: TCP
+            {{- end }}
+            {{- if and $forward.listenPort $udpEnabled }}
+            - name: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "udp") }}
+              containerPort: {{ $forward.listenPort }}
+              protocol: UDP
+            {{- end }}
+            {{- end }}
+          {{- if $probePort }}
+          startupProbe:
+            tcpSocket:
+              port: {{ $probePort }}
+            periodSeconds: {{ .Values.probe.startup.periodSeconds }}
+            timeoutSeconds: {{ .Values.probe.startup.timeoutSeconds }}
+            successThreshold: {{ .Values.probe.startup.successThreshold }}
+            failureThreshold: {{ .Values.probe.startup.failureThreshold }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ $probePort }}
+            periodSeconds: {{ .Values.probe.liveness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probe.liveness.timeoutSeconds }}
+            successThreshold: {{ .Values.probe.liveness.successThreshold }}
+            failureThreshold: {{ .Values.probe.liveness.failureThreshold }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ $probePort }}
+            periodSeconds: {{ .Values.probe.readiness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probe.readiness.timeoutSeconds }}
+            successThreshold: {{ .Values.probe.readiness.successThreshold }}
+            failureThreshold: {{ .Values.probe.readiness.failureThreshold }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: nginx-config
+              mountPath: {{ .Values.nginx.configPath }}
+              subPath: nginx.conf
+              readOnly: true
+            {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: {{ include "nginx-stream.fullname" . }}-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+        {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

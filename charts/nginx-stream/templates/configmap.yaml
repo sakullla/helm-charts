@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nginx-stream.fullname" . }}-config
+  labels:
+    {{- include "nginx-stream.labels" . | nindent 4 }}
+data:
+  nginx.conf: |
+    user {{ .Values.nginx.user }};
+    worker_processes {{ .Values.nginx.workerProcesses }};
+
+    events {
+      worker_connections {{ .Values.nginx.workerConnections }};
+    }
+
+    stream {
+      resolver {{ .Values.nginx.resolver }};
+{{- $tcpDefault := dig "protocolDefaults" "tcpEnabled" true .Values.nginx }}
+{{- $udpDefault := dig "protocolDefaults" "udpEnabled" true .Values.nginx }}
+{{- range .Values.nginx.forwards }}
+{{- $tcpEnabled := dig "tcp" "enabled" $tcpDefault . }}
+{{- $udpEnabled := dig "udp" "enabled" $udpDefault . }}
+{{- if and .listenPort .backendHost .backendPort $tcpEnabled }}
+
+      server {
+        listen {{ .listenPort }};
+        proxy_pass {{ .backendHost }}:{{ .backendPort }};
+{{- with $.Values.nginx.timeouts.tcp.proxyConnectTimeout }}
+        proxy_connect_timeout {{ . }};
+{{- end }}
+{{- with $.Values.nginx.timeouts.tcp.proxyTimeout }}
+        proxy_timeout {{ . }};
+{{- end }}
+      }
+{{- end }}
+{{- if and .listenPort .backendHost .backendPort $udpEnabled }}
+
+      server {
+        listen {{ .listenPort }} udp;
+        proxy_pass {{ .backendHost }}:{{ .backendPort }};
+{{- with $.Values.nginx.timeouts.udp.proxyTimeout }}
+        proxy_timeout {{ . }};
+{{- end }}
+      }
+{{- end }}
+{{- end }}
+{{- with .Values.nginx.extraStreamConfig }}
+{{ . | nindent 6 }}
+{{- end }}
+    }
+  {{- range $key, $val := .Values.env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}

@@ -1,0 +1,47 @@
+{{- if include "nginx-stream.hasForwardPorts" . }}
+{{- $tcpDefault := dig "protocolDefaults" "tcpEnabled" true .Values.nginx }}
+{{- $udpDefault := dig "protocolDefaults" "udpEnabled" true .Values.nginx }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nginx-stream.fullname" . }}
+  labels:
+    {{- include "nginx-stream.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- with .Values.service.externalIPs }}
+  externalIPs:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  ports:
+    {{- range $idx, $forward := .Values.nginx.forwards }}
+    {{- $tcpEnabled := dig "tcp" "enabled" $tcpDefault $forward }}
+    {{- $udpEnabled := dig "udp" "enabled" $udpDefault $forward }}
+    {{- $tcpNodePort := dig "tcp" "nodePort" "" $forward }}
+    {{- $udpNodePort := dig "udp" "nodePort" "" $forward }}
+    {{- if and $forward.listenPort $tcpEnabled }}
+    - name: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "tcp") }}
+      port: {{ $forward.listenPort }}
+      targetPort: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "tcp") }}
+      protocol: TCP
+      {{- if and (eq $.Values.service.type "NodePort") $tcpNodePort }}
+      nodePort: {{ $tcpNodePort }}
+      {{- end }}
+    {{- end }}
+    {{- if and $forward.listenPort $udpEnabled }}
+    - name: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "udp") }}
+      port: {{ $forward.listenPort }}
+      targetPort: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "udp") }}
+      protocol: UDP
+      {{- if and (eq $.Values.service.type "NodePort") $udpNodePort }}
+      nodePort: {{ $udpNodePort }}
+      {{- end }}
+    {{- end }}
+    {{- end }}
+  selector:
+    {{- include "nginx-stream.selectorLabels" . | nindent 4 }}
+{{- end }}

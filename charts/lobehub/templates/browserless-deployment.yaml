@@ -1,3 +1,5 @@
+{{- $browserless := index .Values "browserless-chromium" -}}
+{{- if $browserless.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -5,79 +7,80 @@ metadata:
   labels:
     {{- include "browserless-chromium.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  {{- if not $browserless.autoscaling.enabled }}
+  replicas: {{ $browserless.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "browserless-chromium.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with $browserless.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "browserless-chromium.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
+        {{- with $browserless.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with $browserless.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "browserless-chromium.serviceAccountName" . }}
-      {{- with .Values.podSecurityContext }}
+      serviceAccountName: {{ include "lobehub.serviceAccountName" . }}
+      {{- with $browserless.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
-          {{- with .Values.securityContext }}
+        - name: {{ include "browserless-chromium.name" . }}
+          {{- with $browserless.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ $browserless.image.repository }}:{{ $browserless.image.tag }}"
+          imagePullPolicy: {{ $browserless.image.pullPolicy }}
           env:
-            {{- range $key, $val := .Values.env }}
+            {{- range $key, $val := $browserless.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
             {{- end }}
           ports:
             - name: ws
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ $browserless.service.port }}
               protocol: TCP
-          {{- with .Values.livenessProbe }}
+          {{- with $browserless.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.readinessProbe }}
+          {{- with $browserless.readinessProbe }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.resources }}
+          {{- with $browserless.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
+          {{- with $browserless.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- with .Values.volumes }}
+      {{- with $browserless.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.nodeSelector }}
+      {{- with $browserless.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with $browserless.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with $browserless.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}

@@ -1,3 +1,5 @@
+{{- $browserless := index .Values "browserless-chromium" -}}
+{{- if $browserless.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -5,11 +7,12 @@ metadata:
   labels:
     {{- include "browserless-chromium.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ $browserless.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ $browserless.service.port }}
       targetPort: ws
       protocol: TCP
       name: ws
   selector:
     {{- include "browserless-chromium.selectorLabels" . | nindent 4 }}
+{{- end }}

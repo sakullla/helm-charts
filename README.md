@@ -39,7 +39,6 @@ helm install my-app sakullla/<chart-name>
 
 ### 开发工具
 
-- **browserless-chromium** - 无头浏览器服务
 - **playwright-service** - Playwright 自动化测试
 - **hubproxy** - Docker Hub 镜像代理
 - **hugo-site** - Hugo 静态网站生成器

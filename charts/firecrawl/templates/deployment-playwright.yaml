@@ -1,0 +1,84 @@
+{{- if .Values.playwright.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "playwright.fullname" . }}
+  labels:
+    {{- include "playwright.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.playwright.autoscaling.enabled }}
+  replicas: {{ .Values.playwright.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "playwright.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-playwright.yaml") . | sha256sum }}
+        {{- with .Values.playwright.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "playwright.labels" . | nindent 8 }}
+        {{- with .Values.playwright.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.playwright.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "firecrawl.serviceAccountName" . }}
+      {{- with .Values.playwright.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: playwright
+          {{- with .Values.playwright.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.playwright.image.repository }}:{{ .Values.playwright.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.playwright.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "playwright.fullname" . }}-config
+          ports:
+            - name: http
+              containerPort: {{ .Values.playwright.service.port }}
+              protocol: TCP
+          {{- with .Values.playwright.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.playwright.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.playwright.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.playwright.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.playwright.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.playwright.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.playwright.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.playwright.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

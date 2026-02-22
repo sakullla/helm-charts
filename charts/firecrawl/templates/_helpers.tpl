@@ -114,6 +114,26 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+playwright labels
+*/}}
+{{- define "playwright.labels" -}}
+helm.sh/chart: {{ include "firecrawl.chart" . }}
+{{ include "playwright.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector playwright labels
+*/}}
+{{- define "playwright.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "firecrawl.name" . }}-playwright
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "firecrawl.serviceAccountName" -}}
@@ -121,5 +141,16 @@ Create the name of the service account to use
 {{- default (include "firecrawl.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+playwright fullname
+*/}}
+{{- define "playwright.fullname" -}}
+{{- if .Values.playwright.fullnameOverride }}
+{{- .Values.playwright.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-playwright" (include "firecrawl.fullname" .) | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}

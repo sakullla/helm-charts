@@ -1,0 +1,12 @@
+{{- if .Values.playwright.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "playwright.fullname" . }}-config
+  labels:
+    {{- include "playwright.labels" . | nindent 4 }}
+data:
+  {{- range $key, $val := .Values.playwright.env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+{{- end }}

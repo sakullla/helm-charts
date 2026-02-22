@@ -2,5 +2,5 @@ apiVersion: v2
 name: nginx-stream
 description: A Helm chart for nginx stream TCP/UDP proxy
 type: application
-version: 0.0.6
+version: 0.0.7
 appVersion: "1.29.4"

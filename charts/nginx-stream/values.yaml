@@ -50,13 +50,7 @@ probe:
     successThreshold: 1
     failureThreshold: 3
 
-resources:
-  requests:
-    cpu: 10m
-    memory: 50Mi
-  limits:
-    cpu: 1
-    memory: 300Mi
+resources: {}
 
 autoscaling:
   enabled: false

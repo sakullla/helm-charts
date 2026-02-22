@@ -29,9 +29,9 @@ helm install my-release charts/nginx-stream --dry-run=client --debug
 ```yaml
 nginx:
   forwards:
-    - name: boil-xray
+    - name: demo-forward
       listenPort: 23202
-      backendHost: boil-nat.124536.xyz
+      backendHost: upstream.example.com
       backendPort: 23202
 ```
 

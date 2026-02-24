@@ -1,0 +1,162 @@
+# Default values for taskflow.
+
+replicaCount: 1
+
+image:
+  repository: sakullla/taskflow
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+command: []
+args: []
+
+# Service Account
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# Service configuration
+service:
+  annotations: {}
+  type: ClusterIP
+  port: 3000
+  # nodePort: 30080  # Only for NodePort
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: taskflow.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+    # - secretName: taskflow-tls
+    #   hosts:
+    #     - taskflow.local
+
+# Gateway API HTTPRoute
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - taskflow.local
+  rules: []
+    # - matches:
+    #     - path:
+    #         type: PathPrefix
+    #         value: /
+
+# Health probes
+# startupProbe uses tcpSocket for fast startup detection; the app runs DB migrations
+# before binding the HTTP server, so we allow up to 5 minutes (30 * 10s).
+startupProbe:
+  tcpSocket:
+    port: http
+  failureThreshold: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  periodSeconds: 30
+  timeoutSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+# Resource limits
+resources: {}
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 256Mi
+
+# Autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Persistence for SQLite database
+# Mount at /app/data where the SQLite todo.db file lives.
+persistence:
+  enabled: true
+  size: 1Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  existingClaim: ""
+  annotations: {}
+
+# Extra volumes / mounts (used to wire the PVC into the container)
+volumes: []
+volumeMounts: []
+
+# Scheduling
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Non-sensitive application configuration (rendered as ConfigMap)
+env:
+  NODE_ENV: "production"
+  PORT: "3000"
+  TZ: "Asia/Shanghai"
+  DB_TYPE: "sqlite"
+  CORS_ORIGINS: ""
+  ENABLE_API_DOCS: "false"
+  AUTH_RATE_LIMIT_WINDOW_MS: "900000"
+  AUTH_RATE_LIMIT_MAX_ATTEMPTS: "5"
+
+# Sensitive values (rendered as Secret, plain-text here; base64 encoded in the Secret)
+secrets:
+  JWT_SECRET: "change-me-in-production-use-at-least-32-characters"
+  DATABASE_URL: "file:/app/data/todo.db"
+
+# Extra environment variables
+extraEnv: []
+  # - name: SPECIAL_VAR
+  #   value: "special"

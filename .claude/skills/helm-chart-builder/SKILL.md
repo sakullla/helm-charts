@@ -33,11 +33,13 @@ Use this skill to produce repository-consistent charts quickly and safely.
 - In Deployment annotations, always include:
   - `checksum/config` from `configmap.yaml`
   - `checksum/secret` from `secret.yaml`
+- In Deployment `spec`, add `strategy: type: Recreate` whenever `persistence.enabled` or `.Values.volumes` is set, to avoid ReadWriteOnce PVC mount conflicts during rolling updates.
 - In Deployment container spec, include:
   - optional `.Values.command` and `.Values.args`
   - `envFrom` for both ConfigMap and Secret
   - `startupProbe`, `livenessProbe`, `readinessProbe`
 - Prefer `startupProbe.tcpSocket` for fast startup detection when no dedicated startup endpoint is needed.
+- In `httproute.yaml` `backendRefs`, always include `group: ''` and `kind: Service` alongside `name`, `port`, and `weight`.
 - Keep helper-based naming/labels; do not hardcode resource names.
 - Keep YAML indentation as two spaces.
 

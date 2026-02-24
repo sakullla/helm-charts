@@ -1,0 +1,11 @@
+apiVersion: v2
+name: taskflow
+description: A full-stack task management app (Microsoft To Do clone) with Fastify API and React frontend backed by SQLite/PostgreSQL/MySQL.
+
+type: application
+
+# Chart version (follows SemVer)
+version: 0.0.1
+
+# Application version
+appVersion: "latest"

@@ -3,7 +3,7 @@ entries:
   adguard-home:
   - apiVersion: v2
     appVersion: v0.107.71
-    created: '2026-01-17T13:06:12.964831928Z'
+    created: "2026-01-17T13:06:12.964831928Z"
     description: Network-wide ads & trackers blocking DNS server
     digest: bddba9a0c9e0cb25a25888889ac387292bb8c4337069ee1c8ef7c1bc0b693472
     name: adguard-home
@@ -14,7 +14,7 @@ entries:
   affine:
   - apiVersion: v2
     appVersion: 0.25.7
-    created: '2026-01-03T00:17:37.284493984Z'
+    created: "2026-01-03T00:17:37.284493984Z"
     description: A Helm chart for Kubernetes
     digest: 9d93ae929a031930abc6e5396b9693450a091c272b92b544ffdb5b148932e4af
     name: affine
@@ -25,7 +25,7 @@ entries:
   ani-rss:
   - apiVersion: v2
     appVersion: v2.4.25
-    created: '2026-01-03T01:16:19.794914917Z'
+    created: "2026-01-03T01:16:19.794914917Z"
     dependencies:
     - condition: qbittorrent.enabled
       name: qbittorrent
@@ -41,9 +41,9 @@ entries:
   astrbot:
   - apiVersion: v2
     appVersion: v4.11.4
-    created: '2026-01-12T16:01:38.73802306Z'
-    description: "Agentic IM Chatbot infrastructure that integrates lots of IM platforms,\
-      \ LLMs, plugins and AI features. \u2728"
+    created: "2026-01-12T16:01:38.73802306Z"
+    description: Agentic IM Chatbot infrastructure that integrates lots of IM platforms,
+      LLMs, plugins and AI features. ✨
     digest: 6d419ac5dc2f20d3d79e5d90ed0de81250b246adb7f049743349c8781fe3714c
     name: astrbot
     type: application
@@ -53,7 +53,7 @@ entries:
   browserless-chromium:
   - apiVersion: v2
     appVersion: v2.38.3
-    created: '2026-01-15T15:15:27.78064129Z'
+    created: "2026-01-15T15:15:27.78064129Z"
     description: A Helm chart for Kubernetes
     digest: a06a8cb84ece0284967e7462aebae6aba18de5a39819179f760a3e3420fe3319
     name: browserless-chromium
@@ -64,7 +64,7 @@ entries:
   calibre-web-automated:
   - apiVersion: v2
     appVersion: v4.0.6
-    created: '2026-02-20T08:31:36.580942945Z'
+    created: "2026-02-20T08:31:36.580942945Z"
     description: A Helm chart for Kubernetes
     digest: 08f8105669dcdd46e792f7e46a12d288b495db3035aa194333e527eeb8e6a9aa
     name: calibre-web-automated
@@ -75,7 +75,7 @@ entries:
   certimate:
   - apiVersion: v2
     appVersion: v0.4.12
-    created: '2026-01-02T06:18:42.165596492Z'
+    created: "2026-01-02T06:18:42.165596492Z"
     description: A Helm chart for Kubernetes
     digest: 0993da02f7f32213a80a6f6b8dd8561c47180f38b903e32177eafcac32e138b0
     name: certimate
@@ -86,7 +86,7 @@ entries:
   chartdb:
   - apiVersion: v2
     appVersion: 1.19.0
-    created: '2026-01-11T01:25:58.318915872Z'
+    created: "2026-01-11T01:25:58.318915872Z"
     description: Database diagrams editor that allows you to visualize and design
       your DB with a single query.
     digest: ac5225193596e4f600a8864faa451967660a7329f3b790c6427d39ca540a532e
@@ -98,17 +98,15 @@ entries:
   claude-relay-service:
   - apiVersion: v2
     appVersion: 1.1.269
-    created: '2026-02-06T16:33:19.147448405Z'
+    created: "2026-02-06T16:33:19.147448405Z"
     dependencies:
     - alias: valkey
       condition: valkey.enabled
       name: valkey
       repository: https://valkey-io.github.io/valkey-helm
       version: ~0.9.0
-    description: "Claude Relay Service - \u4E00\u7AD9\u5F0F Claude API \u4E2D\u8F6C\
-      \u670D\u52A1\uFF0C\u652F\u6301\u591A\u8D26\u53F7\u7BA1\u7406\u3001\u7528\u91CF\
-      \u7EDF\u8BA1\u3001Web \u7BA1\u7406\u754C\u9762\uFF0C\u5185\u7F6E Valkey \u7F13\
-      \u5B58\uFF0C\u517C\u5BB9 Claude Code CLI\u3002"
+    description: Claude Relay Service - 一站式 Claude API 中转服务，支持多账号管理、用量统计、Web 管理界面，内置
+      Valkey 缓存，兼容 Claude Code CLI。
     digest: 5b924bcb386f4f4a2308db89370e857da8336fa32c24b3f1548657f72fd5221b
     name: claude-relay-service
     type: application
@@ -118,7 +116,7 @@ entries:
   ddns-go:
   - apiVersion: v2
     appVersion: v6.14.1
-    created: '2026-01-11T02:37:13.80235336Z'
+    created: "2026-01-11T02:37:13.80235336Z"
     description: Simple and easy to use DDNS. Support Aliyun, Tencent Cloud, Dnspod,
       Cloudflare, Callback, Huawei Cloud, Baidu Cloud, Porkbun, GoDaddy, Namecheap,
       NameSilo...
@@ -131,7 +129,7 @@ entries:
   dns-server:
   - apiVersion: v2
     appVersion: 14.3.0
-    created: '2026-01-17T02:46:06.815295048Z'
+    created: "2026-01-17T02:46:06.815295048Z"
     description: Self host a DNS server for privacy & security Block ads & malware
       at DNS level for your entire network!
     digest: 3975818523647d59eefd9d1bc84a8a94a1e846c298224e4e6972fd335109c4e2
@@ -143,9 +141,9 @@ entries:
   firecrawl:
   - apiVersion: v2
     appVersion: latest
-    created: '2026-02-22T08:06:04.384695545Z'
-    description: "\U0001F525 The Web Data API for AI - Turn entire websites into LLM-ready\
-      \ markdown or structured data playwright"
+    created: "2026-02-22T08:06:04.384695545Z"
+    description: "\U0001F525 The Web Data API for AI - Turn entire websites into LLM-ready
+      markdown or structured data playwright"
     digest: d3138676ed1dcdbf3a70b97889a3de30bc6195159a7a31f03b88af3d34d230ca
     name: firecrawl
     type: application
@@ -155,7 +153,7 @@ entries:
   frp:
   - apiVersion: v2
     appVersion: v0.66.0
-    created: '2026-01-11T12:50:53.442015702Z'
+    created: "2026-01-11T12:50:53.442015702Z"
     description: A fast reverse proxy to help you expose a local server behind a NAT
       or firewall to the internet.
     digest: 1b10375184965b4a074262ad6bfcdd80f94ddb4f38bb74fc349230c2febd1e7c
@@ -167,7 +165,7 @@ entries:
   headplane:
   - apiVersion: v2
     appVersion: 0.6.2-beta.3
-    created: '2026-01-11T05:07:06.285950834Z'
+    created: "2026-01-11T05:07:06.285950834Z"
     dependencies:
     - name: headscale
       repository: https://sakullla.github.io/helm-charts
@@ -182,7 +180,7 @@ entries:
   headscale:
   - apiVersion: v2
     appVersion: 0.27.1
-    created: '2026-01-11T05:02:45.517304724Z'
+    created: "2026-01-11T05:02:45.517304724Z"
     description: An open source, self-hosted implementation of the Tailscale control
       server
     digest: 9fe74ec41b21048f5ccbc8d69ac489bfaf3178b32e5efcc209e66f9d6a6b1f1c
@@ -194,7 +192,7 @@ entries:
   hedgedoc:
   - apiVersion: v2
     appVersion: develop
-    created: '2026-02-22T06:51:30.448896605Z'
+    created: "2026-02-22T06:51:30.448896605Z"
     description: A Helm chart for Kubernetes
     digest: 76e9b22fa9d95e7e8946a15762ab853812c92e152089d752d0dbb1f4692c4846
     name: hedgedoc
@@ -205,7 +203,7 @@ entries:
   hedgedoc-backend:
   - apiVersion: v2
     appVersion: develop
-    created: '2026-01-09T16:56:59.374365192Z'
+    created: "2026-01-09T16:56:59.374365192Z"
     description: A Helm chart for Kubernetes
     digest: 7b0d60d0e456eb5c5460750d1f5b05bd708344d6eb03e330859d3a677c06d5b0
     name: hedgedoc-backend
@@ -216,12 +214,8 @@ entries:
   hubproxy:
   - apiVersion: v2
     appVersion: 1.2.1
-    created: '2026-01-11T05:22:49.877356493Z'
-    description: "\u591A\u529F\u80FD\u4EE3\u7406\u52A0\u901F\u670D\u52A1\uFF0C\u63D0\
-      \u4F9B Docker \u955C\u50CF\u52A0\u901F\u3001GitHub \u52A0\u901F\u3001\u4E0B\u8F7D\
-      \u79BB\u7EBF\u955C\u50CF\u7B49\u529F\u80FD\u3002\u4E00\u4E2A\u4E8C\u8FDB\u5236\
-      \u6587\u4EF6\u5B9E\u73B0\u6240\u6709\u529F\u80FD\uFF0C\u652F\u6301\u4ED3\u5E93\
-      \u5BA1\u8BA1\u3002\u6D41\u5F0F\u8F6C\u53D1\uFF0C\u65E0\u7F13\u5B58\u3002"
+    created: "2026-01-11T05:22:49.877356493Z"
+    description: 多功能代理加速服务，提供 Docker 镜像加速、GitHub 加速、下载离线镜像等功能。一个二进制文件实现所有功能，支持仓库审计。流式转发，无缓存。
     digest: 28548eb7f962a15f8f946025d2cd1b9fa562ceeebfd37c7759765a895f810dec
     name: hubproxy
     type: application
@@ -231,7 +225,7 @@ entries:
   hugo-site:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: '2026-01-11T05:33:22.645937289Z'
+    created: "2026-01-11T05:33:22.645937289Z"
     description: A Helm chart for Kubernetes
     digest: 5416186b3db7759f1e3f66e8f8822a965957c5c3e9d035da02e6226d62b94ab0
     name: hugo-site
@@ -242,7 +236,7 @@ entries:
   kavita:
   - apiVersion: v2
     appVersion: nightly-0.8.8.21
-    created: '2026-01-02T14:27:46.137929769Z'
+    created: "2026-01-02T14:27:46.137929769Z"
     description: A Helm chart for Kubernetes
     digest: 0bf2d6264afd0f684fa483f7287a3af7970018b291dc275f68d275a4ee34cc49
     name: kavita
@@ -253,13 +247,10 @@ entries:
   kirara-agent:
   - apiVersion: v2
     appVersion: v3.3.0a2
-    created: '2026-01-11T15:22:06.631288178Z'
-    description: "\U0001F916 \u53EF DIY \u7684 \u591A\u6A21\u6001 AI \u804A\u5929\u673A\
-      \u5668\u4EBA | \U0001F680 \u5FEB\u901F\u63A5\u5165 \u5FAE\u4FE1\u3001 QQ\u3001\
-      Telegram\u3001\u7B49\u804A\u5929\u5E73\u53F0 | \U0001F988\u652F\u6301DeepSeek\u3001\
-      Grok\u3001Claude\u3001Ollama\u3001Gemini\u3001OpenAI | \u5DE5\u4F5C\u6D41\u7CFB\
-      \u7EDF\u3001\u7F51\u9875\u641C\u7D22\u3001AI\u753B\u56FE\u3001\u4EBA\u8BBE\u8C03\
-      \u6559\u3001\u865A\u62DF\u5973\u4EC6\u3001\u8BED\u97F3\u5BF9\u8BDD |"
+    created: "2026-01-11T15:22:06.631288178Z"
+    description: "\U0001F916 可 DIY 的 多模态 AI 聊天机器人 | \U0001F680 快速接入 微信、 QQ、Telegram、等聊天平台
+      | \U0001F988支持DeepSeek、Grok、Claude、Ollama、Gemini、OpenAI | 工作流系统、网页搜索、AI画图、人设调教、虚拟女仆、语音对话
+      |"
     digest: dab880610bf80f40173495b676d5e8bf92be3e431d137a70fce203b58ccdd574
     name: kirara-agent
     type: application
@@ -269,15 +260,9 @@ entries:
   koipy:
   - apiVersion: v2
     appVersion: 1.12.2
-    created: '2026-01-11T05:53:51.842908732Z'
-    description: "koipy \u662F\u4E13\u6CE8\u4E8E\u4EE3\u7406\u5E73\u53F0\u7684\u8FDE\
-      \u901A\u6027\u6D4B\u8BD5\u7684\u5DE5\u5177\uFF0C\u5B83\u76EE\u524D\u4F9D\u8D56\
-      \u4E8ETelegram\u4F5C\u4E3A\u5C55\u793A\u524D\u7AEF\uFF0C\u6240\u4EE5\u5B83\u662F\
-      \u4E00\u4E2A\u6D4B\u8BD5\u673A\u5668\u4EBA\uFF08Telegram bot\uFF09\u3002koipy\u76EE\
-      \u524D\u662F\u524D\u540E\u7AEF\u5206\u79BB\u7684\u67B6\u6784\uFF0C\u540E\u7AEF\
-      \u662F\u5177\u4F53\u4EE3\u7406\u6D4B\u8BD5\u5DE5\u5177\u5B9E\u73B0\uFF0C\u540D\
-      \u4E3Amiaospeed\u524D\u7AEF\u8D1F\u8D23\u6784\u5EFA\u6D4B\u8BD5\u4EFB\u52A1\u7B49\
-      \u64CD\u4F5C\u3002"
+    created: "2026-01-11T05:53:51.842908732Z"
+    description: koipy 是专注于代理平台的连通性测试的工具，它目前依赖于Telegram作为展示前端，所以它是一个测试机器人（Telegram
+      bot）。koipy目前是前后端分离的架构，后端是具体代理测试工具实现，名为miaospeed前端负责构建测试任务等操作。
     digest: 8937c216a53c19e3500af1dbb36d47227fbc078c7bf740c84f0788acc8ecc7c7
     name: koipy
     type: application
@@ -287,7 +272,7 @@ entries:
   litellm:
   - apiVersion: v2
     appVersion: main-stable
-    created: '2026-02-21T14:09:03.363781999Z'
+    created: "2026-02-21T14:09:03.363781999Z"
     description: LiteLLM proxy/gateway for LLM APIs
     digest: afc8a1c087eba52f96ba6b15d256c75212ec0238e470a5fba51d8e8705d8c8fe
     name: litellm
@@ -298,7 +283,7 @@ entries:
   lobehub:
   - apiVersion: v2
     appVersion: 2.0.0-next.293
-    created: '2026-02-22T07:19:09.707448446Z'
+    created: "2026-02-22T07:19:09.707448446Z"
     dependencies:
     - condition: searxng.enabled
       name: searxng
@@ -314,15 +299,8 @@ entries:
   logvar:
   - apiVersion: v2
     appVersion: 1.12.2
-    created: '2026-01-19T13:40:43.93396945Z'
-    description: "\u4E00\u4E2A\u4EBA\u4EBA\u90FD\u80FD\u90E8\u7F72\u7684\u57FA\u4E8E\
-      \ js \u7684\u5F39\u5E55 API \u670D\u52A1\u5668\uFF0C\u652F\u6301\u7231\u4F18\
-      \u817E\u8292\u54D4\u4EBA\u97E9\u5DF4\u5F39\u5E55\u76F4\u63A5\u83B7\u53D6\uFF0C\
-      \u517C\u5BB9\u5F39\u5F39play\u7684\u641C\u7D22\u3001\u8BE6\u60C5\u67E5\u8BE2\
-      \u548C\u5F39\u5E55\u83B7\u53D6\u63A5\u53E3\u89C4\u8303\uFF0C\u5E76\u63D0\u4F9B\
-      \u65E5\u5FD7\u8BB0\u5F55\uFF0C\u652F\u6301vercel/netlify/edgeone/cloudflare/docker/claw\u7B49\
-      \u90E8\u7F72\u65B9\u5F0F\uFF0C\u4E0D\u7528\u63D0\u524D\u4E0B\u8F7D\u5F39\u5E55\
-      \uFF0C\u6CA1\u6709nas\u6216\u5C0F\u9E21\u4E5F\u80FD\u4E00\u952E\u90E8\u7F72\u3002"
+    created: "2026-01-19T13:40:43.93396945Z"
+    description: 一个人人都能部署的基于 js 的弹幕 API 服务器，支持爱优腾芒哔人韩巴弹幕直接获取，兼容弹弹play的搜索、详情查询和弹幕获取接口规范，并提供日志记录，支持vercel/netlify/edgeone/cloudflare/docker/claw等部署方式，不用提前下载弹幕，没有nas或小鸡也能一键部署。
     digest: c4bcbff117cdec3ee9d2e06f347a1ed31e030e4c7bd3576179d31508232323a0
     name: logvar
     type: application
@@ -332,7 +310,7 @@ entries:
   miaospeed:
   - apiVersion: v2
     appVersion: 4.6.3
-    created: '2026-01-11T13:26:52.068834453Z'
+    created: "2026-01-11T13:26:52.068834453Z"
     dependencies:
     - condition: frp.enabled
       name: frp
@@ -348,7 +326,7 @@ entries:
   misaka-danmu-server:
   - apiVersion: v2
     appVersion: v2.3.7
-    created: '2026-01-02T10:47:20.753991704Z'
+    created: "2026-01-02T10:47:20.753991704Z"
     description: A Helm chart for Kubernetes
     digest: 14720259c445f30c5fbeac48066d0250e7d52dac0870969539560029ce6c7beb
     name: misaka-danmu-server
@@ -359,15 +337,9 @@ entries:
   misub:
   - apiVersion: v2
     appVersion: latest
-    created: '2026-01-20T15:15:17.130016992Z'
-    description: "MiSub \u662F\u4E00\u4E2A\u754C\u9762\u7CBE\u7F8E\u3001\u529F\u80FD\
-      \u5B8C\u6574\u7684\u8BA2\u9605\uFF08\u4EE3\u7406\u8BA2\u9605/\u8282\u70B9\uFF09\
-      \u7BA1\u7406\u4E0E\u8F6C\u6362\u5DE5\u5177\uFF0C\u57FA\u4E8E Cloudflare Workers/Pages\
-      \ \u6784\u5EFA\uFF0C\u524D\u7AEF\u4F7F\u7528 Vue 3 + Vite + Tailwind\u3002\u652F\
-      \u6301\u591A\u534F\u8BAE\u3001\u591A\u5BA2\u6237\u7AEF\u683C\u5F0F\u5BFC\u51FA\
-      \uFF0C\u5E76\u63D0\u4F9B\u516C\u5F00\u5206\u4EAB\u9875\u9762\u3001\u5206\u7EC4\
-      \u7BA1\u7406\u3001User-Agent \u81EA\u5B9A\u4E49\u3001\u6D41\u91CF/\u5230\u671F\
-      \u663E\u793A\u7B49\u529F\u80FD\u3002"
+    created: "2026-01-20T15:15:17.130016992Z"
+    description: MiSub 是一个界面精美、功能完整的订阅（代理订阅/节点）管理与转换工具，基于 Cloudflare Workers/Pages
+      构建，前端使用 Vue 3 + Vite + Tailwind。支持多协议、多客户端格式导出，并提供公开分享页面、分组管理、User-Agent 自定义、流量/到期显示等功能。
     digest: 594d7046d167f9068c02da369c82a7d6a44a86930d42b11bae9c7bccb2fe022d
     name: misub
     type: application
@@ -377,7 +349,7 @@ entries:
   newapi:
   - apiVersion: v2
     appVersion: v0.10.5-bailian.2
-    created: '2026-01-02T10:22:29.724576584Z'
+    created: "2026-01-02T10:22:29.724576584Z"
     description: A Helm chart for Kubernetes
     digest: d8332a774bac4f3eef66741354a09c704c2653588b1b6182a7830c96d68222da
     name: newapi
@@ -388,7 +360,7 @@ entries:
   next-ai-draw-io:
   - apiVersion: v2
     appVersion: latest
-    created: '2026-01-05T23:59:50.821889817Z'
+    created: "2026-01-05T23:59:50.821889817Z"
     description: A next.js web application that integrates AI capabilities with draw.io
       diagrams. This app allows you to create, modify, and enhance diagrams through
       natural language commands and AI-assisted visualization.
@@ -401,7 +373,7 @@ entries:
   nginx-stream:
   - apiVersion: v2
     appVersion: 1.29.4
-    created: '2026-02-22T11:20:17.331931468Z'
+    created: "2026-02-22T11:20:17.331931468Z"
     description: A Helm chart for nginx stream TCP/UDP proxy
     digest: e4df796fb0ccf2b3e535b21a076a38aef7a6d8e438824a95667da72574cdc8e8
     name: nginx-stream
@@ -412,7 +384,7 @@ entries:
   openlist:
   - apiVersion: v2
     appVersion: v4.1.8
-    created: '2026-01-02T14:54:56.475701208Z'
+    created: "2026-01-02T14:54:56.475701208Z"
     description: A Helm chart for Kubernetes
     digest: a7ee9d4ee0b3562f640fabdb3a09e81709981561bf8be0c5d67cb87678ac1579
     name: openlist
@@ -423,7 +395,7 @@ entries:
   oplist-api:
   - apiVersion: v2
     appVersion: latest
-    created: '2026-01-02T15:08:04.523430633Z'
+    created: "2026-01-02T15:08:04.523430633Z"
     description: A Helm chart for Kubernetes
     digest: fc55393ba8b24592233eb5a2549f2750304730541cc57026056cb7b95f57acc1
     name: oplist-api
@@ -434,9 +406,9 @@ entries:
   playwright-service:
   - apiVersion: v2
     appVersion: latest
-    created: '2026-02-01T07:43:55.261122017Z'
-    description: "\U0001F525 The Web Data API for AI - Turn entire websites into LLM-ready\
-      \ markdown or structured data playwright"
+    created: "2026-02-01T07:43:55.261122017Z"
+    description: "\U0001F525 The Web Data API for AI - Turn entire websites into LLM-ready
+      markdown or structured data playwright"
     digest: 7c16d4fc78d03e18bdce7a9c77cc75a8b82e978e046ef564d0ee1fd9ac6ee018
     name: playwright-service
     type: application
@@ -446,7 +418,7 @@ entries:
   qbittorrent:
   - apiVersion: v2
     appVersion: 5.1.4
-    created: '2026-01-03T01:00:39.486533213Z'
+    created: "2026-01-03T01:00:39.486533213Z"
     description: A Helm chart for Kubernetes
     digest: c3e3f84148ccb2ee4138633baf61f6d5024acc45e5a7b29695911d1e9c81cd8f
     name: qbittorrent
@@ -457,7 +429,7 @@ entries:
   quote-api:
   - apiVersion: v2
     appVersion: latest
-    created: '2026-02-26T06:08:04.634745302Z'
+    created: "2026-02-26T06:08:04.634745302Z"
     description: Telegram quote image generation API
     digest: 85df4c4d33c42502745a09c0d6079451c7fe7776fbe5cd321cd5518aab493245
     name: quote-api
@@ -468,7 +440,22 @@ entries:
   quote-bot:
   - apiVersion: v2
     appVersion: latest
-    created: '2026-02-26T06:15:16.228040539Z'
+    created: "2026-02-26T06:20:24.311096382Z"
+    dependencies:
+    - condition: quote-api.enabled
+      name: quote-api
+      repository: https://sakullla.github.io/helm-charts
+      version: 0.0.1
+    description: Telegram quote bot with quote-api dependency
+    digest: ed0167601b200f9b2a3be3feb1fd9d266176bbbd718f602392a634c44d03e909
+    name: quote-bot
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/quote-bot-0.0.3/quote-bot-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-02-26T06:15:16.228040539Z"
     dependencies:
     - condition: quote-api.enabled
       name: quote-api
@@ -484,7 +471,7 @@ entries:
   saveany-bot:
   - apiVersion: v2
     appVersion: 0.46.2
-    created: '2026-01-03T00:17:37.488378385Z'
+    created: "2026-01-03T00:17:37.488378385Z"
     description: A Helm chart for Kubernetes
     digest: f5b85fbe46c0631b8d0d5011e57ecf82d6a466b05bf0e45704d52c701eef8352
     name: saveany-bot
@@ -495,7 +482,7 @@ entries:
   searxng:
   - apiVersion: v2
     appVersion: 2026.1.2-3d88876a3
-    created: '2026-01-03T00:17:37.66779612Z'
+    created: "2026-01-03T00:17:37.66779612Z"
     description: A Helm chart for Kubernetes
     digest: e2687b66399291bcba6b3e8e3951d9a41dd6a38a112df74aa32c5912cf0a8012
     name: searxng
@@ -506,7 +493,7 @@ entries:
   substore:
   - apiVersion: v2
     appVersion: 2.20.67
-    created: '2026-01-02T08:01:13.983691768Z'
+    created: "2026-01-02T08:01:13.983691768Z"
     description: A Helm chart for Kubernetes
     digest: bea2389dce9b438c6705477d0c34900477789dc6e8025de66822a65d62ff5951
     name: substore
@@ -517,7 +504,7 @@ entries:
   tabby-web:
   - apiVersion: v2
     appVersion: latest
-    created: '2026-01-02T08:17:40.440907227Z'
+    created: "2026-01-02T08:17:40.440907227Z"
     description: A Helm chart for Kubernetes
     digest: abd9cb4d5111880ae04c4c0743d55ff8771ee368031ae929314257deeca250ed
     name: tabby-web
@@ -528,7 +515,7 @@ entries:
   taskflow:
   - apiVersion: v2
     appVersion: latest
-    created: '2026-02-24T07:39:02.501546009Z'
+    created: "2026-02-24T07:39:02.501546009Z"
     description: A full-stack task management app (Microsoft To Do clone) with Fastify
       API and React frontend backed by SQLite/PostgreSQL/MySQL.
     digest: 77257b21e6193ad31fff7268ae1cb8b3eae434888caaddcc9e24686234d2cd65
@@ -540,7 +527,7 @@ entries:
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.35.1
-    created: '2026-01-04T08:35:40.113322223Z'
+    created: "2026-01-04T08:35:40.113322223Z"
     description: A Helm chart for Kubernetes
     digest: 6e099fad0f991471b2a4345010182569c06a641e07a641507e4bce348ccc4c90
     name: vaultwarden
@@ -551,7 +538,7 @@ entries:
   xray:
   - apiVersion: v2
     appVersion: 25.12.8
-    created: '2026-01-04T11:39:02.397048494Z'
+    created: "2026-01-04T11:39:02.397048494Z"
     description: A Helm chart for xray
     digest: 60e17ef5fedc128bceb18c78ec9b717103437e39de4a277412fcf24f903f8edb
     name: xray
@@ -562,7 +549,7 @@ entries:
   yamtrack:
   - apiVersion: v2
     appVersion: 0.24.8
-    created: '2026-01-02T11:03:17.652675074Z'
+    created: "2026-01-02T11:03:17.652675074Z"
     description: A Helm chart for Kubernetes
     digest: 2d607446600b1f6d19f96188d0de3f0dcaae304f1ef0b3bbddbd4926cc5905c3
     name: yamtrack
@@ -570,4 +557,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: '2026-02-26T06:15:16.228055176Z'
+generated: "2026-02-26T06:20:24.311111942Z"

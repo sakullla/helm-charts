@@ -1,0 +1,11 @@
+apiVersion: v2
+name: quote-api
+description: Telegram quote image generation API
+
+type: application
+
+# Chart version
+version: 0.0.1
+
+# Application version
+appVersion: "latest"

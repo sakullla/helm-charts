@@ -64,7 +64,7 @@ Redis/Valkey host
 */}}
 {{- define "quote-bot.redisHost" -}}
 {{- if .Values.valkey.enabled }}
-{{- printf "%s-valkey-primary" .Release.Name }}
+{{- printf "%s-valkey" .Release.Name }}
 {{- else }}
 {{- .Values.env.REDIS_HOST }}
 {{- end }}

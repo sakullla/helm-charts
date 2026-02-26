@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "quote-bot.fullname" . }}-config
+  labels:
+    {{- include "quote-bot.labels" . | nindent 4 }}
+data:
+  NODE_ENV: {{ .Values.env.NODE_ENV | quote }}
+  METRICS_PORT: {{ .Values.env.METRICS_PORT | quote }}
+  EMOJI_DOMAIN: {{ .Values.env.EMOJI_DOMAIN | quote }}
+  REDIS_HOST: {{ include "quote-bot.redisHost" . | quote }}
+  REDIS_PORT: {{ .Values.env.REDIS_PORT | quote }}
+  MAX_WORKERS: {{ .Values.env.MAX_WORKERS | quote }}
+  WORKER_HANDLER_TIMEOUT: {{ .Values.env.WORKER_HANDLER_TIMEOUT | quote }}
+  QUOTE_API_URI: {{ include "quote-bot.quoteApiUri" . | quote }}

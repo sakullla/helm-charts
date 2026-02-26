@@ -1,0 +1,166 @@
+# Default values for quote-bot.
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/lyosu/quote-bot
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Service Account
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# Service configuration (for health/metrics)
+service:
+  annotations: {}
+  type: ClusterIP
+  port: 7000
+  # nodePort: 30080  # Only for NodePort
+
+# Ingress configuration (optional, for metrics/health)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: quote-bot.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+# Gateway API HTTPRoute
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - quote-bot.local
+  rules: []
+
+# Health probes
+startupProbe:
+  tcpSocket:
+    port: metrics
+  failureThreshold: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+
+livenessProbe:
+  tcpSocket:
+    port: metrics
+  periodSeconds: 30
+  timeoutSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  tcpSocket:
+    port: metrics
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+# Resource limits
+resources: {}
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 256Mi
+
+# Autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Scheduling
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Non-sensitive application configuration (rendered as ConfigMap)
+env:
+  NODE_ENV: "production"
+  METRICS_PORT: "7000"
+  EMOJI_DOMAIN: "https://emojipedia.org/"
+  # Redis configuration
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  # Worker configuration
+  MAX_WORKERS: "3"
+  WORKER_HANDLER_TIMEOUT: "30000"
+
+# Sensitive values (rendered as Secret)
+secrets:
+  # Required: Telegram bot token from @BotFather
+  BOT_TOKEN: ""
+  # Required: MongoDB connection string
+  MONGODB_URI: ""
+  # Required: Telegram API credentials (get from my.telegram.org)
+  TELEGRAM_API_ID: ""
+  TELEGRAM_API_HASH: ""
+  # Optional: OpenAI API key for AI features
+  OPENAI_API_KEY: ""
+  # Optional: Anthropic API key for AI features
+  ANTHROPIC_API_KEY: ""
+  # Optional: Group ID for logging
+  GROUP_ID: ""
+
+# Extra environment variables
+extraEnv: []
+
+# Redis sub-chart configuration
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+# quote-api sub-chart configuration
+quote-api:
+  enabled: true
+  fullnameOverride: quote-api
+  service:
+    port: 3000
+  secrets:
+    BOT_TOKEN: ""
+  env:
+    NODE_ENV: "production"
+    PORT: "3000"
+    EMOJI_DOMAIN: "https://emojipedia.org/"

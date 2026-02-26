@@ -3,7 +3,7 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/lyosu/quote-bot
+  repository: ghcr.io/sakullla/quote-bot
   pullPolicy: IfNotPresent
   tag: ""
 

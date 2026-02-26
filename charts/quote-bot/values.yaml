@@ -141,6 +141,17 @@ secrets:
 # Extra environment variables
 extraEnv: []
 
+# MongoDB sub-chart configuration
+mongodb:
+  enabled: true
+  auth:
+    enabled: true
+    rootUser: root
+    rootPassword: "changeme"
+  persistence:
+    enabled: true
+    size: 2Gi
+
 # Valkey sub-chart configuration (Redis compatible)
 valkey:
   enabled: true

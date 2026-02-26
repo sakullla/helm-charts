@@ -426,6 +426,17 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/qbittorrent-0.0.4/qbittorrent-0.0.4.tgz
     version: 0.0.4
+  quote-api:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-02-26T06:08:04.634745302Z"
+    description: Telegram quote image generation API
+    digest: 85df4c4d33c42502745a09c0d6079451c7fe7776fbe5cd321cd5518aab493245
+    name: quote-api
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/quote-api-0.0.1/quote-api-0.0.1.tgz
+    version: 0.0.1
   saveany-bot:
   - apiVersion: v2
     appVersion: 0.46.2
@@ -515,4 +526,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-02-24T07:39:02.50156059Z"
+generated: "2026-02-26T06:08:04.634762118Z"

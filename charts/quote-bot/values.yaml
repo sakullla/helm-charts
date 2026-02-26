@@ -32,62 +32,6 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-# Service configuration (for health/metrics)
-service:
-  annotations: {}
-  type: ClusterIP
-  port: 7000
-  # nodePort: 30080  # Only for NodePort
-
-# Ingress configuration (optional, for metrics/health)
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts:
-    - host: quote-bot.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-
-# Gateway API HTTPRoute
-httpRoute:
-  enabled: false
-  annotations: {}
-  parentRefs:
-    - name: gateway
-      sectionName: http
-  hostnames:
-    - quote-bot.local
-  rules: []
-
-# Health probes
-startupProbe:
-  tcpSocket:
-    port: metrics
-  failureThreshold: 30
-  periodSeconds: 10
-  timeoutSeconds: 5
-  successThreshold: 1
-
-livenessProbe:
-  tcpSocket:
-    port: metrics
-  periodSeconds: 30
-  timeoutSeconds: 10
-  successThreshold: 1
-  failureThreshold: 3
-
-readinessProbe:
-  tcpSocket:
-    port: metrics
-  initialDelaySeconds: 5
-  periodSeconds: 10
-  timeoutSeconds: 5
-  successThreshold: 1
-  failureThreshold: 3
-
 # Resource limits
 resources: {}
   # limits:

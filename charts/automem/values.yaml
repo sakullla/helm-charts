@@ -203,3 +203,60 @@ qdrant:
     size: 10Gi
     storageClassName: ""
   resources: {}
+
+# MCP SSE server configuration
+# Exposes AutoMem over HTTPS via MCP protocol for cloud AI platforms
+mcp:
+  enabled: false
+  replicaCount: 1
+  image:
+    repository: ghcr.io/sakullla/automem/mcp-sse-server
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  # Override the AutoMem API URL (default: auto-detected from in-cluster service)
+  automemApiUrl: ""
+  service:
+    annotations: {}
+    type: ClusterIP
+    port: 8080
+    # nodePort: 30080
+  startupProbe:
+    tcpSocket:
+      port: http
+    failureThreshold: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+    periodSeconds: 30
+    timeoutSeconds: 10
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  resources: {}
+  podAnnotations: {}
+  podLabels: {}
+  podSecurityContext: {}
+  securityContext: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  # HTTPRoute rules for MCP path-based routing
+  httpRoute:
+    rules: []
+    # Example: Route /mcp and /mcp/* to MCP SSE server
+    # - matches:
+    #     - path:
+    #         type: PathPrefix
+    #         value: /mcp

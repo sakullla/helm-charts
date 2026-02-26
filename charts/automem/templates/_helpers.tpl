@@ -78,3 +78,25 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- define "automem.qdrantHost" -}}
 {{- printf "%s-qdrant" .Release.Name -}}
 {{- end }}
+
+{{/* Name of MCP resources. */}}
+{{- define "automem.mcpFullname" -}}
+{{- printf "%s-mcp" (include "automem.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/* Selector labels for MCP resources. */}}
+{{- define "automem.mcpSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "automem.name" . }}-mcp
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/* Common labels for MCP resources. */}}
+{{- define "automem.mcpLabels" -}}
+helm.sh/chart: {{ include "automem.chart" . }}
+{{ include "automem.mcpSelectorLabels" . }}
+app.kubernetes.io/component: mcp
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}

@@ -81,13 +81,3 @@ Quote API URI
 {{- end }}
 {{- end }}
 
-{{/*
-MongoDB URI
-*/}}
-{{- define "quote-bot.mongodbUri" -}}
-{{- if .Values.mongodb.enabled }}
-{{- printf "mongodb://root:%s@%s-mongodb:27017/QuoteBot?authSource=admin" .Values.mongodb.auth.rootPassword .Release.Name }}
-{{- else }}
-{{- .Values.secrets.MONGODB_URI }}
-{{- end }}
-{{- end }}

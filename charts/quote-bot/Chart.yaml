@@ -13,5 +13,5 @@ appVersion: "latest"
 dependencies:
   - name: quote-api
     version: "0.0.1"
-    repository: "file://../quote-api"
+    repository: https://sakullla.github.io/helm-charts
     condition: quote-api.enabled

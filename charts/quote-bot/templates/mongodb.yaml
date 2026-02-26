@@ -37,6 +37,8 @@ metadata:
     app.kubernetes.io/component: mongodb
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       {{- include "quote-bot.selectorLabels" . | nindent 6 }}

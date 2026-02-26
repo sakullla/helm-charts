@@ -5,7 +5,7 @@ description: Telegram quote bot with quote-api dependency
 type: application
 
 # Chart version
-version: 0.0.1
+version: 0.0.2
 
 # Application version
 appVersion: "latest"

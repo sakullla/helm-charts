@@ -44,7 +44,7 @@ spec:
           env:
             - name: PORT
               value: {{ .Values.graphViewer.service.port | quote }}
-            - name: AUTOMEM_API_URL
+            - name: VITE_API_TARGET
               value: {{ default (printf "http://%s:%v" (include "automem.fullname" .) .Values.service.port) .Values.graphViewer.automemApiUrl | quote }}
           ports:
             - name: http

@@ -55,22 +55,4 @@ spec:
           weight: 1
     {{- end }}
     {{- end }}
-    {{- if .Values.mcp.enabled }}
-    {{- range .Values.mcp.httpRoute.rules }}
-    {{- with .matches }}
-    - matches:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .filters }}
-      filters:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-      backendRefs:
-        - name: {{ $fullName }}-mcp
-          port: {{ $.Values.mcp.service.port }}
-          group: ''
-          kind: Service
-          weight: 1
-    {{- end }}
-    {{- end }}
 {{- end }}

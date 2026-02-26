@@ -141,6 +141,23 @@ secrets:
 # Extra environment variables
 extraEnv: []
 
+# MongoDB configuration (embedded in quote-bot)
+mongodb:
+  enabled: true
+  image:
+    repository: mongo
+    pullPolicy: IfNotPresent
+    tag: "7.0"
+  auth:
+    rootUser: root
+    rootPassword: "changeme"
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+  resources: {}
+
 # Valkey sub-chart configuration (Redis compatible)
 valkey:
   enabled: true

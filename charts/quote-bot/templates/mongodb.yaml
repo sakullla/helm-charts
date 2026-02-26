@@ -1,0 +1,93 @@
+{{- if .Values.mongodb.enabled }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "quote-bot.fullname" . }}-mongodb
+  labels:
+    {{- include "quote-bot.labels" . | nindent 4 }}
+type: Opaque
+data:
+  MONGO_INITDB_ROOT_USERNAME: {{ .Values.mongodb.auth.rootUser | b64enc | quote }}
+  MONGO_INITDB_ROOT_PASSWORD: {{ .Values.mongodb.auth.rootPassword | b64enc | quote }}
+---
+{{- if .Values.mongodb.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "quote-bot.fullname" . }}-mongodb-data
+  labels:
+    {{- include "quote-bot.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.mongodb.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.mongodb.persistence.size }}
+  {{- if .Values.mongodb.persistence.storageClass }}
+  storageClassName: {{ .Values.mongodb.persistence.storageClass }}
+  {{- end }}
+{{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "quote-bot.fullname" . }}-mongodb
+  labels:
+    {{- include "quote-bot.labels" . | nindent 4 }}
+    app.kubernetes.io/component: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "quote-bot.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: mongodb
+  template:
+    metadata:
+      labels:
+        {{- include "quote-bot.labels" . | nindent 8 }}
+        app.kubernetes.io/component: mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: "{{ .Values.mongodb.image.repository }}:{{ .Values.mongodb.image.tag }}"
+          imagePullPolicy: {{ .Values.mongodb.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ include "quote-bot.fullname" . }}-mongodb
+          ports:
+            - name: mongodb
+              containerPort: 27017
+              protocol: TCP
+          {{- with .Values.mongodb.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /data/db
+      volumes:
+        - name: data
+          {{- if .Values.mongodb.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "quote-bot.fullname" . }}-mongodb-data
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "quote-bot.fullname" . }}-mongodb
+  labels:
+    {{- include "quote-bot.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 27017
+      targetPort: mongodb
+      protocol: TCP
+      name: mongodb
+  selector:
+    {{- include "quote-bot.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: mongodb
+{{- end }}

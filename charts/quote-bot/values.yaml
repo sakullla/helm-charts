@@ -57,6 +57,7 @@ affinity: {}
 # Non-sensitive application configuration (rendered as ConfigMap)
 env:
   NODE_ENV: "production"
+  LOG_LEVEL: "info"
   METRICS_PORT: "7000"
   EMOJI_DOMAIN: "https://emojipedia.org/"
   # Redis/Valkey configuration
@@ -114,12 +115,12 @@ valkey:
 # quote-api sub-chart configuration
 quote-api:
   enabled: true
-  fullnameOverride: quote-api
   service:
     port: 3000
   secrets:
     BOT_TOKEN: ""
   env:
     NODE_ENV: "production"
+    LOG_LEVEL: "info"
     PORT: "3000"
     EMOJI_DOMAIN: "https://emojipedia.org/"

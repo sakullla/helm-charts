@@ -6,6 +6,7 @@ metadata:
     {{- include "quote-bot.labels" . | nindent 4 }}
 data:
   NODE_ENV: {{ .Values.env.NODE_ENV | quote }}
+  LOG_LEVEL: {{ .Values.env.LOG_LEVEL | quote }}
   METRICS_PORT: {{ .Values.env.METRICS_PORT | quote }}
   EMOJI_DOMAIN: {{ .Values.env.EMOJI_DOMAIN | quote }}
   REDIS_HOST: {{ include "quote-bot.redisHost" . | quote }}

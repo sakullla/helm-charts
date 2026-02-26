@@ -123,6 +123,7 @@ spec:
             - |
               : "${WORKER_INDEX:=${HOSTNAME##*-}}"
               export WORKER_INDEX
+              export pm_id="${WORKER_INDEX}"
               exec node updates-worker.js
           envFrom:
             - configMapRef:

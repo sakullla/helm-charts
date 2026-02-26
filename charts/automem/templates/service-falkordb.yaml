@@ -1,0 +1,23 @@
+{{- if .Values.falkordb.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "automem.falkordbFullname" . }}
+  labels:
+    {{- include "automem.falkordbLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.falkordb.service.type }}
+  ports:
+    - name: redis
+      port: {{ .Values.falkordb.service.redisPort }}
+      targetPort: redis
+      protocol: TCP
+    {{- if .Values.falkordb.service.exposeBrowserPort }}
+    - name: browser
+      port: {{ .Values.falkordb.service.browserPort }}
+      targetPort: browser
+      protocol: TCP
+    {{- end }}
+  selector:
+    {{- include "automem.falkordbSelectorLabels" . | nindent 4 }}
+{{- end }}

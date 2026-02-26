@@ -1,21 +1,16 @@
 apiVersion: v2
 name: automem
-description: AutoMem long-term memory API with official Helm dependencies for FalkorDB and Qdrant.
+description: AutoMem long-term memory API with built-in FalkorDB resources and official Qdrant Helm dependency.
 
 type: application
 
 # Chart version
-version: 0.0.2
+version: 0.0.3
 
 # Application version
 appVersion: "v0.12.0"
 
 dependencies:
-  - name: redis
-    alias: falkordb
-    version: "25.3.2"
-    repository: https://charts.bitnami.com/bitnami
-    condition: falkordb.enabled
   - name: qdrant
     version: "1.17.0"
     repository: https://qdrant.github.io/qdrant-helm

@@ -1,5 +1,5 @@
 {{- $falkordbHost := default (include "automem.falkordbHost" .) .Values.api.falkordbHost -}}
-{{- $falkordbPort := default "6379" .Values.api.falkordbPort -}}
+{{- $falkordbPort := default (printf "%v" .Values.falkordb.service.redisPort) .Values.api.falkordbPort -}}
 {{- $defaultQdrantURL := printf "http://%s:%v" (include "automem.qdrantHost" .) 6333 -}}
 apiVersion: apps/v1
 kind: Deployment

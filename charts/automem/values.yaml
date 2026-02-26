@@ -147,32 +147,53 @@ api:
 # Extra API environment variables
 extraEnv: []
 
-# FalkorDB via official Helm guidance:
-# FalkorDB recommends deploying with a Redis-compatible Helm chart and the FalkorDB image.
+# FalkorDB service (graph storage)
 falkordb:
   enabled: true
-  architecture: standalone
-  global:
-    security:
-      allowInsecureImages: true
+  replicaCount: 1
   image:
     repository: falkordb/falkordb
     pullPolicy: IfNotPresent
     tag: "latest"
-  auth:
-    enabled: false
-    password: ""
-  master:
-    extraFlags:
-      - "--loadmodule /var/lib/falkordb/bin/falkordb.so"
-    persistence:
-      enabled: true
-      size: 5Gi
-      storageClass: ""
-    resources: {}
-    nodeSelector: {}
-    tolerations: []
-    affinity: {}
+  service:
+    type: ClusterIP
+    redisPort: 6379
+    browserPort: 3000
+    exposeBrowserPort: true
+  startupProbe:
+    tcpSocket:
+      port: redis
+    failureThreshold: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+  livenessProbe:
+    tcpSocket:
+      port: redis
+    periodSeconds: 20
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    tcpSocket:
+      port: redis
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    existingClaim: ""
+    annotations: {}
+  env:
+    REDIS_ARGS: "--save 60 1 --appendonly yes --appendfsync everysec --dir /data"
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
 
 # Qdrant via official Helm chart.
 qdrant:

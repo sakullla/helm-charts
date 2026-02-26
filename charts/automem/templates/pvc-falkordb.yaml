@@ -1,0 +1,21 @@
+{{- if and .Values.falkordb.enabled .Values.falkordb.persistence.enabled (not .Values.falkordb.persistence.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "automem.falkordbFullname" . }}-data
+  labels:
+    {{- include "automem.falkordbLabels" . | nindent 4 }}
+  {{- with .Values.falkordb.persistence.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.falkordb.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.falkordb.persistence.size }}
+  {{- if .Values.falkordb.persistence.storageClass }}
+  storageClassName: {{ .Values.falkordb.persistence.storageClass }}
+  {{- end }}
+{{- end }}

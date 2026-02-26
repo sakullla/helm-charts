@@ -1,0 +1,84 @@
+{{- if .Values.falkordb.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "automem.falkordbFullname" . }}
+  labels:
+    {{- include "automem.falkordbLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.falkordb.replicaCount }}
+  {{- if .Values.falkordb.persistence.enabled }}
+  strategy:
+    type: Recreate
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "automem.falkordbSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      labels:
+        {{- include "automem.falkordbLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: falkordb
+          image: "{{ .Values.falkordb.image.repository }}:{{ .Values.falkordb.image.tag }}"
+          imagePullPolicy: {{ .Values.falkordb.image.pullPolicy }}
+          env:
+            - name: REDIS_ARGS
+              value: {{ .Values.falkordb.env.REDIS_ARGS | quote }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "automem.fullname" . }}-secret
+                  key: FALKORDB_PASSWORD
+          ports:
+            - name: redis
+              containerPort: {{ .Values.falkordb.service.redisPort }}
+              protocol: TCP
+            {{- if .Values.falkordb.service.exposeBrowserPort }}
+            - name: browser
+              containerPort: {{ .Values.falkordb.service.browserPort }}
+              protocol: TCP
+            {{- end }}
+          {{- with .Values.falkordb.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.falkordb.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.falkordb.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.falkordb.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.falkordb.persistence.enabled }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          {{- end }}
+      {{- if .Values.falkordb.persistence.enabled }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ if .Values.falkordb.persistence.existingClaim }}{{ .Values.falkordb.persistence.existingClaim }}{{ else }}{{ include "automem.falkordbFullname" . }}-data{{ end }}
+      {{- end }}
+      {{- with .Values.falkordb.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.falkordb.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.falkordb.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

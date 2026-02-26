@@ -8,7 +8,7 @@
 
 3. Internal backing services rendered by this chart:
 {{- if .Values.falkordb.enabled }}
-  - FalkorDB: {{ include "automem.falkordbHost" . }}:6379 (bitnami/redis chart with FalkorDB image)
+  - FalkorDB: {{ include "automem.falkordbHost" . }}:{{ .Values.falkordb.service.redisPort }} (in-chart deployment)
 {{- else }}
   - FalkorDB: disabled (set api.falkordbHost/api.falkordbPort for external DB)
 {{- end }}
@@ -17,7 +17,3 @@
 {{- else }}
   - Qdrant: disabled (set api.qdrantUrl for external DB)
 {{- end }}
-
-4. Ensure you set your AutoMem app image:
-
-  --set image.repository=<your-registry>/automem --set image.tag=<your-tag>

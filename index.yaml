@@ -53,6 +53,22 @@ entries:
   automem:
   - apiVersion: v2
     appVersion: v0.12.0
+    created: "2026-02-26T13:54:10.874591105Z"
+    dependencies:
+    - condition: qdrant.enabled
+      name: qdrant
+      repository: https://qdrant.github.io/qdrant-helm
+      version: 1.17.0
+    description: AutoMem long-term memory API with built-in FalkorDB resources and
+      official Qdrant Helm dependency.
+    digest: 323d42a72ce4f1e1a3e8c66f63fe8490a21f5fb7523d892ba27a50b90bcc3c35
+    name: automem
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/automem-0.0.3/automem-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: v0.12.0
     created: "2026-02-26T13:20:49.025226493Z"
     dependencies:
     - alias: falkordb
@@ -568,4 +584,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-02-26T13:20:49.025239688Z"
+generated: "2026-02-26T13:54:10.874646649Z"

@@ -11,6 +11,10 @@ version: 0.0.3
 appVersion: "latest"
 
 dependencies:
+  - name: valkey
+    version: "0.9.3"
+    repository: https://valkey-io.github.io/valkey-helm
+    condition: valkey.enabled
   - name: quote-api
     version: "0.0.1"
     repository: https://sakullla.github.io/helm-charts

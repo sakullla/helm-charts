@@ -60,10 +60,14 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Redis host
+Redis/Valkey host
 */}}
 {{- define "quote-bot.redisHost" -}}
+{{- if .Values.valkey.enabled }}
+{{- printf "%s-valkey-primary" .Release.Name }}
+{{- else }}
 {{- .Values.env.REDIS_HOST }}
+{{- end }}
 {{- end }}
 
 {{/*

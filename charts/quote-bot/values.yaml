@@ -115,8 +115,8 @@ env:
   NODE_ENV: "production"
   METRICS_PORT: "7000"
   EMOJI_DOMAIN: "https://emojipedia.org/"
-  # Redis configuration
-  REDIS_HOST: "redis"
+  # Redis/Valkey configuration
+  REDIS_HOST: "valkey-primary"
   REDIS_PORT: "6379"
   # Worker configuration
   MAX_WORKERS: "3"
@@ -140,6 +140,17 @@ secrets:
 
 # Extra environment variables
 extraEnv: []
+
+# Valkey sub-chart configuration (Redis compatible)
+valkey:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
 
 # quote-api sub-chart configuration
 quote-api:

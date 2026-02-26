@@ -2,55 +2,66 @@
 
 ## Project Structure & Module Organization
 
-- `charts/` contains all Helm charts. Each chart lives at `charts/<chart-name>/` with `Chart.yaml`, `values.yaml`, and `templates/`.
-- `templates/` holds Kubernetes manifests and helpers like `_helpers.tpl`; optional `tests/` may exist for Helm tests.
-- `.github/workflows/` drives chart release automation and publishing to GitHub Pages.
-- Top-level docs live in `README.md` and `CLAUDE.md`.
+This repository is a Helm chart monorepo.
+
+- `charts/<chart-name>/`: one deployable chart per directory (`Chart.yaml`, `values.yaml`, `templates/`).
+- `charts/<chart-name>/templates/`: Kubernetes manifests and helpers (for example `_helpers.tpl`).
+- `charts/<chart-name>/templates/tests/`: optional Helm test hooks.
+- `.github/workflows/`: release and publishing automation.
+- Root docs: `README.md`, `CLAUDE.md`, and this guide.
+
+## Agent Skills
+
+- Local skills are stored in `.claude/skills/`.
+- When a task references a skill, read that skill from `.claude/skills/` first, then apply it in the current repo context.
 
 ## Build, Test, and Development Commands
 
-Use Helm for local validation:
+Use Helm CLI to validate chart changes before opening a PR:
 
 ```bash
-# Render templates (quick syntax check)
 helm template my-release charts/<chart-name>
-
-# Validate with install simulation
 helm install my-release charts/<chart-name> --dry-run --debug
-
-# View defaults
 helm show values charts/<chart-name>
 ```
 
-If a chart has dependencies:
+For charts with dependencies:
 
 ```bash
 helm dependency update charts/<chart-name>
 ```
 
+These checks should pass with default values and at least one customized values file when behavior is configurable.
+
 ## Coding Style & Naming Conventions
 
-- Follow existing Helm/YAML patterns in `charts/*` (two-space indentation, lowercase keys, and consistent ordering in `values.yaml`).
-- Use helpers from `_helpers.tpl` for names/labels instead of hardcoding.
-- Keep `values.yaml` documented with brief inline comments.
-- Always bump `Chart.yaml` `version` when any chart file changes.
+- YAML uses two-space indentation and lowercase keys.
+- Reuse helper templates for names/labels; avoid hardcoded metadata.
+- Keep `values.yaml` organized and briefly document non-obvious options.
+- Keep resource names and value keys consistent with existing charts.
+- Any chart change must include a `version` bump in that chart's `Chart.yaml`.
 
 ## Testing Guidelines
 
-- There is no centralized test framework; validate by rendering and dry-run installing.
-- If a chart includes Helm tests under `templates/tests/`, run:
-  ```bash
-  helm test <release-name>
-  ```
-- Ensure chart installs cleanly with defaults and at least one customized values file when relevant.
+There is no centralized unit-test framework for charts; validation is template/render based.
+
+- Run `helm template` for syntax and rendering checks.
+- Run `helm install --dry-run --debug` for install-time validation.
+- If test hooks exist, run `helm test <release-name>` against a deployed release.
 
 ## Commit & Pull Request Guidelines
 
-- Git history is mixed: many commits are terse (`1`) and some use prefixes like `docs:` or `chore:`. Prefer clear, scoped messages.
-- Recommended format: `feat(<chart>): ...`, `fix(<chart>): ...`, `docs: ...`, `chore: ...`.
-- PRs should describe the chart change, include the bumped chart version, and note validation commands run (e.g., `helm template`, `--dry-run --debug`).
+Prefer clear, scoped commit messages:
+
+- `feat(<chart>): ...`
+- `fix(<chart>): ...`
+- `docs: ...`
+- `chore: ...`
+
+PRs should include: what changed, why, affected chart(s), chart version bump, and commands used for validation.
 
 ## Security & Configuration Tips
 
-- Do not hardcode secrets. Use values (or Kubernetes secrets) and document expected keys in `values.yaml`.
-- Prefer conditional templates for optional features (Ingress, HTTPRoute, persistence) to keep defaults minimal.
+- Never hardcode credentials; expose them via values and Kubernetes Secrets.
+- Gate optional components (Ingress, persistence, extra services) behind values flags.
+- Document required environment variables and secret keys in `values.yaml` comments.

@@ -1,0 +1,188 @@
+# Default values for automem.
+
+replicaCount: 1
+
+image:
+  # Default AutoMem image.
+  repository: ghcr.io/sakullla/automem
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+command: []
+args: []
+
+# Service Account
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# API service configuration
+service:
+  annotations: {}
+  type: ClusterIP
+  port: 8001
+  # nodePort: 30081
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: automem.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+# Gateway API HTTPRoute
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - automem.local
+  rules: []
+
+# Health probes for API
+startupProbe:
+  tcpSocket:
+    port: http
+  # AutoMem may perform startup initialization before accepting traffic.
+  failureThreshold: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  periodSeconds: 30
+  timeoutSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+# Resource limits for API
+resources: {}
+
+# Autoscaling for API
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Persistence for model cache (/root/.config/automem/models)
+persistence:
+  enabled: true
+  size: 5Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  existingClaim: ""
+  annotations: {}
+  mountPath: /root/.config/automem/models
+
+# Additional API volumes
+volumes: []
+volumeMounts: []
+
+# Scheduling for API
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Non-sensitive application configuration (ConfigMap)
+env:
+  FLASK_ENV: "development"
+  FLASK_DEBUG: "1"
+  PORT: "8001"
+  EMBEDDING_PROVIDER: "auto"
+  AUTOMEM_MODELS_DIR: "/root/.config/automem/models"
+
+# Sensitive application configuration (Secret)
+secrets:
+  AUTOMEM_API_TOKEN: "test-token"
+  ADMIN_API_TOKEN: "test-admin-token"
+  FALKORDB_PASSWORD: ""
+  QDRANT_API_KEY: ""
+  OPENAI_API_KEY: ""
+
+# Explicit API backend overrides.
+# Leave empty to auto-wire to in-chart services.
+api:
+  falkordbHost: ""
+  falkordbPort: ""
+  qdrantUrl: ""
+
+# Extra API environment variables
+extraEnv: []
+
+# FalkorDB via official Helm guidance:
+# FalkorDB recommends deploying with a Redis-compatible Helm chart and the FalkorDB image.
+falkordb:
+  enabled: true
+  architecture: standalone
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    repository: falkordb/falkordb
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  auth:
+    enabled: false
+    password: ""
+  master:
+    extraFlags:
+      - "--loadmodule /var/lib/falkordb/bin/falkordb.so"
+    persistence:
+      enabled: true
+      size: 5Gi
+      storageClass: ""
+    resources: {}
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+
+# Qdrant via official Helm chart.
+qdrant:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: docker.io/qdrant/qdrant
+    pullPolicy: IfNotPresent
+    tag: ""
+  persistence:
+    size: 10Gi
+    storageClassName: ""
+  resources: {}

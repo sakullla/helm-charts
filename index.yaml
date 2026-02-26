@@ -437,6 +437,22 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/quote-api-0.0.1/quote-api-0.0.1.tgz
     version: 0.0.1
+  quote-bot:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-02-26T06:13:13.753710684Z"
+    dependencies:
+    - condition: quote-api.enabled
+      name: quote-api
+      repository: file://../quote-api
+      version: 0.0.1
+    description: Telegram quote bot with quote-api dependency
+    digest: 7559c94360aa444a5935c71293c8e3075e76af414a92fdee94447018b228661a
+    name: quote-bot
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/quote-bot-0.0.1/quote-bot-0.0.1.tgz
+    version: 0.0.1
   saveany-bot:
   - apiVersion: v2
     appVersion: 0.46.2
@@ -526,4 +542,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-02-26T06:08:04.634762118Z"
+generated: "2026-02-26T06:13:13.753732896Z"

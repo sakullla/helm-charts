@@ -100,3 +100,25 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
+
+{{/* Name of Graph Viewer resources. */}}
+{{- define "automem.graphViewerFullname" -}}
+{{- printf "%s-viewer" (include "automem.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/* Selector labels for Graph Viewer resources. */}}
+{{- define "automem.graphViewerSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "automem.name" . }}-viewer
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/* Common labels for Graph Viewer resources. */}}
+{{- define "automem.graphViewerLabels" -}}
+helm.sh/chart: {{ include "automem.chart" . }}
+{{ include "automem.graphViewerSelectorLabels" . }}
+app.kubernetes.io/component: graph-viewer
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}

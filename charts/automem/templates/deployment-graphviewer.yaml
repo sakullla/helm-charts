@@ -1,0 +1,81 @@
+{{- if .Values.graphViewer.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "automem.fullname" . }}-viewer
+  labels:
+    {{- include "automem.graphViewerLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.graphViewer.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "automem.graphViewerSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.graphViewer.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "automem.graphViewerLabels" . | nindent 8 }}
+        {{- with .Values.graphViewer.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "automem.serviceAccountName" . }}
+      {{- with .Values.graphViewer.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: viewer
+          {{- with .Values.graphViewer.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.graphViewer.image.repository }}:{{ .Values.graphViewer.image.tag }}"
+          imagePullPolicy: {{ .Values.graphViewer.image.pullPolicy }}
+          env:
+            - name: PORT
+              value: {{ .Values.graphViewer.service.port | quote }}
+            - name: AUTOMEM_API_URL
+              value: {{ default (printf "http://%s:%v" (include "automem.fullname" .) .Values.service.port) .Values.graphViewer.automemApiUrl | quote }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.graphViewer.service.port }}
+              protocol: TCP
+          {{- with .Values.graphViewer.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.graphViewer.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.graphViewer.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.graphViewer.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.graphViewer.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.graphViewer.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.graphViewer.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

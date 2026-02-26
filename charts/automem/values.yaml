@@ -178,10 +178,6 @@ falkordb:
 qdrant:
   enabled: true
   replicaCount: 1
-  image:
-    repository: docker.io/qdrant/qdrant
-    pullPolicy: IfNotPresent
-    tag: ""
   persistence:
     size: 10Gi
     storageClassName: ""

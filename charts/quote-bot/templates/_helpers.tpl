@@ -63,11 +63,7 @@ Create the name of the service account to use
 Redis host
 */}}
 {{- define "quote-bot.redisHost" -}}
-{{- if .Values.redis.enabled }}
-{{- printf "%s-redis-master" .Release.Name }}
-{{- else }}
 {{- .Values.env.REDIS_HOST }}
-{{- end }}
 {{- end }}
 
 {{/*

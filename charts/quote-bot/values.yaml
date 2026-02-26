@@ -141,17 +141,6 @@ secrets:
 # Extra environment variables
 extraEnv: []
 
-# Redis sub-chart configuration
-redis:
-  enabled: true
-  architecture: standalone
-  auth:
-    enabled: false
-  master:
-    persistence:
-      enabled: true
-      size: 1Gi
-
 # quote-api sub-chart configuration
 quote-api:
   enabled: true

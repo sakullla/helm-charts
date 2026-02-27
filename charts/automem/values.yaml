@@ -154,7 +154,7 @@ falkordb:
   image:
     repository: falkordb/falkordb
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "v4.16.5"
   service:
     type: ClusterIP
     redisPort: 6379
@@ -188,8 +188,6 @@ falkordb:
     accessMode: ReadWriteOnce
     existingClaim: ""
     annotations: {}
-  env:
-    REDIS_ARGS: "--save 60 1 --appendonly yes --appendfsync everysec --dir /data"
   resources: {}
   nodeSelector: {}
   tolerations: []

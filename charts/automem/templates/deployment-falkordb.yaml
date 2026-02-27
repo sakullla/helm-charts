@@ -26,8 +26,6 @@ spec:
           image: "{{ .Values.falkordb.image.repository }}:{{ .Values.falkordb.image.tag }}"
           imagePullPolicy: {{ .Values.falkordb.image.pullPolicy }}
           env:
-            - name: REDIS_ARGS
-              value: {{ .Values.falkordb.env.REDIS_ARGS | quote }}
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -61,7 +59,7 @@ spec:
           {{- if .Values.falkordb.persistence.enabled }}
           volumeMounts:
             - name: data
-              mountPath: /data
+              mountPath: /var/lib/falkordb/data
           {{- end }}
       {{- if .Values.falkordb.persistence.enabled }}
       volumes:

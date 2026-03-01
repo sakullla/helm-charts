@@ -130,14 +130,16 @@ env:
   REQUIRE_AUTHENTICATION: "true"
   ENABLE_BACKEND_ACCESS_CONTROL: "true"
 
-  DB_PROVIDER: "sqlite"
-  DB_NAME: "cognee_db"
+  # Keep database/vector/graph provider values unset by default.
+  # This avoids conflicts with dependencyAutoConfig when optional profiles are enabled.
+  # DB_PROVIDER: "sqlite"
+  # DB_NAME: "cognee_db"
 
-  VECTOR_DB_PROVIDER: "lancedb"
-  VECTOR_DATASET_DATABASE_HANDLER: "lancedb"
+  # VECTOR_DB_PROVIDER: "lancedb"
+  # VECTOR_DATASET_DATABASE_HANDLER: "lancedb"
 
-  GRAPH_DATABASE_PROVIDER: "kuzu"
-  GRAPH_DATASET_DATABASE_HANDLER: "kuzu"
+  # GRAPH_DATABASE_PROVIDER: "kuzu"
+  # GRAPH_DATASET_DATABASE_HANDLER: "kuzu"
 
   DATA_ROOT_DIRECTORY: "/var/lib/cognee/data"
   SYSTEM_ROOT_DIRECTORY: "/var/lib/cognee/system"

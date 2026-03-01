@@ -1,6 +1,10 @@
 apiVersion: v2
 name: <CHART-NAME>
 description: A Helm chart for <APPLICATION>
+keywords:
+  - <KEYWORD-1>
+  - <KEYWORD-2>
+  - <KEYWORD-3>
 
 # A chart can be either an 'application' or a 'library' chart.
 type: application

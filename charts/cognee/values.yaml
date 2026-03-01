@@ -180,7 +180,7 @@ postgres:
     database: cognee_db
   persistence:
     enabled: true
-    size: 20Gi
+    size: 5Gi
     storageClass: ""
     accessMode: ReadWriteOnce
     existingClaim: ""
@@ -204,7 +204,7 @@ chromadb:
     port: 8000
   persistence:
     enabled: true
-    size: 20Gi
+    size: 5Gi
     storageClass: ""
     accessMode: ReadWriteOnce
     existingClaim: ""
@@ -233,7 +233,7 @@ neo4j:
   plugins: "[\"apoc\", \"graph-data-science\"]"
   persistence:
     enabled: true
-    size: 20Gi
+    size: 5Gi
     storageClass: ""
     accessMode: ReadWriteOnce
     existingClaim: ""

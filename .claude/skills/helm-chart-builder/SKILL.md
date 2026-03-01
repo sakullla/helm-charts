@@ -13,6 +13,7 @@ Use this skill to produce repository-consistent charts quickly and safely.
 2. Create the chart with `helm create charts/<chart-name>`.
 3. Update `Chart.yaml`:
    - Set `description` to the app purpose.
+   - Add a `keywords` list with at least 3 chart-relevant keywords.
    - Set `version: 0.0.1` for a new chart.
    - Set `appVersion` to the app image tag you want as default.
 4. Build `values.yaml` from `assets/values-example.yaml`:
@@ -23,7 +24,11 @@ Use this skill to produce repository-consistent charts quickly and safely.
 5. Apply templates from `assets/templates/`:
    - Required: `_helpers.tpl`, `deployment.yaml`, `service.yaml`, `serviceaccount.yaml`, `configmap.yaml`, `secret.yaml`.
    - Optional: `ingress.yaml`, `httproute.yaml`, `hpa.yaml`, `pvc.yaml`, `NOTES.txt`.
-6. Validate with Helm before finishing.
+6. Create `README.md` in `charts/<chart-name>/` from `assets/README-example.md`:
+   - Include: Overview, Prerequisites, Installation, Configuration, Key Values, Validation.
+   - Document required secrets/env values and one runnable example values snippet.
+   - Keep defaults in README consistent with `values.yaml`.
+7. Validate with Helm before finishing.
 
 ## Keep These Repository Conventions
 
@@ -42,6 +47,7 @@ Use this skill to produce repository-consistent charts quickly and safely.
 - In `httproute.yaml` `backendRefs`, always include `group: ''` and `kind: Service` alongside `name`, `port`, and `weight`.
 - Keep helper-based naming/labels; do not hardcode resource names.
 - Keep YAML indentation as two spaces.
+- Each chart should include a chart-local `README.md`.
 
 ## Validate Every Change
 
@@ -60,5 +66,6 @@ If modifying an existing chart, bump `Chart.yaml` `version` in the same change.
 - Template library: `assets/templates/`
 - Default values skeleton: `assets/values-example.yaml`
 - Chart metadata skeleton: `assets/chart-example.yaml`
+- Chart README skeleton: `assets/README-example.md`
 - Probe tuning reference: `references/probes-guide.md`
 - Values organization reference: `references/configuration-guide.md`

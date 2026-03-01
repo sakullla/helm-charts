@@ -133,6 +133,22 @@ entries:
   cognee:
   - apiVersion: v2
     appVersion: 0.5.3
+    created: "2026-03-01T07:30:37.537440537Z"
+    description: Production-ready Helm chart for deploying Cognee API server
+    digest: fdde51c171ab2d8f58230ee2fb727a25abf4d8bc3ee5501d60ddc578c4f04b8c
+    keywords:
+    - cognee
+    - ai-memory
+    - mcp-backend
+    - knowledge-graph
+    - rag
+    name: cognee
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/cognee-0.0.2/cognee-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 0.5.3
     created: "2026-03-01T07:19:59.161984503Z"
     description: Production-ready Helm chart for deploying Cognee API server
     digest: e104d57548a362a214f0b7c65c76d3c582f7c5cd5a78535c48fc706101c2061d
@@ -580,4 +596,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-03-01T07:19:59.162000654Z"
+generated: "2026-03-01T07:30:37.537462669Z"

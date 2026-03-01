@@ -83,13 +83,7 @@ readinessProbe:
   successThreshold: 1
   failureThreshold: 5
 
-resources:
-  requests:
-    cpu: 500m
-    memory: 1Gi
-  limits:
-    cpu: "2"
-    memory: 4Gi
+resources: {}
 
 autoscaling:
   enabled: false
@@ -100,7 +94,7 @@ autoscaling:
 
 persistence:
   enabled: true
-  size: 20Gi
+  size: 5Gi
   storageClass: ""
   accessMode: ReadWriteOnce
   existingClaim: ""

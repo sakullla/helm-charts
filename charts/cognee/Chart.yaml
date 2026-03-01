@@ -1,0 +1,12 @@
+apiVersion: v2
+name: cognee
+description: Production-ready Helm chart for deploying Cognee API server
+keywords:
+  - cognee
+  - ai-memory
+  - mcp-backend
+  - knowledge-graph
+  - rag
+type: application
+version: 0.0.1
+appVersion: "0.5.3"

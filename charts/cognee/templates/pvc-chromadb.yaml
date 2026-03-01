@@ -1,0 +1,25 @@
+{{- if and .Values.chromadb.enabled .Values.chromadb.persistence.enabled (not .Values.chromadb.persistence.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "cognee.chromadbFullname" . }}-data
+  labels:
+    {{- include "cognee.chromadbLabels" . | nindent 4 }}
+  {{- with .Values.chromadb.persistence.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.chromadb.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.chromadb.persistence.size }}
+  {{- with .Values.chromadb.persistence.storageClass }}
+  {{- if eq . "-" }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ . }}
+  {{- end }}
+  {{- end }}
+{{- end }}

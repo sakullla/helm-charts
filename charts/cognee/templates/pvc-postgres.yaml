@@ -1,0 +1,25 @@
+{{- if and .Values.postgres.enabled .Values.postgres.persistence.enabled (not .Values.postgres.persistence.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "cognee.postgresFullname" . }}-data
+  labels:
+    {{- include "cognee.postgresLabels" . | nindent 4 }}
+  {{- with .Values.postgres.persistence.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.postgres.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.postgres.persistence.size }}
+  {{- with .Values.postgres.persistence.storageClass }}
+  {{- if eq . "-" }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ . }}
+  {{- end }}
+  {{- end }}
+{{- end }}

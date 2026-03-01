@@ -1,0 +1,25 @@
+{{- if and .Values.neo4j.enabled .Values.neo4j.persistence.enabled (not .Values.neo4j.persistence.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "cognee.neo4jFullname" . }}-data
+  labels:
+    {{- include "cognee.neo4jLabels" . | nindent 4 }}
+  {{- with .Values.neo4j.persistence.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.neo4j.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.neo4j.persistence.size }}
+  {{- with .Values.neo4j.persistence.storageClass }}
+  {{- if eq . "-" }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ . }}
+  {{- end }}
+  {{- end }}
+{{- end }}

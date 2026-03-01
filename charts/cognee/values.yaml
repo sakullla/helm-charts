@@ -1,0 +1,245 @@
+# Default values for cognee.
+
+replicaCount: 1
+
+image:
+  repository: cognee/cognee
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+command: []
+args: []
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  annotations: {}
+  type: ClusterIP
+  port: 8000
+  # nodePort: 30080
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: cognee.example.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - cognee.example.local
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+startupProbe:
+  tcpSocket:
+    port: http
+  failureThreshold: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 30
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 20
+  periodSeconds: 15
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: "2"
+    memory: 4Gi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+persistence:
+  enabled: true
+  size: 20Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  existingClaim: ""
+  mountPath: /var/lib/cognee
+  annotations: {}
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Auto-inject dependency host/port env values when in-chart dependencies are enabled.
+dependencyAutoConfig:
+  enabled: true
+
+# Non-sensitive environment variables for Cognee API
+env:
+  DEBUG: "false"
+  HOST: "0.0.0.0"
+  ENVIRONMENT: "production"
+  LOG_LEVEL: "INFO"
+  CORS_ALLOWED_ORIGINS: "*"
+  HTTP_PORT: "8000"
+
+  REQUIRE_AUTHENTICATION: "true"
+  ENABLE_BACKEND_ACCESS_CONTROL: "true"
+
+  DB_PROVIDER: "sqlite"
+  DB_NAME: "cognee_db"
+
+  VECTOR_DB_PROVIDER: "lancedb"
+  VECTOR_DATASET_DATABASE_HANDLER: "lancedb"
+
+  GRAPH_DATABASE_PROVIDER: "kuzu"
+  GRAPH_DATASET_DATABASE_HANDLER: "kuzu"
+
+  DATA_ROOT_DIRECTORY: "/var/lib/cognee/data"
+  SYSTEM_ROOT_DIRECTORY: "/var/lib/cognee/system"
+  CACHE_ROOT_DIRECTORY: "/var/lib/cognee/cache"
+  COGNEE_LOGS_DIR: "/var/lib/cognee/logs"
+
+  LLM_PROVIDER: "openai"
+  LLM_MODEL: "openai/gpt-5-mini"
+  # LLM_ENDPOINT: ""
+  # LLM_API_VERSION: ""
+
+# Sensitive values for Cognee API
+secrets:
+  LLM_API_KEY: ""
+  # DEFAULT_USER_PASSWORD: ""
+  # DB_USERNAME: ""
+  # DB_PASSWORD: ""
+  # VECTOR_DB_KEY: ""
+  # VECTOR_DB_USERNAME: ""
+  # VECTOR_DB_PASSWORD: ""
+  # GRAPH_DATABASE_USERNAME: ""
+  # GRAPH_DATABASE_PASSWORD: ""
+
+extraEnv: []
+
+# Optional PostgreSQL dependency (matches compose postgres profile)
+postgres:
+  enabled: false
+  replicaCount: 1
+  image:
+    repository: pgvector/pgvector
+    pullPolicy: IfNotPresent
+    tag: "pg17"
+  service:
+    type: ClusterIP
+    port: 5432
+  auth:
+    username: cognee
+    password: cognee
+    database: cognee_db
+  persistence:
+    enabled: true
+    size: 20Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    existingClaim: ""
+    annotations: {}
+    mountPath: /var/lib/postgresql/data
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# Optional ChromaDB dependency (matches compose chromadb profile)
+chromadb:
+  enabled: false
+  replicaCount: 1
+  image:
+    repository: chromadb/chroma
+    pullPolicy: IfNotPresent
+    tag: "0.6.3"
+  service:
+    type: ClusterIP
+    port: 8000
+  persistence:
+    enabled: true
+    size: 20Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    existingClaim: ""
+    annotations: {}
+    mountPath: /chroma/chroma
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# Optional Neo4j dependency (matches compose neo4j profile)
+neo4j:
+  enabled: false
+  replicaCount: 1
+  image:
+    repository: neo4j
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  service:
+    type: ClusterIP
+    httpPort: 7474
+    boltPort: 7687
+  auth:
+    username: neo4j
+    password: pleaseletmein
+  plugins: "[\"apoc\", \"graph-data-science\"]"
+  persistence:
+    enabled: true
+    size: 20Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    existingClaim: ""
+    annotations: {}
+    mountPath: /data
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}

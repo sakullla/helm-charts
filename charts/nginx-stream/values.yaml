@@ -66,6 +66,7 @@ nginx:
   user: nginx
   workerProcesses: auto
   workerConnections: 10240
+  # Used by stream proxy_pass runtime DNS resolution (when backendHost is a domain).
   resolver: 1.1.1.1 8.8.8.8 valid=30s ipv6=off
   protocolDefaults:
     tcpEnabled: true

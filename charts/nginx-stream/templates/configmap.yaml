@@ -24,7 +24,8 @@ data:
 
       server {
         listen {{ .listenPort }};
-        proxy_pass {{ .backendHost }}:{{ .backendPort }};
+        set $backend {{ .backendHost }}:{{ .backendPort }};
+        proxy_pass $backend;
 {{- with $.Values.nginx.timeouts.tcp.proxyConnectTimeout }}
         proxy_connect_timeout {{ . }};
 {{- end }}
@@ -37,7 +38,8 @@ data:
 
       server {
         listen {{ .listenPort }} udp;
-        proxy_pass {{ .backendHost }}:{{ .backendPort }};
+        set $backend {{ .backendHost }}:{{ .backendPort }};
+        proxy_pass $backend;
 {{- with $.Values.nginx.timeouts.udp.proxyTimeout }}
         proxy_timeout {{ . }};
 {{- end }}

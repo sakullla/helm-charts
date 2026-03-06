@@ -222,10 +222,13 @@ mcp:
 # Graph Viewer integration (deploy Graph Viewer with the separate automem-graph-viewer chart)
 graphViewer:
   # Enables AutoMem API /viewer redirect and viewer CORS config.
+  # Also enables the graphViewer dependency chart.
   enabled: false
+  # AutoMem API endpoint used by graphViewer dependency chart.
+  # Override this when release name/fullname is customized.
+  automemApiUrl: "http://automem:8001"
   # External URL for Graph Viewer (required when enabled=true)
   url: ""
   # Allowed origins for Graph Viewer CORS
   # If not set, defaults to graphViewer.url
   allowedOrigins: ""
-

@@ -5,12 +5,16 @@ description: AutoMem long-term memory API with built-in FalkorDB resources and o
 type: application
 
 # Chart version
-version: 0.0.7
+version: 0.0.8
 
 # Application version
 appVersion: "v0.12.0"
 
 dependencies:
+  - name: falkordb
+    version: "0.0.1"
+    repository: file://../falkordb
+    condition: falkordb.enabled
   - name: qdrant
     version: "1.17.0"
     repository: https://qdrant.github.io/qdrant-helm

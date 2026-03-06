@@ -147,7 +147,7 @@ api:
 # Extra API environment variables
 extraEnv: []
 
-# FalkorDB service (graph storage)
+# FalkorDB dependency chart (graph storage)
 falkordb:
   enabled: true
   replicaCount: 1
@@ -160,6 +160,9 @@ falkordb:
     redisPort: 6379
     browserPort: 3000
     exposeBrowserPort: true
+  # Keep this aligned with top-level secrets.FALKORDB_PASSWORD when auth is enabled.
+  secrets:
+    REDIS_PASSWORD: ""
   startupProbe:
     tcpSocket:
       port: redis

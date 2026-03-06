@@ -8,7 +8,7 @@
 
 3. Internal backing services rendered by this chart:
 {{- if .Values.falkordb.enabled }}
-  - FalkorDB: {{ include "automem.falkordbHost" . }}:{{ .Values.falkordb.service.redisPort }} (in-chart deployment)
+  - FalkorDB: {{ include "automem.falkordbHost" . }}:{{ .Values.falkordb.service.redisPort }} (falkordb dependency chart)
 {{- else }}
   - FalkorDB: disabled (set api.falkordbHost/api.falkordbPort for external DB)
 {{- end }}

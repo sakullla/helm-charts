@@ -1,0 +1,24 @@
+FalkorDB has been deployed.
+
+Redis endpoint:
+  {{ include "falkordb.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.redisPort }}
+
+Port-forward Redis locally:
+  kubectl --namespace {{ .Release.Namespace }} port-forward svc/{{ include "falkordb.fullname" . }} 6379:{{ .Values.service.redisPort }}
+
+{{- if .Values.service.exposeBrowserPort }}
+Browser endpoint port:
+  {{ include "falkordb.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.browserPort }}
+
+Port-forward browser locally:
+  kubectl --namespace {{ .Release.Namespace }} port-forward svc/{{ include "falkordb.fullname" . }} 3000:{{ .Values.service.browserPort }}
+
+{{- if and .Values.ingress.enabled .Values.ingress.hosts }}
+Ingress URL(s):
+{{- range $host := .Values.ingress.hosts }}
+{{- range .paths }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

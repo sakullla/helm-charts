@@ -1,0 +1,10 @@
+apiVersion: v2
+name: falkordb
+description: FalkorDB graph database with Redis protocol and optional browser port.
+type: application
+version: 0.0.1
+appVersion: "v4.16.5"
+keywords:
+  - falkordb
+  - graph-database
+  - redis

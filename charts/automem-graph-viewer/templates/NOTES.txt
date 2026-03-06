@@ -1,0 +1,11 @@
+1. Access Graph Viewer inside the cluster:
+
+  kubectl port-forward svc/{{ include "automem-graph-viewer.fullname" . }} 3000:{{ .Values.service.port }}
+
+2. Open Graph Viewer:
+
+  http://127.0.0.1:3000
+
+3. AutoMem API target configured for viewer:
+
+  {{ .Values.automemApiUrl }}

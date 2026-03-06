@@ -150,51 +150,8 @@ extraEnv: []
 # FalkorDB dependency chart (graph storage)
 falkordb:
   enabled: true
-  replicaCount: 1
-  image:
-    repository: falkordb/falkordb
-    pullPolicy: IfNotPresent
-    tag: "v4.16.5"
-  service:
-    type: ClusterIP
-    redisPort: 6379
-    browserPort: 3000
-    exposeBrowserPort: true
-  # Keep this aligned with top-level secrets.FALKORDB_PASSWORD when auth is enabled.
   secrets:
     REDIS_PASSWORD: ""
-  startupProbe:
-    tcpSocket:
-      port: redis
-    failureThreshold: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-  livenessProbe:
-    tcpSocket:
-      port: redis
-    periodSeconds: 20
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 3
-  readinessProbe:
-    tcpSocket:
-      port: redis
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 3
-  persistence:
-    enabled: true
-    size: 5Gi
-    storageClass: ""
-    accessMode: ReadWriteOnce
-    existingClaim: ""
-    annotations: {}
-  resources: {}
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
 
 # Qdrant via official Helm chart.
 qdrant:
@@ -262,70 +219,13 @@ mcp:
     #         type: PathPrefix
     #         value: /mcp
 
-# Graph Viewer - Web UI for visualizing AutoMem graph data
-# https://github.com/sakullla/automem-graph-viewer
+# Graph Viewer integration (deploy Graph Viewer with the separate automem-graph-viewer chart)
 graphViewer:
+  # Enables AutoMem API /viewer redirect and viewer CORS config.
   enabled: false
-  replicaCount: 1
-  image:
-    repository: ghcr.io/sakullla/automem-graph-viewer
-    pullPolicy: IfNotPresent
-    tag: "latest"
-  service:
-    annotations: {}
-    type: ClusterIP
-    port: 3000
-    # nodePort: 30082
-  # Override the AutoMem API URL (default: auto-detected from in-cluster service)
-  automemApiUrl: ""
-  # External URL for Graph Viewer (used by AutoMem API for /viewer redirect)
-  # If not set, defaults to in-cluster service URL
+  # External URL for Graph Viewer (required when enabled=true)
   url: ""
   # Allowed origins for Graph Viewer CORS
-  # If not set, defaults to the viewer URL
+  # If not set, defaults to graphViewer.url
   allowedOrigins: ""
-  startupProbe:
-    tcpSocket:
-      port: http
-    failureThreshold: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-  livenessProbe:
-    tcpSocket:
-      port: http
-    periodSeconds: 30
-    timeoutSeconds: 10
-    successThreshold: 1
-    failureThreshold: 3
-  readinessProbe:
-    tcpSocket:
-      port: http
-    initialDelaySeconds: 5
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 3
-  resources: {}
-  podAnnotations: {}
-  podLabels: {}
-  podSecurityContext: {}
-  securityContext: {}
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
-  # HTTPRoute configuration for Graph Viewer (separate from main API)
-  httpRoute:
-    enabled: false
-    annotations: {}
-    parentRefs: []
-    # - name: gateway
-    #   sectionName: http
-    hostnames: []
-    # - viewer.example.com
-    rules: []
-    # Example: Route root path to Graph Viewer
-    # - matches:
-    #     - path:
-    #         type: PathPrefix
-    #         value: /
+

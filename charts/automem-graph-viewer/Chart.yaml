@@ -1,0 +1,11 @@
+apiVersion: v2
+name: automem-graph-viewer
+description: Graph Viewer web UI for visualizing AutoMem graph data.
+
+type: application
+
+# Chart version
+version: 0.0.2
+
+# Application version
+appVersion: "latest"

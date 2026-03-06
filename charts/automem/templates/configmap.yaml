@@ -10,6 +10,6 @@ data:
   {{- end }}
   ENABLE_GRAPH_VIEWER: {{ .Values.graphViewer.enabled | quote }}
   {{- if .Values.graphViewer.enabled }}
-  GRAPH_VIEWER_URL: {{ .Values.graphViewer.url | default (printf "http://%s-viewer:%v" (include "automem.fullname" .) .Values.graphViewer.service.port) | quote }}
-  VIEWER_ALLOWED_ORIGINS: {{ default (.Values.graphViewer.url | default (printf "http://%s-viewer:%v" (include "automem.fullname" .) .Values.graphViewer.service.port)) .Values.graphViewer.allowedOrigins | quote }}
+  GRAPH_VIEWER_URL: {{ required "graphViewer.url is required when graphViewer.enabled=true" .Values.graphViewer.url | quote }}
+  VIEWER_ALLOWED_ORIGINS: {{ default .Values.graphViewer.url .Values.graphViewer.allowedOrigins | quote }}
   {{- end }}

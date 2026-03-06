@@ -17,3 +17,8 @@
 {{- else }}
   - Qdrant: disabled (set api.qdrantUrl for external DB)
 {{- end }}
+{{- if .Values.graphViewer.enabled }}
+4. Graph Viewer integration:
+
+  - Enabled with external URL: {{ .Values.graphViewer.url }}
+{{- end }}

@@ -5,7 +5,7 @@ description: AutoMem long-term memory API with built-in FalkorDB resources and o
 type: application
 
 # Chart version
-version: 0.0.13
+version: 0.0.14
 
 # Application version
 appVersion: "0.14.0"
@@ -19,8 +19,8 @@ dependencies:
     version: "1.17.0"
     repository: https://qdrant.github.io/qdrant-helm
     condition: qdrant.enabled
-#  - name: automem-graph-viewer
-#    alias: graphViewer
-#    version: "0.0.2"
-#    repository: https://sakullla.github.io/helm-charts
-#    condition: graphViewer.enabled
+  - name: automem-graph-viewer
+    alias: graphViewer
+    version: "0.0.3"
+    repository: https://sakullla.github.io/helm-charts
+    condition: graphViewer.enabled

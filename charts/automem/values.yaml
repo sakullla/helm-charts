@@ -7,7 +7,7 @@ image:
   repository: ghcr.io/verygoodplugins/automem
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -170,7 +170,7 @@ mcp:
   image:
     repository: ghcr.io/verygoodplugins/automem/mcp-sse-server
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: ""
   # Override the AutoMem API URL (default: auto-detected from in-cluster service)
   automemApiUrl: ""
   service:

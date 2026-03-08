@@ -5,10 +5,10 @@ description: AutoMem long-term memory API with built-in FalkorDB resources and o
 type: application
 
 # Chart version
-version: 0.0.12
+version: 0.0.13
 
 # Application version
-appVersion: "v0.14.0"
+appVersion: "0.14.0"
 
 dependencies:
   - name: falkordb

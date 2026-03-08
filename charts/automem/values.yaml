@@ -150,6 +150,8 @@ extraEnv: []
 # FalkorDB dependency chart (graph storage)
 falkordb:
   enabled: true
+  service:
+    redisPort: 6379
   secrets:
     REDIS_PASSWORD: ""
 

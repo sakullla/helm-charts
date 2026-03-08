@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   # Default AutoMem image.
-  repository: ghcr.io/sakullla/automem
+  repository: ghcr.io/verygoodplugins/automem
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -168,7 +168,7 @@ mcp:
   enabled: false
   replicaCount: 1
   image:
-    repository: ghcr.io/sakullla/automem/mcp-sse-server
+    repository: ghcr.io/verygoodplugins/automem/mcp-sse-server
     pullPolicy: IfNotPresent
     tag: "latest"
   # Override the AutoMem API URL (default: auto-detected from in-cluster service)

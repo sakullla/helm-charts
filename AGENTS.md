@@ -1,67 +1,31 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
+This repository is a Helm chart monorepo. Each deployable app lives in `charts/<chart-name>/` with `Chart.yaml`, `values.yaml`, and `templates/`. Keep chart logic isolated to its own folder.
 
-This repository is a Helm chart monorepo.
-
-- `charts/<chart-name>/`: one deployable chart per directory (`Chart.yaml`, `values.yaml`, `templates/`).
-- `charts/<chart-name>/templates/`: Kubernetes manifests and helpers (for example `_helpers.tpl`).
-- `charts/<chart-name>/templates/tests/`: optional Helm test hooks.
-- `.github/workflows/`: release and publishing automation.
-- Root docs: `README.md`, `CLAUDE.md`, and this guide.
-
-## Agent Skills
-
-- Local skills are stored in `.claude/skills/`.
-- When a task references a skill, read that skill from `.claude/skills/` first, then apply it in the current repo context.
+Typical template files include `deployment.yaml`, `service.yaml`, `ingress.yaml`, `httproute.yaml`, `hpa.yaml`, and `_helpers.tpl`. Many charts also include `templates/tests/test-connection.yaml` for Helm test hooks. CI/release automation lives in `.github/workflows/release.yml`.
 
 ## Build, Test, and Development Commands
+Run commands from repository root:
 
-Use Helm CLI to validate chart changes before opening a PR:
-
-```bash
-helm template my-release charts/<chart-name>
-helm install my-release charts/<chart-name> --dry-run --debug
-helm show values charts/<chart-name>
-```
-
-For charts with dependencies:
-
-```bash
-helm dependency update charts/<chart-name>
-```
-
-These checks should pass with default values and at least one customized values file when behavior is configurable.
+- `helm lint charts/<chart-name>`: static chart validation.
+- `helm template <release> charts/<chart-name> --debug`: render manifests locally.
+- `helm install <release> charts/<chart-name> --dry-run --debug -n <ns> --create-namespace`: simulate installation.
+- `helm dependency update charts/<chart-name>`: refresh dependencies (required for charts like `automem`).
+- `helm package charts/<chart-name>`: verify chart packaging.
 
 ## Coding Style & Naming Conventions
+Use 2-space YAML indentation and lowercase kebab-case for chart names and most values keys. Reuse helper templates for naming/labels instead of hardcoding metadata.
 
-- YAML uses two-space indentation and lowercase keys.
-- Reuse helper templates for names/labels; avoid hardcoded metadata.
-- Keep `values.yaml` organized and briefly document non-obvious options.
-- Keep resource names and value keys consistent with existing charts.
-- Any chart change must include a `version` bump in that chart's `Chart.yaml`.
+Name helpers with a chart prefix, for example `{{ define "vaultwarden.fullname" }}`. Keep `values.yaml` grouped by functional sections (image, service, ingress/httpRoute, persistence, resources, env, secrets).
 
 ## Testing Guidelines
-
-There is no centralized unit-test framework for charts; validation is template/render based.
-
-- Run `helm template` for syntax and rendering checks.
-- Run `helm install --dry-run --debug` for install-time validation.
-- If test hooks exist, run `helm test <release-name>` against a deployed release.
+There is no centralized unit test framework; validation is Helm-based. For every chart change, run `helm lint`, `helm template`, and a dry-run install. If chart test hooks exist, keep the test file name as `templates/tests/test-connection.yaml` and validate it with a real install plus `helm test <release>` when possible.
 
 ## Commit & Pull Request Guidelines
+Git history shows Conventional Commit usage (for example `feat(automem): ...`, `fix(nginx-stream): ...`). Follow that format with chart scope.
 
-Prefer clear, scoped commit messages:
-
-- `feat(<chart>): ...`
-- `fix(<chart>): ...`
-- `docs: ...`
-- `chore: ...`
-
-PRs should include: what changed, why, affected chart(s), chart version bump, and commands used for validation.
+For PRs, include: purpose, affected chart paths, validation commands run, and any breaking values changes. If a chart is modified, bump `version` in that chart's `Chart.yaml`; update `appVersion` when upstream app version changes.
 
 ## Security & Configuration Tips
-
-- Never hardcode credentials; expose them via values and Kubernetes Secrets.
-- Gate optional components (Ingress, persistence, extra services) behind values flags.
-- Document required environment variables and secret keys in `values.yaml` comments.
+Never commit real secrets in `values.yaml`. Use placeholders and inject sensitive data via Kubernetes Secrets or external secret managers.

@@ -1,67 +1,30 @@
-# Repository Guidelines
+# GEMINI.md
 
-## Project Structure & Module Organization
+本项目为个人维护的 Helm Charts 仓库，旨在提供一系列面向自托管场景、可直接部署到 Kubernetes 的应用模板。
 
-This repository is a Helm chart monorepo.
+## 项目概览
+- **用途**：提供 Kubernetes 部署所需的 Helm Charts。
+- **技术栈**：Helm (Kubernetes Package Manager)、Kubernetes YAML。
+- **架构**：以 `charts/<chart-name>/` 为单位，采用模块化结构，支持独立版本演进。
 
-- `charts/<chart-name>/`: one deployable chart per directory (`Chart.yaml`, `values.yaml`, `templates/`).
-- `charts/<chart-name>/templates/`: Kubernetes manifests and helpers (for example `_helpers.tpl`).
-- `charts/<chart-name>/templates/tests/`: optional Helm test hooks.
-- `.github/workflows/`: release and publishing automation.
-- Root docs: `README.md`, `CLAUDE.md`, and this guide.
+## 开发与维护流程
+- **开发规范**：
+    - 使用 Conventional Commits 格式编写 Git 提交信息（如 `feat(chart-name): ...`）。
+    - 严禁在 `values.yaml` 中提交敏感信息（密钥、密码），应使用占位符或外部密钥管理。
+- **验证命令**：
+    - `helm lint charts/<chart-name>`：检查语法与最佳实践。
+    - `helm template test charts/<chart-name> --debug`：本地渲染模板进行排查。
+    - `helm install test charts/<chart-name> --dry-run --debug`：本地模拟安装测试。
+    - `helm dependency update charts/<chart-name>`：当 Chart 包含依赖（`Chart.yaml` 中定义 `dependencies`）时必须运行。
+- **发布流程**：
+    - 修改 Chart 时，必须手动更新 `Chart.yaml` 中的 `version`（Chart 版本）和 `appVersion`（上游应用版本）。
+    - 变更推送到 `main` 分支后，GitHub Actions (`.github/workflows/release.yml`) 会自动完成打包与索引发布。
 
-## Agent Skills
+## 关键文件与目录
+- `charts/`：存放所有 Chart 的根目录。
+- `.github/workflows/release.yml`：CI/CD 自动化发布流水线。
+- `CLAUDE.md` / `AGENTS.md`：项目特定辅助开发说明文件。
 
-- Local skills are stored in `.claude/skills/`.
-- When a task references a skill, read that skill from `.claude/skills/` first, then apply it in the current repo context.
-
-## Build, Test, and Development Commands
-
-Use Helm CLI to validate chart changes before opening a PR:
-
-```bash
-helm template my-release charts/<chart-name>
-helm install my-release charts/<chart-name> --dry-run --debug
-helm show values charts/<chart-name>
-```
-
-For charts with dependencies:
-
-```bash
-helm dependency update charts/<chart-name>
-```
-
-These checks should pass with default values and at least one customized values file when behavior is configurable.
-
-## Coding Style & Naming Conventions
-
-- YAML uses two-space indentation and lowercase keys.
-- Reuse helper templates for names/labels; avoid hardcoded metadata.
-- Keep `values.yaml` organized and briefly document non-obvious options.
-- Keep resource names and value keys consistent with existing charts.
-- Any chart change must include a `version` bump in that chart's `Chart.yaml`.
-
-## Testing Guidelines
-
-There is no centralized unit-test framework for charts; validation is template/render based.
-
-- Run `helm template` for syntax and rendering checks.
-- Run `helm install --dry-run --debug` for install-time validation.
-- If test hooks exist, run `helm test <release-name>` against a deployed release.
-
-## Commit & Pull Request Guidelines
-
-Prefer clear, scoped commit messages:
-
-- `feat(<chart>): ...`
-- `fix(<chart>): ...`
-- `docs: ...`
-- `chore: ...`
-
-PRs should include: what changed, why, affected chart(s), chart version bump, and commands used for validation.
-
-## Security & Configuration Tips
-
-- Never hardcode credentials; expose them via values and Kubernetes Secrets.
-- Gate optional components (Ingress, persistence, extra services) behind values flags.
-- Document required environment variables and secret keys in `values.yaml` comments.
+## 使用指南
+- **添加仓库**：`helm repo add sakullla https://sakullla.github.io/helm-charts`
+- **查看帮助**：运行 `helm search repo sakullla` 或参考 `README.md` 中的示例。

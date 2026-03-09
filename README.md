@@ -1,234 +1,70 @@
 # Helm Charts 仓库
 
-[![Release Charts](https://github.com/sakullla/helm-charts/actions/workflows/release.yml/badge.svg)](https://github.com/sakullla/helm-charts/actions/workflows/release.yml)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+一个面向自托管场景的 Helm Charts 集合，提供可直接部署到 Kubernetes 的应用模板。
 
-精选的 Kubernetes Helm Charts 集合，包含 35+ 种自托管应用。
+## 项目概览
+- 当前维护 **39 个 Charts**，覆盖基础设施、AI 应用、知识管理、机器人工具等场景。
+- 大多数 Chart 采用统一模板结构：`deployment/service/ingress/httproute/hpa/serviceaccount`，并按需提供 `pvc/secret/configmap/tests`。
+- 仓库以 `charts/<chart-name>/` 为最小维护单元，便于独立版本演进和发布。
+
+## 仓库结构
+```text
+.
+├─ charts/
+│  ├─ <chart-name>/
+│  │  ├─ Chart.yaml
+│  │  ├─ values.yaml
+│  │  └─ templates/
+├─ .github/workflows/release.yml
+├─ AGENTS.md
+└─ README.md
+```
 
 ## 快速开始
-
 ```bash
 # 添加仓库
 helm repo add sakullla https://sakullla.github.io/helm-charts
 helm repo update
 
-# 搜索可用的 Charts
+# 搜索 Chart
 helm search repo sakullla
 
-# 安装应用
-helm install my-app sakullla/<chart-name>
+# 安装示例
+helm install my-app sakullla/vaultwarden
 
-# 查看配置选项
-helm show values sakullla/<chart-name>
+# 查看默认配置
+helm show values sakullla/vaultwarden
 ```
 
-## 可用 Charts
+## 代表性 Charts（架构分析）
+- **单服务标准型**：如 `adguard-home`、`openlist`、`kavita`，结构清晰，适合快速部署。
+- **依赖编排型**：如 `automem`，通过 `dependencies` 组合 `falkordb`、`qdrant`、`automem-graph-viewer`。
+- **多组件型**：如 `firecrawl`（api/worker/playwright/nuq 组件）与 `cognee`（主服务 + Postgres + Neo4j + ChromaDB），适合复杂业务栈。
 
-| 类别 | 应用 |
-|------|------|
-| **基础设施与网络** | adguard-home, ddns-go, dns-server, frp, headscale, headplane, nginx-stream, xray, substore |
-| **AI 与语言模型** | lobehub, litellm, newapi, next-ai-draw-io |
-| **开发工具** | firecrawl, hubproxy, hugo-site, playwright-service |
-| **知识管理** | affine, hedgedoc, chartdb |
-| **媒体娱乐** | kavita, qbittorrent, calibre-web-automated, ani-rss, yamtrack, misaka-danmu-server |
-| **安全与认证** | vaultwarden, certimate |
-| **搜索与隐私** | searxng |
-| **机器人与自动化** | astrbot, saveany-bot, quote-bot, quote-api, koipy |
-| **其他工具** | taskflow, tabby-web, logvar, miaospeed, openlist |
-
-## 通用配置
-
-所有 Charts 支持以下核心配置项：
-
-```yaml
-# 镜像配置
-image:
-  repository: app/image
-  tag: "latest"
-  pullPolicy: IfNotPresent
-
-# 副本数
-replicaCount: 1
-
-# 资源限制
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 500m
-    memory: 512Mi
-
-# 持久化存储
-persistence:
-  enabled: true
-  size: 5Gi
-  storageClass: "longhorn"
-  accessMode: ReadWriteOnce
-
-# 环境变量
-env:
-  TZ: "Asia/Shanghai"
-  LOG_LEVEL: "info"
-
-# 敏感信息（Secret）
-secrets:
-  DATABASE_URL: "postgresql://user:pass@host:5432/db"
-  API_KEY: "your-secret-key"
-```
-
-## 网络访问
-
-### Ingress（推荐）
-```yaml
-ingress:
-  enabled: true
-  className: nginx
-  hosts:
-    - host: app.example.com
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    - secretName: app-tls
-      hosts:
-        - app.example.com
-```
-
-### Gateway API HTTPRoute
-```yaml
-httpRoute:
-  enabled: true
-  parentRefs:
-    - name: gateway
-      namespace: kube-system
-  hostnames:
-    - app.example.com
-```
-
-### NodePort / LoadBalancer
-```yaml
-service:
-  type: NodePort
-  port: 80
-```
-
-## 常用应用配置示例
-
-### AdGuard Home（广告拦截）
+## 本地开发与验证
 ```bash
-helm install adguard sakullla/adguard-home -f - <<EOF
-persistence:
-  enabled: true
-  size: 1Gi
+# 校验语法与最佳实践
+helm lint charts/<chart-name>
 
-ingress:
-  enabled: true
-  className: nginx
-  hosts:
-    - host: adguard.example.com
-      paths:
-        - path: /
-          pathType: Prefix
-EOF
+# 渲染模板
+helm template test charts/<chart-name> --debug
+
+# 模拟安装
+helm install test charts/<chart-name> --dry-run --debug -n test --create-namespace
+
+# 有依赖时更新
+helm dependency update charts/<chart-name>
 ```
 
-### Vaultwarden（密码管理）
-```bash
-helm install vault sakullla/vaultwarden -f - <<EOF
-persistence:
-  enabled: true
-  size: 10Gi
-  storageClass: longhorn
+## 版本与发布机制
+- 修改任意 Chart 后，应同步更新该 Chart 的 `Chart.yaml` 中 `version`。
+- 上游应用版本变化时，更新 `appVersion`。
+- 推送到 `main` 且命中 `charts/**` 变更后，GitHub Actions 会自动执行发布流程（打包、更新索引、清理历史产物）。
 
-ingress:
-  enabled: true
-  className: nginx
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-  hosts:
-    - host: vault.example.com
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    - secretName: vault-tls
-      hosts:
-        - vault.example.com
-
-secrets:
-  ADMIN_TOKEN: "your-admin-token"
-EOF
-```
-
-### Lobe Chat（AI 聊天）
-```bash
-helm install chat sakullla/lobehub -f - <<EOF
-httpRoute:
-  enabled: true
-  parentRefs:
-    - name: traefik-gateway
-      namespace: kube-system
-  hostnames:
-    - chat.example.com
-
-env:
-  APP_URL: "https://chat.example.com"
-
-secrets:
-  DATABASE_URL: "postgresql://lobehub:pass@postgres:5432/lobehub"
-  OPENAI_API_KEY: "sk-xxxxxxxxxxxxxxxx"
-EOF
-```
-
-### qBittorrent（BT 客户端）
-```bash
-helm install qb sakullla/qbittorrent -f - <<EOF
-persistence:
-  enabled: true
-  size: 100Gi
-  storageClass: longhorn
-
-env:
-  WEBUI_PORT: "8080"
-  PUID: "1000"
-  PGID: "1000"
-  TZ: "Asia/Shanghai"
-
-service:
-  type: LoadBalancer
-EOF
-```
-
-## 资源建议
-
-| 应用类型 | CPU 请求 | 内存请求 | CPU 限制 | 内存限制 |
-|---------|----------|----------|----------|----------|
-| 轻量工具 | 10m | 50Mi | 100m | 128Mi |
-| 常规应用 | 50m | 128Mi | 500m | 512Mi |
-| AI 应用 | 100m | 256Mi | 1000m | 1Gi |
-| 浏览器服务 | 200m | 512Mi | 2000m | 2Gi |
-| 媒体服务 | 100m | 256Mi | 2000m | 2Gi |
-
-## 高级操作
-
-```bash
-# 使用 Values 文件安装
-helm install my-app sakullla/<chart-name> -f my-values.yaml
-
-# 升级应用
-helm upgrade my-app sakullla/<chart-name> -f my-values.yaml
-
-# 查看历史版本
-helm history my-app
-
-# 回滚
-helm rollback my-app 1
-
-# 卸载
-helm uninstall my-app
-```
+## 贡献建议
+- 使用 Conventional Commits：`feat(chart-name): ...`、`fix(chart-name): ...`。
+- PR 建议包含：变更说明、受影响 Chart、执行过的验证命令、破坏性变更说明。
+- 请勿在 `values.yaml` 提交真实密钥，统一使用占位符或外部密钥管理方案。
 
 ## 许可证
-
-[GNU General Public License v3.0](LICENSE)
+[GPL-3.0](LICENSE)

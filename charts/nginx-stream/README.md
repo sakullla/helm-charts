@@ -13,6 +13,7 @@
 - `tcp.enabled` / `udp.enabled` 默认 `true`，不写也会启用
 - 支持全局协议默认开关：`nginx.protocolDefaults.tcpEnabled/udpEnabled`
 - 支持单后端兼容配置 `backendHost/backendPort`，也支持多后端 `backends[]`
+- 支持 `host` + `port`，也支持直接写 `host:port`
 - 支持 `loadBalancing.strategy` 配置 upstream 负载均衡策略
 - 当后端是域名时，会自动启用 NGINX `resolve`，适配 DDNS 变更
 - 超时为全局配置：`nginx.timeouts.*`
@@ -34,14 +35,14 @@ nginx:
   forwards:
     - name: demo-forward
       listenPort: 23202
-      backendHost: upstream.example.com
-      backendPort: 23202
+      backendHost: upstream.example.com:23202
 ```
 
 默认行为：
 
 - TCP/UDP 都启用（等价于 `tcp.enabled: true` + `udp.enabled: true`）
 - 单后端会自动转换成 upstream 配置，便于后续扩展到多后端和域名动态解析
+- `backendHost` 支持 `host:port` 直写；如果已经带端口，可以不写 `backendPort`
 
 多后端示例：
 
@@ -50,10 +51,23 @@ nginx:
   forwards:
     - name: demo-forward
       listenPort: 23202
-      backendPort: 23202
+      backends:
+        - address: stream-a.example.com:23202
+        - address: stream-b.example.com:23203
+```
+
+也可以继续使用拆分写法：
+
+```yaml
+nginx:
+  forwards:
+    - name: demo-forward
+      listenPort: 23202
       backends:
         - host: stream-a.example.com
+          port: 23202
         - host: stream-b.example.com
+          port: 23203
 ```
 
 ### 2) 协议开关（可选）
@@ -94,11 +108,10 @@ nginx:
   forwards:
     - name: demo
       listenPort: 30000
-      backendPort: 30000
       backends:
-        - host: stream-a.example.com
+        - address: stream-a.example.com:30000
           weight: 2
-        - host: stream-b.example.com
+        - address: stream-b.example.com:30001
       loadBalancing:
         strategy: least_conn
         zoneSize: 64k
@@ -111,10 +124,9 @@ nginx:
   forwards:
     - name: sticky-demo
       listenPort: 30001
-      backendPort: 30001
       backends:
-        - host: node-a.example.com
-        - host: node-b.example.com
+        - address: node-a.example.com:30001
+        - address: node-b.example.com:30002
       loadBalancing:
         strategy: hash
         hashKey: $remote_addr
@@ -122,9 +134,10 @@ nginx:
 
 ### 4) DDNS / 域名后端
 
-- `backendHost` 或 `backends[].host` 为域名时，Chart 会为 upstream 自动加 `resolve`
+- `backendHost`、`backends[].host`、`backends[].address` 为域名时，Chart 会为 upstream 自动加 `resolve`
 - 仍然需要配置 `nginx.resolver`，用于运行时 DNS 解析
 - `backends[].resolve` 可显式覆盖自动判断
+- 例如 `homura-nat.124536.xyz:20301` 这种写法可直接使用
 
 ```yaml
 nginx:
@@ -132,10 +145,9 @@ nginx:
   forwards:
     - name: ddns-demo
       listenPort: 32000
-      backendPort: 32000
       backends:
-        - host: node-a.example.com
-        - host: node-b.example.com
+        - address: homura-nat.124536.xyz:20301
+        - address: backup-nat.example.com:20302
           resolve: true
       loadBalancing:
         strategy: round_robin

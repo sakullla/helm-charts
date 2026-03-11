@@ -133,18 +133,49 @@ Create deterministic upstream names from forward name.
 Count valid backends for a forward. "backends" takes precedence over the legacy
 backendHost/backendPort pair.
 */}}
+{{- define "nginx-stream.backendHostValue" -}}
+{{- $backend := .backend -}}
+{{- $endpoint := coalesce $backend.address $backend.host "" -}}
+{{- $host := $endpoint -}}
+{{- if regexMatch "^\\[[^\\]]+\\]:[0-9]+$" $endpoint -}}
+  {{- $host = trimAll "[]" (regexFind "^\\[[^\\]]+\\]" $endpoint) -}}
+{{- else if regexMatch "^[^:]+:[0-9]+$" $endpoint -}}
+  {{- $host = regexReplaceAll ":[0-9]+$" $endpoint "" -}}
+{{- end -}}
+{{- $host -}}
+{{- end -}}
+
+{{- define "nginx-stream.backendPortValue" -}}
+{{- $forward := .forward -}}
+{{- $backend := .backend -}}
+{{- $endpoint := coalesce $backend.address $backend.host "" -}}
+{{- $parsedPort := "" -}}
+{{- if regexMatch "^\\[[^\\]]+\\]:[0-9]+$" $endpoint -}}
+  {{- $parsedPort = regexFind "[0-9]+$" $endpoint -}}
+{{- else if regexMatch "^[^:]+:[0-9]+$" $endpoint -}}
+  {{- $parsedPort = regexFind "[0-9]+$" $endpoint -}}
+{{- end -}}
+{{- coalesce $backend.port $parsedPort $forward.backendPort "" -}}
+{{- end -}}
+
 {{- define "nginx-stream.backendCount" -}}
 {{- $count := 0 -}}
 {{- $forward := .forward -}}
 {{- if $forward.backends -}}
   {{- range $forward.backends -}}
-    {{- $port := default $forward.backendPort .port -}}
-    {{- if and .host $port -}}
+    {{- $host := include "nginx-stream.backendHostValue" (dict "backend" .) -}}
+    {{- $port := include "nginx-stream.backendPortValue" (dict "forward" $forward "backend" .) -}}
+    {{- if and $host $port -}}
       {{- $count = add $count 1 -}}
     {{- end -}}
   {{- end -}}
-{{- else if and $forward.backendHost $forward.backendPort -}}
+{{- else -}}
+  {{- $legacy := dict "address" $forward.backendHost -}}
+  {{- $host := include "nginx-stream.backendHostValue" (dict "backend" $legacy) -}}
+  {{- $port := include "nginx-stream.backendPortValue" (dict "forward" $forward "backend" $legacy) -}}
+  {{- if and $host $port -}}
   {{- $count = 1 -}}
+  {{- end -}}
 {{- end -}}
 {{- $count -}}
 {{- end -}}
@@ -157,7 +188,7 @@ Whether a backend host should use runtime DNS re-resolution.
 {{- if hasKey $backend "resolve" -}}
   {{- if $backend.resolve }}true{{- end -}}
 {{- else -}}
-  {{- $host := default "" $backend.host | trimAll "[]" -}}
+  {{- $host := include "nginx-stream.backendHostValue" (dict "backend" $backend) | trimAll "[]" -}}
   {{- if and $host (not (regexMatch "^([0-9]{1,3}\\.){3}[0-9]{1,3}$" $host)) (not (regexMatch "^[0-9A-Fa-f:]+$" $host)) }}true{{- end -}}
 {{- end -}}
 {{- end -}}
@@ -168,9 +199,10 @@ Render a single stream upstream backend entry.
 {{- define "nginx-stream.renderStreamBackend" -}}
 {{- $forward := .forward -}}
 {{- $backend := .backend -}}
-{{- $port := default $forward.backendPort $backend.port -}}
-{{- if and $backend.host $port -}}
-server {{ $backend.host }}:{{ $port }}{{- with $backend.weight }} weight={{ . }}{{- end }}{{- if include "nginx-stream.backendNeedsResolve" (dict "backend" $backend) }} resolve{{- end }};
+{{- $host := include "nginx-stream.backendHostValue" (dict "backend" $backend) -}}
+{{- $port := include "nginx-stream.backendPortValue" (dict "forward" $forward "backend" $backend) -}}
+{{- if and $host $port -}}
+server {{ $host }}:{{ $port }}{{- with $backend.weight }} weight={{ . }}{{- end }}{{- if include "nginx-stream.backendNeedsResolve" (dict "backend" $backend) }} resolve{{- end }};
 {{- end -}}
 {{- end -}}
 
@@ -205,7 +237,7 @@ upstream {{ $upstreamName }} {
 {{ include "nginx-stream.renderStreamBackend" (dict "forward" $forward "backend" .) | nindent 2 }}
 {{- end }}
 {{- else }}
-{{ include "nginx-stream.renderStreamBackend" (dict "forward" $forward "backend" (dict "host" $forward.backendHost)) | nindent 2 }}
+{{ include "nginx-stream.renderStreamBackend" (dict "forward" $forward "backend" (dict "address" $forward.backendHost)) | nindent 2 }}
 {{- end }}
 }
 {{- end -}}

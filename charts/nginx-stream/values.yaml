@@ -82,11 +82,12 @@ nginx:
   # forwards:
   #   - name: demo
   #     listenPort: 30000
-  #     backendHost: example.com
+  #     backendHost: example.com:30000
+  #     # backendPort is optional when backendHost already includes :port
   #     backendPort: 30000
   #     # If backends is set, it takes precedence over backendHost/backendPort.
   #     backends:
-  #       - host: example-a.com
+  #       - address: example-a.com:30000
   #         weight: 2
   #       - host: example-b.com
   #         port: 30001

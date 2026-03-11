@@ -92,7 +92,8 @@ TCP is enabled by default unless explicitly set to false.
 {{- $tcpDefault := dig "protocolDefaults" "tcpEnabled" true .Values.nginx -}}
 {{- range .Values.nginx.forwards }}
   {{- $tcpEnabled := dig "tcp" "enabled" $tcpDefault . -}}
-  {{- if and (empty $port) .listenPort $tcpEnabled }}
+  {{- $backendCount := include "nginx-stream.backendCount" (dict "forward" .) | int -}}
+  {{- if and (empty $port) .listenPort $tcpEnabled (gt $backendCount 0) }}
     {{- $port = printf "%v" .listenPort -}}
   {{- end }}
 {{- end }}
@@ -109,9 +110,103 @@ Whether any forward renders at least one Service port.
 {{- range .Values.nginx.forwards }}
   {{- $tcpEnabled := dig "tcp" "enabled" $tcpDefault . -}}
   {{- $udpEnabled := dig "udp" "enabled" $udpDefault . -}}
-  {{- if and .listenPort (or $tcpEnabled $udpEnabled) }}
+  {{- $backendCount := include "nginx-stream.backendCount" (dict "forward" .) | int -}}
+  {{- if and .listenPort (gt $backendCount 0) (or $tcpEnabled $udpEnabled) }}
     {{- $has = true -}}
   {{- end }}
 {{- end }}
 {{- if $has }}true{{- end -}}
+{{- end -}}
+
+{{/*
+Create deterministic upstream names from forward name.
+*/}}
+{{- define "nginx-stream.upstreamName" -}}
+{{- $base := default (printf "fwd-%d" .index) .forwardName | lower -}}
+{{- $base = regexReplaceAll "[^a-z0-9-]+" $base "-" -}}
+{{- $base = trimAll "-" $base -}}
+{{- if eq $base "" }}{{- $base = printf "fwd-%d" .index -}}{{- end -}}
+{{- printf "up-%d-%s" .index $base | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Count valid backends for a forward. "backends" takes precedence over the legacy
+backendHost/backendPort pair.
+*/}}
+{{- define "nginx-stream.backendCount" -}}
+{{- $count := 0 -}}
+{{- $forward := .forward -}}
+{{- if $forward.backends -}}
+  {{- range $forward.backends -}}
+    {{- $port := default $forward.backendPort .port -}}
+    {{- if and .host $port -}}
+      {{- $count = add $count 1 -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if and $forward.backendHost $forward.backendPort -}}
+  {{- $count = 1 -}}
+{{- end -}}
+{{- $count -}}
+{{- end -}}
+
+{{/*
+Whether a backend host should use runtime DNS re-resolution.
+*/}}
+{{- define "nginx-stream.backendNeedsResolve" -}}
+{{- $backend := .backend -}}
+{{- if hasKey $backend "resolve" -}}
+  {{- if $backend.resolve }}true{{- end -}}
+{{- else -}}
+  {{- $host := default "" $backend.host | trimAll "[]" -}}
+  {{- if and $host (not (regexMatch "^([0-9]{1,3}\\.){3}[0-9]{1,3}$" $host)) (not (regexMatch "^[0-9A-Fa-f:]+$" $host)) }}true{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Render a single stream upstream backend entry.
+*/}}
+{{- define "nginx-stream.renderStreamBackend" -}}
+{{- $forward := .forward -}}
+{{- $backend := .backend -}}
+{{- $port := default $forward.backendPort $backend.port -}}
+{{- if and $backend.host $port -}}
+server {{ $backend.host }}:{{ $port }}{{- with $backend.weight }} weight={{ . }}{{- end }}{{- if include "nginx-stream.backendNeedsResolve" (dict "backend" $backend) }} resolve{{- end }};
+{{- end -}}
+{{- end -}}
+
+{{/*
+Render a stream upstream block for a forward.
+*/}}
+{{- define "nginx-stream.renderStreamUpstream" -}}
+{{- $index := .index -}}
+{{- $forward := .forward -}}
+{{- $backendCount := include "nginx-stream.backendCount" (dict "forward" $forward) | int -}}
+{{- if gt $backendCount 0 -}}
+{{- $upstreamName := include "nginx-stream.upstreamName" (dict "index" $index "forwardName" $forward.name) -}}
+{{- $strategy := dig "loadBalancing" "strategy" "round_robin" $forward | lower -}}
+{{- if and (ne $strategy "round_robin") (ne $strategy "least_conn") (ne $strategy "random") (ne $strategy "hash") -}}
+{{- fail (printf "nginx.forwards[%d].loadBalancing.strategy must be one of round_robin, least_conn, random, hash" $index) -}}
+{{- end -}}
+{{- $hashKey := dig "loadBalancing" "hashKey" "" $forward -}}
+{{- if and (eq $strategy "hash") (not $hashKey) -}}
+{{- fail (printf "nginx.forwards[%d].loadBalancing.hashKey is required when strategy=hash" $index) -}}
+{{- end -}}
+upstream {{ $upstreamName }} {
+  zone {{ $upstreamName }} {{ dig "loadBalancing" "zoneSize" "64k" $forward }};
+{{- if eq $strategy "least_conn" }}
+  least_conn;
+{{- else if eq $strategy "random" }}
+  random;
+{{- else if eq $strategy "hash" }}
+  hash {{ $hashKey }};
+{{- end }}
+{{- if $forward.backends }}
+{{- range $forward.backends }}
+{{ include "nginx-stream.renderStreamBackend" (dict "forward" $forward "backend" .) | nindent 2 }}
+{{- end }}
+{{- else }}
+{{ include "nginx-stream.renderStreamBackend" (dict "forward" $forward "backend" (dict "host" $forward.backendHost)) | nindent 2 }}
+{{- end }}
+}
+{{- end -}}
 {{- end -}}

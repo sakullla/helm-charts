@@ -66,7 +66,7 @@ nginx:
   user: nginx
   workerProcesses: auto
   workerConnections: 10240
-  # Used by stream proxy_pass runtime DNS resolution (when backendHost is a domain).
+  # Used by stream upstream runtime DNS resolution (when backendHost/backends[].host is a domain).
   resolver: 1.1.1.1 8.8.8.8 valid=30s ipv6=off
   protocolDefaults:
     tcpEnabled: true
@@ -84,6 +84,17 @@ nginx:
   #     listenPort: 30000
   #     backendHost: example.com
   #     backendPort: 30000
+  #     # If backends is set, it takes precedence over backendHost/backendPort.
+  #     backends:
+  #       - host: example-a.com
+  #         weight: 2
+  #       - host: example-b.com
+  #         port: 30001
+  #         resolve: true
+  #     loadBalancing:
+  #       strategy: round_robin # round_robin|least_conn|random|hash
+  #       hashKey: $remote_addr # required when strategy=hash
+  #       zoneSize: 64k
   #     tcp:
   #       enabled: true   # default true
   #       nodePort: 32000

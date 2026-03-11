@@ -23,7 +23,8 @@ spec:
     {{- $udpEnabled := dig "udp" "enabled" $udpDefault $forward }}
     {{- $tcpNodePort := dig "tcp" "nodePort" "" $forward }}
     {{- $udpNodePort := dig "udp" "nodePort" "" $forward }}
-    {{- if and $forward.listenPort $tcpEnabled }}
+    {{- $backendCount := include "nginx-stream.backendCount" (dict "forward" $forward) | int }}
+    {{- if and $forward.listenPort (gt $backendCount 0) $tcpEnabled }}
     - name: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "tcp") }}
       port: {{ $forward.listenPort }}
       targetPort: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "tcp") }}
@@ -32,7 +33,7 @@ spec:
       nodePort: {{ $tcpNodePort }}
       {{- end }}
     {{- end }}
-    {{- if and $forward.listenPort $udpEnabled }}
+    {{- if and $forward.listenPort (gt $backendCount 0) $udpEnabled }}
     - name: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "udp") }}
       port: {{ $forward.listenPort }}
       targetPort: {{ include "nginx-stream.forwardPortName" (dict "root" $ "index" $idx "forwardName" $forward.name "protocol" "udp") }}

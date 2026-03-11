@@ -17,15 +17,25 @@ data:
       resolver {{ .Values.nginx.resolver }};
 {{- $tcpDefault := dig "protocolDefaults" "tcpEnabled" true .Values.nginx }}
 {{- $udpDefault := dig "protocolDefaults" "udpEnabled" true .Values.nginx }}
-{{- range .Values.nginx.forwards }}
-{{- $tcpEnabled := dig "tcp" "enabled" $tcpDefault . }}
-{{- $udpEnabled := dig "udp" "enabled" $udpDefault . }}
-{{- if and .listenPort .backendHost .backendPort $tcpEnabled }}
+{{- range $idx, $forward := .Values.nginx.forwards }}
+{{- $tcpEnabled := dig "tcp" "enabled" $tcpDefault $forward }}
+{{- $udpEnabled := dig "udp" "enabled" $udpDefault $forward }}
+{{- $backendCount := include "nginx-stream.backendCount" (dict "forward" $forward) | int }}
+{{- if and $forward.listenPort (gt $backendCount 0) (or $tcpEnabled $udpEnabled) }}
+
+{{ include "nginx-stream.renderStreamUpstream" (dict "index" $idx "forward" $forward) | nindent 6 }}
+{{- end }}
+{{- end }}
+{{- range $idx, $forward := .Values.nginx.forwards }}
+{{- $tcpEnabled := dig "tcp" "enabled" $tcpDefault $forward }}
+{{- $udpEnabled := dig "udp" "enabled" $udpDefault $forward }}
+{{- $backendCount := include "nginx-stream.backendCount" (dict "forward" $forward) | int }}
+{{- $upstreamName := include "nginx-stream.upstreamName" (dict "index" $idx "forwardName" $forward.name) }}
+{{- if and $forward.listenPort (gt $backendCount 0) $tcpEnabled }}
 
       server {
-        listen {{ .listenPort }};
-        set $backend {{ .backendHost }}:{{ .backendPort }};
-        proxy_pass $backend;
+        listen {{ $forward.listenPort }};
+        proxy_pass {{ $upstreamName }};
 {{- with $.Values.nginx.timeouts.tcp.proxyConnectTimeout }}
         proxy_connect_timeout {{ . }};
 {{- end }}
@@ -34,12 +44,11 @@ data:
 {{- end }}
       }
 {{- end }}
-{{- if and .listenPort .backendHost .backendPort $udpEnabled }}
+{{- if and $forward.listenPort (gt $backendCount 0) $udpEnabled }}
 
       server {
-        listen {{ .listenPort }} udp;
-        set $backend {{ .backendHost }}:{{ .backendPort }};
-        proxy_pass $backend;
+        listen {{ $forward.listenPort }} udp;
+        proxy_pass {{ $upstreamName }};
 {{- with $.Values.nginx.timeouts.udp.proxyTimeout }}
         proxy_timeout {{ . }};
 {{- end }}

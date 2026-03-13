@@ -1,0 +1,77 @@
+{{- if .Values.paradedb.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "lobehub.paradedbFullname" . }}
+  labels:
+    {{- include "lobehub.paradedbLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.paradedb.replicaCount }}
+  {{- if .Values.paradedb.persistence.enabled }}
+  strategy:
+    type: Recreate
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "lobehub.paradedbSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "lobehub.paradedbLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "lobehub.serviceAccountName" . }}
+      containers:
+        - name: paradedb
+          image: "{{ .Values.paradedb.image.repository }}:{{ .Values.paradedb.image.tag }}"
+          imagePullPolicy: {{ .Values.paradedb.image.pullPolicy }}
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.paradedb.auth.username | quote }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.paradedb.auth.password | quote }}
+            - name: POSTGRES_DB
+              value: {{ .Values.paradedb.auth.database | quote }}
+          ports:
+            - name: postgres
+              containerPort: {{ .Values.paradedb.service.port }}
+              protocol: TCP
+          {{- with .Values.paradedb.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.paradedb.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.paradedb.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.paradedb.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.paradedb.persistence.enabled }}
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.paradedb.persistence.mountPath }}
+          {{- end }}
+      {{- if .Values.paradedb.persistence.enabled }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ if .Values.paradedb.persistence.existingClaim }}{{ .Values.paradedb.persistence.existingClaim }}{{ else }}{{ include "lobehub.paradedbFullname" . }}-data{{ end }}
+      {{- end }}
+      {{- with .Values.paradedb.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.paradedb.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.paradedb.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

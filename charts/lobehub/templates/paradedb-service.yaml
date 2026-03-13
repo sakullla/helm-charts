@@ -1,0 +1,17 @@
+{{- if .Values.paradedb.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "lobehub.paradedbFullname" . }}
+  labels:
+    {{- include "lobehub.paradedbLabels" . | nindent 4 }}
+spec:
+  type: {{ .Values.paradedb.service.type }}
+  ports:
+    - name: postgres
+      port: {{ .Values.paradedb.service.port }}
+      targetPort: postgres
+      protocol: TCP
+  selector:
+    {{- include "lobehub.paradedbSelectorLabels" . | nindent 4 }}
+{{- end }}

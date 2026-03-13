@@ -62,22 +62,20 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Expand the embedded browserless name.
+Expand the embedded ParadeDB name.
 */}}
-{{- define "browserless-chromium.name" -}}
-{{- $browserless := index .Values "browserless-chromium" -}}
-{{- default "browserless-chromium" $browserless.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- define "lobehub.paradedbName" -}}
+{{- default "paradedb" .Values.paradedb.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
-Create a default fully qualified browserless name.
+Create a default fully qualified ParadeDB name.
 */}}
-{{- define "browserless-chromium.fullname" -}}
-{{- $browserless := index .Values "browserless-chromium" -}}
-{{- if $browserless.fullnameOverride }}
-{{- $browserless.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- define "lobehub.paradedbFullname" -}}
+{{- if .Values.paradedb.fullnameOverride }}
+{{- .Values.paradedb.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default "browserless-chromium" $browserless.nameOverride }}
+{{- $name := default "paradedb" .Values.paradedb.nameOverride }}
 {{- if contains $name .Release.Name }}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -87,34 +85,69 @@ Create a default fully qualified browserless name.
 {{- end }}
 
 {{/*
-Create browserless chart name and version as used by chart label.
+Create ParadeDB chart name and version as used by chart label.
 */}}
-{{- define "browserless-chromium.chart" -}}
-{{- printf "%s-%s" "browserless-chromium" .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- define "lobehub.paradedbChart" -}}
+{{- printf "%s-%s" "paradedb" .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
-Default browserless app version.
+Common ParadeDB labels.
 */}}
-{{- define "browserless-chromium.appVersion" -}}
-{{- $browserless := index .Values "browserless-chromium" -}}
-{{- $browserless.image.tag -}}
-{{- end }}
-
-{{/*
-Common browserless labels.
-*/}}
-{{- define "browserless-chromium.labels" -}}
-helm.sh/chart: {{ include "browserless-chromium.chart" . }}
-{{ include "browserless-chromium.selectorLabels" . }}
-app.kubernetes.io/version: {{ include "browserless-chromium.appVersion" . | quote }}
+{{- define "lobehub.paradedbLabels" -}}
+helm.sh/chart: {{ include "lobehub.paradedbChart" . }}
+{{ include "lobehub.paradedbSelectorLabels" . }}
+app.kubernetes.io/version: {{ .Values.paradedb.image.tag | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Browserless selector labels.
+ParadeDB selector labels.
 */}}
-{{- define "browserless-chromium.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "browserless-chromium.name" . }}
+{{- define "lobehub.paradedbSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "lobehub.paradedbName" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Searxng subchart fullname.
+*/}}
+{{- define "lobehub.searxngFullname" -}}
+{{- if .Values.searxng.fullnameOverride }}
+{{- .Values.searxng.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default "searxng" .Values.searxng.nameOverride }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Auto-generated DATABASE_URL for embedded ParadeDB.
+*/}}
+{{- define "lobehub.paradedbDatabaseUrl" -}}
+{{- printf "postgres://%s:%s@%s:%v/%s" (.Values.paradedb.auth.username | urlquery) (.Values.paradedb.auth.password | urlquery) (include "lobehub.paradedbFullname" .) .Values.paradedb.service.port (.Values.paradedb.auth.database | urlquery) -}}
+{{- end }}
+
+{{/*
+Auto-derived APP_URL.
+*/}}
+{{- define "lobehub.appUrl" -}}
+{{- if .Values.app.url }}
+{{- .Values.app.url -}}
+{{- else if and .Values.httpRoute.enabled .Values.httpRoute.hostnames }}
+{{- printf "https://%s" (first .Values.httpRoute.hostnames) -}}
+{{- else if and .Values.ingress.enabled .Values.ingress.hosts }}
+{{- printf "http%s://%s" (ternary "s" "" (gt (len .Values.ingress.tls) 0)) ((first .Values.ingress.hosts).host) -}}
+{{- end }}
+{{- end }}
+
+{{/*
+Auto-generated SearXNG base URL.
+*/}}
+{{- define "lobehub.searxngUrl" -}}
+{{- printf "http://%s:%v" (include "lobehub.searxngFullname" .) .Values.searxng.service.port -}}
 {{- end }}

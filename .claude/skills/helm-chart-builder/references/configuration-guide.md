@@ -11,6 +11,7 @@ Reference for `values.yaml` used by `helm-chart-builder`.
 5. [Resources and Scaling](#resources-and-scaling)
 6. [Storage](#storage)
 7. [Config and Secrets](#config-and-secrets)
+8. [Structured Values and Auto Wiring](#structured-values-and-auto-wiring)
 
 ## Base Configuration
 
@@ -189,3 +190,30 @@ extraEnv: []
 #     fieldRef:
 #       fieldPath: metadata.name
 ```
+
+## Structured Values and Auto Wiring
+
+Prefer structured groups for frequently used settings, then translate them to env/secrets in templates.
+
+```yaml
+dependencyAutoConfig:
+  enabled: true
+
+app:
+  url: ""
+
+database:
+  url: ""
+
+search:
+  providers: ""
+  crawlerImpls: ""
+```
+
+Recommended template pattern:
+
+1. Build computed maps (`$env`, `$secrets`) from structured values and dependency defaults.
+2. Merge user overrides from `.Values.env` / `.Values.secrets` last.
+3. Render ConfigMap/Secret from those computed maps.
+
+This keeps values maintainable while preserving backward compatibility for direct env/secrets overrides.

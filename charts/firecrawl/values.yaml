@@ -164,6 +164,41 @@ volumeMounts: []
   #   mountPath: "/etc/foo"
   #   readOnly: true
 
+extraEnvFrom: []
+
+app:
+  host: "0.0.0.0"
+  environment: "production"
+  loggingLevel: "INFO"
+  isKubernetes: true
+  useDbAuthentication: false
+
+database:
+  host: ""
+  port: 5432
+  user: postgres
+  password: postgres
+  name: postgres
+  url: ""
+
+search:
+  searxngEndpoint: ""
+  searxngEngines: ""
+  searxngCategories: ""
+
+supabase:
+  url: ""
+  anonToken: ""
+  serviceToken: ""
+
+apiKeys:
+  openaiApiKey: ""
+  openaiBaseUrl: ""
+  bullAuthKey: ""
+  testApiKey: ""
+  slackWebhookUrl: ""
+  llamaParseApiKey: ""
+
 env: {}
 secrets: {}
 
@@ -202,10 +237,31 @@ nuqPostgres:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+valkey:
+  enabled: true
+  url: ""
+  rateLimitUrl: ""
+  image:
+    repository: valkey/valkey
+    pullPolicy: IfNotPresent
+    tag: 8-alpine
+  service:
+    type: ClusterIP
+    port: 6379
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
   
 playwright:
   enabled: true
   replicaCount: 1
+  url: ""
+  proxy:
+    server: ""
+    username: ""
+    password: ""
   image:
     repository: ghcr.io/firecrawl/playwright-service
     pullPolicy: IfNotPresent

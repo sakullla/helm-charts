@@ -1,0 +1,79 @@
+image:
+  repository: lobehub/lobehub
+  tag: "2.1.40"
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+httpRoute:
+  enabled: true
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: traefik-gateway
+      namespace: kube-system
+  hostnames:
+    - lobechat.example.com
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+auth:
+  secret: "replace-me"
+  keyVaultsSecret: "replace-me"
+  ssoProviders: zitadel
+  allowedEmails: "gmail.com,example.com"
+  emailVerification: true
+  disableEmailPassword: true
+  oidc:
+    enabled: true
+    jwksKey: '{"keys":[...]}'
+  env:
+    AUTH_ZITADEL_ISSUER: https://zitadel.example.com
+    AUTH_ZITADEL_ID: "replace-me"
+  secrets:
+    AUTH_ZITADEL_SECRET: "replace-me"
+
+llm:
+  openai:
+    proxyUrl: http://newapi:3000/v1
+    apiKey: "replace-me"
+  vision:
+    imageUseBase64: true
+
+storage:
+  s3:
+    enabled: true
+    bucket: lobechat
+    endpoint: https://s3.example.com
+    publicDomain: https://s3.example.com
+    enablePathStyle: true
+    setAcl: false
+    accessKeyId: "replace-me"
+    secretAccessKey: "replace-me"
+
+search:
+  providers: searxng
+  crawlerImpls: naive
+
+database:
+  # Leave empty to use the embedded ParadeDB.
+  url: ""
+
+paradedb:
+  enabled: true
+
+searxng:
+  enabled: true
+
+# Optional: mount existing secrets/configmaps without repeating values here.
+# extraEnvFrom:
+#   - secretRef:
+#       name: lobehub-extra

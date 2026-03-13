@@ -4,7 +4,67 @@ metadata:
   name: {{ include "firecrawl.fullname" . }}-config
   labels:
     {{- include "firecrawl.labels" . | nindent 4 }}
+{{- $env := dict -}}
+{{- $_ := set $env "HOST" .Values.app.host }}
+{{- $_ := set $env "ENV" .Values.app.environment }}
+{{- $_ := set $env "LOGGING_LEVEL" .Values.app.loggingLevel }}
+{{- $_ := set $env "IS_KUBERNETES" (ternary "true" "false" .Values.app.isKubernetes) }}
+{{- $_ := set $env "USE_DB_AUTHENTICATION" (ternary "true" "false" .Values.app.useDbAuthentication) }}
+{{- if .Values.supabase.url }}
+  {{- $_ := set $env "SUPABASE_URL" .Values.supabase.url }}
+{{- end }}
+{{- if .Values.playwright.enabled }}
+  {{- $_ := set $env "PLAYWRIGHT_MICROSERVICE_URL" (default (printf "http://%s:%v/scrape" (include "playwright.fullname" .) .Values.playwright.service.port) .Values.playwright.url) }}
+{{- else if .Values.playwright.url }}
+  {{- $_ := set $env "PLAYWRIGHT_MICROSERVICE_URL" .Values.playwright.url }}
+{{- end }}
+{{- $dbHost := .Values.database.host -}}
+{{- if and (not $dbHost) .Values.nuqPostgres.enabled }}
+  {{- $dbHost = include "nuq-postgres.fullname" . -}}
+{{- end }}
+{{- if $dbHost }}
+  {{- $_ := set $env "POSTGRES_HOST" $dbHost }}
+{{- end }}
+{{- $_ := set $env "POSTGRES_PORT" (.Values.database.port | toString) }}
+{{- $_ := set $env "POSTGRES_USER" .Values.database.user }}
+{{- $_ := set $env "POSTGRES_DB" .Values.database.name }}
+{{- if .Values.database.url }}
+  {{- $_ := set $env "NUQ_DATABASE_URL" .Values.database.url }}
+{{- else if $dbHost }}
+  {{- $_ := set $env "NUQ_DATABASE_URL" (printf "postgresql://%s:%s@%s:%v/%s" (.Values.database.user | urlquery) (.Values.database.password | urlquery) $dbHost .Values.database.port (.Values.database.name | urlquery)) }}
+{{- end }}
+{{- if .Values.valkey.url }}
+  {{- $_ := set $env "REDIS_URL" .Values.valkey.url }}
+{{- else if .Values.valkey.enabled }}
+  {{- $_ := set $env "REDIS_URL" (printf "redis://%s:%v" (include "valkey.fullname" .) .Values.valkey.service.port) }}
+{{- end }}
+{{- if .Values.valkey.rateLimitUrl }}
+  {{- $_ := set $env "REDIS_RATE_LIMIT_URL" .Values.valkey.rateLimitUrl }}
+{{- else if .Values.valkey.enabled }}
+  {{- $_ := set $env "REDIS_RATE_LIMIT_URL" (printf "redis://%s:%v" (include "valkey.fullname" .) .Values.valkey.service.port) }}
+{{- end }}
+{{- if .Values.search.searxngEndpoint }}
+  {{- $_ := set $env "SEARXNG_ENDPOINT" .Values.search.searxngEndpoint }}
+{{- end }}
+{{- if .Values.search.searxngEngines }}
+  {{- $_ := set $env "SEARXNG_ENGINES" .Values.search.searxngEngines }}
+{{- end }}
+{{- if .Values.search.searxngCategories }}
+  {{- $_ := set $env "SEARXNG_CATEGORIES" .Values.search.searxngCategories }}
+{{- end }}
+{{- if .Values.apiKeys.openaiBaseUrl }}
+  {{- $_ := set $env "OPENAI_BASE_URL" .Values.apiKeys.openaiBaseUrl }}
+{{- end }}
+{{- if .Values.apiKeys.slackWebhookUrl }}
+  {{- $_ := set $env "SLACK_WEBHOOK_URL" .Values.apiKeys.slackWebhookUrl }}
+{{- end }}
+{{- if .Values.apiKeys.llamaParseApiKey }}
+  {{- $_ := set $env "LLAMAPARSE_API_KEY" .Values.apiKeys.llamaParseApiKey }}
+{{- end }}
+{{- range $key, $val := .Values.env }}
+  {{- $_ := set $env $key $val }}
+{{- end }}
 data:
-  {{- range $key, $val := .Values.env }}
+  {{- range $key, $val := $env }}
   {{ $key }}: {{ $val | quote }}
   {{- end }}

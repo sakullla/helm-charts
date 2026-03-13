@@ -4,7 +4,69 @@ metadata:
   name: {{ include "lobehub.fullname" . }}-config
   labels:
     {{- include "lobehub.labels" . | nindent 4 }}
+{{- $env := dict -}}
+{{- if .Values.dependencyAutoConfig.enabled }}
+  {{- if (include "lobehub.appUrl" .) }}
+    {{- $_ := set $env "APP_URL" (include "lobehub.appUrl" .) }}
+  {{- end }}
+  {{- if .Values.searxng.enabled }}
+    {{- $_ := set $env "SEARXNG_URL" (default (include "lobehub.searxngUrl" .) .Values.search.searxngUrl) }}
+  {{- end }}
+{{- end }}
+{{- if and (not .Values.searxng.enabled) .Values.search.searxngUrl }}
+  {{- $_ := set $env "SEARXNG_URL" .Values.search.searxngUrl }}
+{{- end }}
+{{- if .Values.search.crawlerImpls }}
+  {{- $_ := set $env "CRAWLER_IMPLS" .Values.search.crawlerImpls }}
+{{- else }}
+  {{- $_ := set $env "CRAWLER_IMPLS" "naive" }}
+{{- end }}
+{{- if .Values.search.providers }}
+  {{- $_ := set $env "SEARCH_PROVIDERS" .Values.search.providers }}
+{{- else if .Values.searxng.enabled }}
+  {{- $_ := set $env "SEARCH_PROVIDERS" "searxng" }}
+{{- end }}
+{{- if .Values.llm.openai.proxyUrl }}
+  {{- $_ := set $env "OPENAI_PROXY_URL" .Values.llm.openai.proxyUrl }}
+{{- end }}
+{{- if .Values.llm.vision.imageUseBase64 }}
+  {{- $_ := set $env "LLM_VISION_IMAGE_USE_BASE64" "1" }}
+{{- end }}
+{{- if .Values.auth.ssoProviders }}
+  {{- $_ := set $env "AUTH_SSO_PROVIDERS" .Values.auth.ssoProviders }}
+{{- end }}
+{{- if .Values.auth.allowedEmails }}
+  {{- $_ := set $env "AUTH_ALLOWED_EMAILS" .Values.auth.allowedEmails }}
+{{- end }}
+{{- if ne .Values.auth.emailVerification nil }}
+  {{- $_ := set $env "AUTH_EMAIL_VERIFICATION" (ternary "1" "0" .Values.auth.emailVerification) }}
+{{- end }}
+{{- if ne .Values.auth.disableEmailPassword nil }}
+  {{- $_ := set $env "AUTH_DISABLE_EMAIL_PASSWORD" (ternary "1" "0" .Values.auth.disableEmailPassword) }}
+{{- end }}
+{{- if .Values.auth.oidc.enabled }}
+  {{- $_ := set $env "ENABLE_OIDC" "1" }}
+{{- end }}
+{{- range $key, $val := .Values.auth.env }}
+  {{- $_ := set $env $key $val }}
+{{- end }}
+{{- if .Values.storage.s3.enabled }}
+  {{- if .Values.storage.s3.bucket }}
+    {{- $_ := set $env "S3_BUCKET" .Values.storage.s3.bucket }}
+  {{- end }}
+  {{- if .Values.storage.s3.endpoint }}
+    {{- $_ := set $env "S3_ENDPOINT" .Values.storage.s3.endpoint }}
+  {{- end }}
+  {{- if .Values.storage.s3.publicDomain }}
+    {{- $_ := set $env "S3_PUBLIC_DOMAIN" .Values.storage.s3.publicDomain }}
+  {{- end }}
+  {{- $_ := set $env "S3_ENABLE_PATH_STYLE" (ternary "1" "0" .Values.storage.s3.enablePathStyle) }}
+  {{- $_ := set $env "S3_SET_ACL" (ternary "1" "0" .Values.storage.s3.setAcl) }}
+{{- end }}
+{{- range $key, $val := .Values.env }}
+  {{- $_ := set $env $key $val }}
+{{- end }}
 data:
-  {{- range $key, $val := .Values.env }}
+  {{- range $key, $val := $env }}
   {{ $key }}: {{ $val | quote }}
   {{- end }}

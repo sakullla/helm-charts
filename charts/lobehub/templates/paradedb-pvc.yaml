@@ -1,0 +1,25 @@
+{{- if and .Values.paradedb.enabled .Values.paradedb.persistence.enabled (not .Values.paradedb.persistence.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "lobehub.paradedbFullname" . }}-data
+  labels:
+    {{- include "lobehub.paradedbLabels" . | nindent 4 }}
+  {{- with .Values.paradedb.persistence.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.paradedb.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.paradedb.persistence.size }}
+  {{- with .Values.paradedb.persistence.storageClass }}
+  {{- if eq . "-" }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: {{ . }}
+  {{- end }}
+  {{- end }}
+{{- end }}

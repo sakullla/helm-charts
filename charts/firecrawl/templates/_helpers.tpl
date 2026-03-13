@@ -154,3 +154,37 @@ playwright fullname
 {{- printf "%s-playwright" (include "firecrawl.fullname" .) | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
+
+{{/*
+nuq-postgres fullname
+*/}}
+{{- define "nuq-postgres.fullname" -}}
+{{- printf "%s-nuq-postgres" (include "firecrawl.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+valkey fullname
+*/}}
+{{- define "valkey.fullname" -}}
+{{- printf "%s-valkey" (include "firecrawl.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+valkey labels
+*/}}
+{{- define "valkey.labels" -}}
+helm.sh/chart: {{ include "firecrawl.chart" . }}
+{{ include "valkey.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+valkey selector labels
+*/}}
+{{- define "valkey.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "firecrawl.name" . }}-valkey
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}

@@ -160,59 +160,136 @@ volumeMounts: []
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
+
+# Additional envFrom refs appended to the main container.
+extraEnvFrom: []
+  # - secretRef:
+  #     name: lobehub-extra
+  # - configMapRef:
+  #     name: lobehub-extra
+
+# Higher-level config that renders to LobeHub env vars.
+app:
+  # Auto-derived from HTTPRoute/Ingress when empty.
+  url: ""
+
+database:
+  # When set, overrides the embedded ParadeDB DATABASE_URL.
+  url: ""
+
+auth:
+  secret: ""
+  keyVaultsSecret: ""
+  ssoProviders: ""
+  allowedEmails: ""
+  emailVerification: null
+  disableEmailPassword: null
+  oidc:
+    enabled: false
+    jwksKey: ""
+  # Generic auth provider env vars, e.g. AUTH_GITHUB_ID / AUTH_GITHUB_ISSUER / AUTH_ZITADEL_ID.
+  env: {}
+  # Generic auth provider secrets, e.g. AUTH_GITHUB_SECRET / AUTH_ZITADEL_SECRET.
+  secrets: {}
+
+storage:
+  s3:
+    enabled: false
+    bucket: ""
+    endpoint: ""
+    publicDomain: ""
+    enablePathStyle: true
+    setAcl: false
+    accessKeyId: ""
+    secretAccessKey: ""
+
+llm:
+  openai:
+    apiKey: ""
+    proxyUrl: ""
+  vision:
+    imageUseBase64: false
+
+search:
+  providers: ""
+  crawlerImpls: ""
+  searxngUrl: ""
+
 env: {}
 secrets: {}
 
-# Embedded browserless-chromium settings.
-browserless-chromium:
+dependencyAutoConfig:
+  enabled: true
+
+paradedb:
   enabled: true
   replicaCount: 1
   image:
-    repository: ghcr.io/browserless/chromium
+    repository: paradedb/paradedb
     pullPolicy: IfNotPresent
-    tag: v2.38.3
-  imagePullSecrets: []
+    tag: latest
   nameOverride: ""
   fullnameOverride: ""
-  podAnnotations: {}
-  podLabels: {}
-  podSecurityContext: {}
-  securityContext: {}
   service:
     type: ClusterIP
-    port: 3000
-  resources: {}
-  readinessProbe:
+    port: 5432
+  auth:
+    username: lobehub
+    password: lobehub
+    database: lobehub
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    existingClaim: ""
+    annotations: {}
+    mountPath: /var/lib/postgresql
+  startupProbe:
     tcpSocket:
-      port: ws
-    initialDelaySeconds: 5
+      port: postgres
+    failureThreshold: 30
     periodSeconds: 10
-    timeoutSeconds: 1
+    timeoutSeconds: 5
     successThreshold: 1
-    failureThreshold: 3
   livenessProbe:
     tcpSocket:
-      port: ws
-    initialDelaySeconds: 15
-    periodSeconds: 20
-    timeoutSeconds: 1
-    failureThreshold: 3
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-  volumes: []
-  volumeMounts: []
-  env:
-    TOKEN: ""
-    CONCURRENT: "5"
-    QUEUED: "10"
-    TIMEOUT: "60000"
-    CORS: "true"
+      port: postgres
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+  readinessProbe:
+    tcpSocket:
+      port: postgres
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+  resources: {}
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+searxng:
+  enabled: true
+  nameOverride: ""
+  fullnameOverride: ""
+  service:
+    port: 8080
+  config:
+    limiter.toml: |-
+      [botdetection.ip_limit]
+      link_token = false
+    settings.yml: |-
+      use_default_settings: true
+      server:
+        limiter: false
+        image_proxy: false
+      search:
+        formats:
+          - html
+          - json
 
 nodeSelector: {}
 

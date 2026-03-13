@@ -18,6 +18,8 @@ Use this skill to produce repository-consistent charts quickly and safely.
    - Set `appVersion` to the app image tag you want as default.
 4. Build `values.yaml` from `assets/values-example.yaml`:
    - Set image repository and service port.
+   - Prefer structured value groups (for example `app`, `database`, `search`, `auth`, `storage`, `integrations`) instead of only flat env keys.
+   - Add `dependencyAutoConfig.enabled` when the chart bundles optional dependencies and needs auto wiring.
    - Keep `command`/`args` as optional overrides.
    - Keep `env` (ConfigMap) and `secrets` (Secret).
    - Keep `startupProbe`, `livenessProbe`, `readinessProbe`.
@@ -35,6 +37,10 @@ Use this skill to produce repository-consistent charts quickly and safely.
 - Always route app configuration through:
   - `templates/configmap.yaml` from `.Values.env`
   - `templates/secret.yaml` from `.Values.secrets`
+- When dependencies are embedded in the same chart, auto-wire endpoints/credentials from structured values into a computed env dict (for example `DATABASE_URL`, internal service URLs), gated by `dependencyAutoConfig.enabled`.
+- Keep explicit overrides predictable:
+  - structured values drive generated env/secrets
+  - user-provided `.Values.env` and `.Values.secrets` are merged last and can override generated defaults
 - In Deployment annotations, always include:
   - `checksum/config` from `configmap.yaml`
   - `checksum/secret` from `secret.yaml`

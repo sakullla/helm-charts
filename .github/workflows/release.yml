@@ -27,6 +27,73 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v3
 
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Vendor Local Chart Dependencies
+        shell: python
+        run: |
+          import os
+          import subprocess
+          import yaml
+
+          repo_url = "https://sakullla.github.io/helm-charts"
+          charts_root = "charts"
+
+          for chart_name in sorted(os.listdir(charts_root)):
+              chart_dir = os.path.join(charts_root, chart_name)
+              chart_yaml = os.path.join(chart_dir, "Chart.yaml")
+              if not os.path.isfile(chart_yaml):
+                  continue
+
+              with open(chart_yaml, "r", encoding="utf-8") as f:
+                  chart = yaml.safe_load(f) or {}
+
+              dependencies = chart.get("dependencies") or []
+              if not dependencies:
+                  continue
+
+              vendor_dir = os.path.join(chart_dir, "charts")
+              os.makedirs(vendor_dir, exist_ok=True)
+
+              for dependency in dependencies:
+                  if dependency.get("repository") != repo_url:
+                      continue
+
+                  dep_name = dependency.get("name")
+                  dep_version = str(dependency.get("version", "")).strip()
+                  if not dep_name or not dep_version:
+                      continue
+
+                  local_chart_dir = os.path.join(charts_root, dep_name)
+                  local_chart_yaml = os.path.join(local_chart_dir, "Chart.yaml")
+                  if not os.path.isfile(local_chart_yaml):
+                      continue
+
+                  with open(local_chart_yaml, "r", encoding="utf-8") as f:
+                      local_chart = yaml.safe_load(f) or {}
+
+                  local_version = str(local_chart.get("version", "")).strip()
+                  if local_version != dep_version:
+                      raise SystemExit(
+                          f"Dependency version mismatch for {chart_name} -> {dep_name}: "
+                          f"expected {dep_version}, found local {local_version}"
+                      )
+
+                  for filename in os.listdir(vendor_dir):
+                      if filename.startswith(f"{dep_name}-") and filename.endswith(".tgz"):
+                          os.remove(os.path.join(vendor_dir, filename))
+
+                  subprocess.run(
+                      ["helm", "package", local_chart_dir, "-d", vendor_dir],
+                      check=True,
+                  )
+
       # ------------------------------------------------------------------
       # 1. 发布环节
       # ------------------------------------------------------------------
@@ -40,14 +107,6 @@ jobs:
       # ------------------------------------------------------------------
       # 2. 清理 index.yaml (Python 强力版 - 只保留最新 1 个版本)
       # ------------------------------------------------------------------
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install PyYAML
-        run: pip install pyyaml
-
       - name: Prune index.yaml (Keep Latest Only)
         shell: python
         run: |

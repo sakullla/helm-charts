@@ -52,6 +52,9 @@ spec:
                 name: {{ include "firecrawl.fullname" . }}-config
             - secretRef:
                 name: {{ include "firecrawl.fullname" . }}-secret
+            {{- with .Values.extraEnvFrom }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data

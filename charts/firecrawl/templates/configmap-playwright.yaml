@@ -5,8 +5,21 @@ metadata:
   name: {{ include "playwright.fullname" . }}-config
   labels:
     {{- include "playwright.labels" . | nindent 4 }}
+{{- $env := dict -}}
+{{- range $key, $val := .Values.playwright.env }}
+  {{- $_ := set $env $key $val }}
+{{- end }}
+{{- if .Values.playwright.proxy.server }}
+  {{- $_ := set $env "PROXY_SERVER" .Values.playwright.proxy.server }}
+{{- end }}
+{{- if .Values.playwright.proxy.username }}
+  {{- $_ := set $env "PROXY_USERNAME" .Values.playwright.proxy.username }}
+{{- end }}
+{{- if .Values.playwright.proxy.password }}
+  {{- $_ := set $env "PROXY_PASSWORD" .Values.playwright.proxy.password }}
+{{- end }}
 data:
-  {{- range $key, $val := .Values.playwright.env }}
+  {{- range $key, $val := $env }}
   {{ $key }}: {{ $val | quote }}
   {{- end }}
 {{- end }}

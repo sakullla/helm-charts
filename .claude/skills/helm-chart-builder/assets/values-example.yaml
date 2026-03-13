@@ -150,6 +150,16 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 
+# Optional: enable auto wiring when the chart includes embedded dependencies
+dependencyAutoConfig:
+  enabled: true
+
+# Optional structured sections (adapt to the chart)
+app: {}
+database: {}
+search: {}
+integrations: {}
+
 # Application configuration
 # Non-sensitive values go to ConfigMap
 env: {}

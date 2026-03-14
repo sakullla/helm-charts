@@ -143,6 +143,7 @@ api:
   falkordbHost: ""
   falkordbPort: ""
   qdrantUrl: ""
+  qdrantPort: ""  # defaults to 6333; explicit to override K8s service-link env injection
 
 # Extra API environment variables
 extraEnv: []

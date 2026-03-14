@@ -1,6 +1,7 @@
 {{- $falkordbHost := default (include "automem.falkordbHost" .) .Values.api.falkordbHost -}}
 {{- $falkordbPort := default (printf "%v" .Values.falkordb.service.redisPort) .Values.api.falkordbPort -}}
 {{- $defaultQdrantURL := printf "http://%s:%v" (include "automem.qdrantHost" .) 6333 -}}
+{{- $defaultQdrantPort := "6333" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -70,6 +71,8 @@ spec:
             {{- if or .Values.qdrant.enabled .Values.api.qdrantUrl }}
             - name: QDRANT_URL
               value: {{ default $defaultQdrantURL .Values.api.qdrantUrl | quote }}
+            - name: QDRANT_PORT
+              value: {{ default $defaultQdrantPort .Values.api.qdrantPort | quote }}
             {{- end }}
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}

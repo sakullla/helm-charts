@@ -6,5 +6,18 @@ metadata:
     {{- include "searxng.labels" . | nindent 4 }}
 data:
   {{- range $key, $val := .Values.config }}
+  {{- if and (eq $key "settings.yml") $.Values.secretKey }}
+  {{-   $secretKeyLine := printf "  secret_key: %q" $.Values.secretKey }}
+  {{-   $stripped := regexReplaceAll "(?m)^ *secret_key:.*" $val "" }}
+  {{-   if contains "server:" $stripped }}
+  {{ $key }}: {{ replace "server:" (printf "server:\n%s" $secretKeyLine) $stripped | quote }}
+  {{-   else }}
+  {{ $key }}: {{ printf "%s\nserver:\n%s" $stripped $secretKeyLine | quote }}
+  {{-   end }}
+  {{- else }}
   {{ $key }}: {{ $val | quote }}
+  {{- end }}
+  {{- end }}
+  {{- if and .Values.secretKey (not (index .Values.config "settings.yml")) }}
+  settings.yml: {{ printf "server:\n  secret_key: %q" .Values.secretKey | quote }}
   {{- end }}

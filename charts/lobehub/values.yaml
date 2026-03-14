@@ -277,6 +277,8 @@ searxng:
   fullnameOverride: ""
   service:
     port: 8080
+  # -- SearXNG server secret key. Must be changed from the default.
+  secretKey: "changeme-please-set-a-real-secret-key"
   config:
     limiter.toml: |-
       [botdetection.ip_limit]
@@ -284,7 +286,6 @@ searxng:
     settings.yml: |-
       use_default_settings: true
       server:
-        secret_key: "changeme-please-set-a-real-secret-key"
         limiter: false
         image_proxy: false
       search:

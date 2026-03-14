@@ -150,6 +150,10 @@ autoscaling:
 
 config: {}
 
+# -- SearXNG server secret key. Overrides any secret_key in config.settings.yml.
+# Required: SearXNG refuses to start when the built-in default "ultrasecretkey" is used.
+secretKey: ""
+
 nodeSelector: {}
 
 tolerations: []

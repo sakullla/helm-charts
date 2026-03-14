@@ -72,8 +72,3 @@ paradedb:
 
 searxng:
   enabled: true
-
-# Optional: mount existing secrets/configmaps without repeating values here.
-# extraEnvFrom:
-#   - secretRef:
-#       name: lobehub-extra

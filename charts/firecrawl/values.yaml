@@ -245,7 +245,7 @@ valkey:
   image:
     repository: valkey/valkey
     pullPolicy: IfNotPresent
-    tag: 8-alpine
+    tag: 9.0.3
   service:
     type: ClusterIP
     port: 6379

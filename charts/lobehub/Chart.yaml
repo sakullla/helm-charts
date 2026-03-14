@@ -24,6 +24,6 @@ version: 0.0.28
 appVersion: "2.1.39"
 dependencies:
   - name: searxng
-    version: 0.0.3
+    version: 0.0.2
     repository: https://sakullla.github.io/helm-charts
     condition: searxng.enabled

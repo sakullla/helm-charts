@@ -139,6 +139,22 @@ jobs:
                   )
                   print(f"  Vendored {dep_name}-{dep_version}.")
 
+      - name: Register local charts as helm repository
+        run: |
+          STAGING=$(mktemp -d)
+          # Package every local chart into a staging dir; skip charts that
+          # themselves have external deps not yet available (|| true).
+          for chart_dir in charts/*/; do
+            [ -f "${chart_dir}Chart.yaml" ] || continue
+            helm package "${chart_dir}" -d "$STAGING" 2>/dev/null || true
+          done
+          helm repo index "$STAGING"
+          # Override the remote sakullla repo with the local staging copy so
+          # that helm package --dependency-update resolves new versions (not
+          # yet published to GitHub Pages) from local files.
+          helm repo add sakullla "file://${STAGING}" --force-update
+          helm repo update sakullla
+
       # ------------------------------------------------------------------
       # 1. 发布环节
       # ------------------------------------------------------------------

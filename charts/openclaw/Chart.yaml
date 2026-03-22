@@ -1,0 +1,18 @@
+apiVersion: v2
+name: openclaw
+description: Personal AI assistant you run on your own servers — accessible via WhatsApp, Telegram, Discord, Slack, iMessage, and more. Supports Anthropic, OpenAI, Google, OpenRouter, and any Anthropic-compatible endpoint.
+type: application
+version: 0.0.1
+appVersion: "2026.3.13"
+keywords:
+  - ai
+  - assistant
+  - anthropic
+  - llm
+  - chatbot
+  - openai
+  - self-hosted
+home: https://openclaw.ai
+sources:
+  - https://github.com/openclaw/openclaw
+maintainers: []

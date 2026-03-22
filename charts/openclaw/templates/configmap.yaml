@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "openclaw.fullname" . }}-config
+  labels:
+    {{- include "openclaw.labels" . | nindent 4 }}
+{{- $env := dict -}}
+{{/* Auto-wire gateway and AI provider settings */}}
+{{- $_ := set $env "HOME" "/home/node" -}}
+{{- $_ := set $env "TERM" "xterm-256color" -}}
+{{- if .Values.gateway.timezone }}
+  {{- $_ := set $env "TZ" .Values.gateway.timezone -}}
+{{- end }}
+{{- if .Values.gateway.allowInsecurePrivateWs }}
+  {{- $_ := set $env "OPENCLAW_ALLOW_INSECURE_PRIVATE_WS" (.Values.gateway.allowInsecurePrivateWs | toString) -}}
+{{- end }}
+{{- if .Values.ai.anthropic.baseUrl }}
+  {{- $_ := set $env "ANTHROPIC_BASE_URL" .Values.ai.anthropic.baseUrl -}}
+{{- end }}
+{{/* User-provided env overrides (merged last) */}}
+{{- range $key, $val := .Values.env }}
+  {{- $_ := set $env $key $val }}
+{{- end }}
+data:
+  {{- range $key, $val := $env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}

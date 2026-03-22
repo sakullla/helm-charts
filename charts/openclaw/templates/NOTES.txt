@@ -1,0 +1,28 @@
+1. Get the OpenClaw gateway URL:
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}/
+{{- end }}
+{{- else if contains "NodePort" .Values.service.type }}
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "openclaw.fullname" . }})
+  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo "Gateway: http://$NODE_IP:$NODE_PORT"
+{{- else if contains "LoadBalancer" .Values.service.type }}
+  NOTE: It may take a few minutes for the LoadBalancer IP to become available.
+  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "openclaw.fullname" . }} --template "{{"{{range (index .status.loadBalancer.ingress 0)}}{{.}}{{end}}"}}")
+  echo "Gateway: http://$SERVICE_IP:{{ .Values.service.port }}"
+{{- else if contains "ClusterIP" .Values.service.type }}
+  kubectl --namespace {{ .Release.Namespace }} port-forward svc/{{ include "openclaw.fullname" . }} {{ .Values.service.port }}:{{ .Values.service.port }}
+  echo "Gateway:  http://127.0.0.1:{{ .Values.service.port }}"
+  echo "Bridge WS: ws://127.0.0.1:{{ .Values.service.bridgePort }}"
+{{- end }}
+
+2. Check gateway health:
+  kubectl --namespace {{ .Release.Namespace }} exec -it deploy/{{ include "openclaw.fullname" . }} -- \
+    node -e "fetch('http://127.0.0.1:{{ .Values.service.port }}/healthz').then(r=>r.json()).then(console.log)"
+
+3. Connect the CLI (from another pod or via port-forward):
+  openclaw gateway status --gateway-url http://127.0.0.1:{{ .Values.service.port }}
+
+4. Open the dashboard:
+  openclaw dashboard --gateway-url http://127.0.0.1:{{ .Values.service.port }}

@@ -1,0 +1,183 @@
+# Default values for openclaw.
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/openclaw/openclaw
+  pullPolicy: IfNotPresent
+  # Overrides the image tag; defaults to chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Override container entrypoint / args (default starts the gateway on port 18789).
+command:
+  - node
+  - dist/index.js
+  - gateway
+args:
+  - --bind
+  - lan
+  - --port
+  - "18789"
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  annotations: {}
+  type: ClusterIP
+  # Gateway HTTP + Dashboard port.
+  port: 18789
+  # Bridge WebSocket port (used by channels and CLI).
+  bridgePort: 18790
+
+# Traditional Ingress (expose the gateway dashboard / API).
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: openclaw.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+    # - secretName: openclaw-tls
+    #   hosts:
+    #     - openclaw.local
+
+# Gateway API HTTPRoute (alternative to Ingress).
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - openclaw.local
+  rules: []
+
+# Health probes — gateway exposes /healthz.
+startupProbe:
+  tcpSocket:
+    port: http
+  failureThreshold: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+resources: {}
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 256Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+# Persistence for ~/.openclaw (config, sessions, credentials, workspace).
+persistence:
+  enabled: true
+  size: 2Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  existingClaim: ""
+  annotations: {}
+  # Mount path inside the container.
+  mountPath: /home/node/.openclaw
+
+volumes: []
+volumeMounts: []
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Gateway settings
+# ──────────────────────────────────────────────────────────────────────────────
+gateway:
+  # Security token required to connect CLI / channels to this gateway.
+  # Rendered into Secret as OPENCLAW_GATEWAY_TOKEN.
+  token: ""
+  # Container timezone (TZ env var).
+  timezone: "UTC"
+  # Set to "1" to allow unencrypted private WebSocket connections.
+  # Rendered into ConfigMap as OPENCLAW_ALLOW_INSECURE_PRIVATE_WS.
+  allowInsecurePrivateWs: ""
+
+# ──────────────────────────────────────────────────────────────────────────────
+# AI provider configuration
+# ──────────────────────────────────────────────────────────────────────────────
+ai:
+  anthropic:
+    # Direct Anthropic API key (ANTHROPIC_API_KEY).
+    # Use this for standard api.anthropic.com access.
+    apiKey: ""
+
+    # Override the Anthropic API base URL (ANTHROPIC_BASE_URL).
+    # Set this to route anthropic/* model traffic through a compatible
+    # third-party endpoint such as LiteLLM, OpenRouter (Anthropic compat mode),
+    # a corporate AI gateway, or any other provider that implements the
+    # Anthropic Messages API.
+    # Example: http://litellm.default.svc.cluster.local:4000
+    baseUrl: ""
+
+    # Claude Code CLI setup-token auth (CLAUDE_AI_SESSION_KEY).
+    # Generate with: claude setup-token
+    sessionKey: ""
+
+    # Claude web session credentials (optional, for Claude web access).
+    webSessionKey: ""
+    webCookie: ""
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Additional env vars (rendered into ConfigMap)
+# Use this to add other provider API keys as non-sensitive config, or any other
+# environment variable openclaw reads at runtime.
+# e.g. OPENROUTER_API_KEY, GROQ_API_KEY, GOOGLE_API_KEY …
+# ──────────────────────────────────────────────────────────────────────────────
+env: {}
+  # OPENROUTER_API_KEY: ""
+  # GOOGLE_API_KEY: ""
+
+# Sensitive values (rendered into Secret, base64-encoded).
+secrets: {}
+  # OPENROUTER_API_KEY: ""
+  # GROQ_API_KEY: ""

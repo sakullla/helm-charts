@@ -435,6 +435,25 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/next-ai-draw-io-0.0.4/next-ai-draw-io-0.0.4.tgz
     version: 0.0.4
+  nginx-reverse-emby:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-03-22T15:31:29.173876773Z"
+    description: Automated reverse proxy solution for Emby, Jellyfin and HTTP/TCP
+      services with visual panel management and automatic SSL certificate renewal
+    digest: 6a9def68b9bc3979bb9759c301df4e011b3fc6d6f63d52af185c287ad67b4867
+    keywords:
+    - nginx
+    - reverse-proxy
+    - emby
+    - jellyfin
+    - ssl
+    - acme
+    name: nginx-reverse-emby
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/nginx-reverse-emby-0.0.1/nginx-reverse-emby-0.0.1.tgz
+    version: 0.0.1
   nginx-stream:
   - apiVersion: v2
     appVersion: 1.29.4
@@ -635,4 +654,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-03-22T14:21:29.728843678Z"
+generated: "2026-03-22T15:31:29.173890899Z"

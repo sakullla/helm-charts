@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nginx-reverse-emby.fullname" . }}-config
+  labels:
+    {{- include "nginx-reverse-emby.labels" . | nindent 4 }}
+{{- $env := dict -}}
+{{- if .Values.panel.role }}
+  {{- $_ := set $env "PANEL_ROLE" .Values.panel.role }}
+{{- end }}
+{{- if .Values.panel.deployMode }}
+  {{- $_ := set $env "PROXY_DEPLOY_MODE" .Values.panel.deployMode }}
+{{- end }}
+{{- if .Values.panel.autoApply }}
+  {{- $_ := set $env "PANEL_AUTO_APPLY" "1" }}
+{{- end }}
+{{- if .Values.service.panelPort }}
+  {{- $_ := set $env "PANEL_PORT" (toString .Values.service.panelPort) }}
+{{- end }}
+{{- if .Values.service.proxyPort }}
+  {{- $_ := set $env "FRONT_PROXY_PORT" (toString .Values.service.proxyPort) }}
+{{- end }}
+{{- if .Values.acme.ca }}
+  {{- $_ := set $env "ACME_CA" .Values.acme.ca }}
+{{- end }}
+{{- if .Values.acme.dnsProvider }}
+  {{- $_ := set $env "ACME_DNS_PROVIDER" .Values.acme.dnsProvider }}
+{{- end }}
+{{- if .Values.master.localAgentName }}
+  {{- $_ := set $env "MASTER_LOCAL_AGENT_NAME" .Values.master.localAgentName }}
+{{- end }}
+{{- if .Values.master.localAgentTags }}
+  {{- $_ := set $env "MASTER_LOCAL_AGENT_TAGS" .Values.master.localAgentTags }}
+{{- end }}
+{{- range $key, $val := .Values.env }}
+  {{- $_ := set $env $key $val }}
+{{- end }}
+data:
+  {{- range $key, $val := $env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}

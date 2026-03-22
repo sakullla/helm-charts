@@ -1,0 +1,16 @@
+apiVersion: v2
+name: nginx-reverse-emby
+description: Automated reverse proxy solution for Emby, Jellyfin and HTTP/TCP services with visual panel management and automatic SSL certificate renewal
+keywords:
+  - nginx
+  - reverse-proxy
+  - emby
+  - jellyfin
+  - ssl
+  - acme
+
+type: application
+
+version: 0.0.1
+
+appVersion: "latest"

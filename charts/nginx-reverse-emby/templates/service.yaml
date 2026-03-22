@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nginx-reverse-emby.fullname" . }}
+  labels:
+    {{- include "nginx-reverse-emby.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.panelPort }}
+      targetPort: panel
+      protocol: TCP
+      name: panel
+    - port: {{ .Values.service.proxyPort }}
+      targetPort: proxy
+      protocol: TCP
+      name: proxy
+  selector:
+    {{- include "nginx-reverse-emby.selectorLabels" . | nindent 4 }}

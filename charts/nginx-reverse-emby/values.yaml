@@ -100,8 +100,7 @@ startupProbe:
   successThreshold: 1
 
 livenessProbe:
-  httpGet:
-    path: /panel-api/health
+  tcpSocket:
     port: panel
   initialDelaySeconds: 15
   periodSeconds: 20
@@ -110,8 +109,7 @@ livenessProbe:
   failureThreshold: 3
 
 readinessProbe:
-  httpGet:
-    path: /panel-api/health
+  tcpSocket:
     port: panel
   initialDelaySeconds: 5
   periodSeconds: 10

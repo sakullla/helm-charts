@@ -438,6 +438,24 @@ entries:
   nginx-reverse-emby:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-03-28T14:09:44.992986641Z"
+    description: Automated reverse proxy solution for Emby, Jellyfin and HTTP/TCP
+      services with visual panel management and automatic SSL certificate renewal
+    digest: 4296bf068738b5d449c0b5dd26cb2a01bbee6fdf72ce17c0c8df530de434e891
+    keywords:
+    - nginx
+    - reverse-proxy
+    - emby
+    - jellyfin
+    - ssl
+    - acme
+    name: nginx-reverse-emby
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/nginx-reverse-emby-0.0.2/nginx-reverse-emby-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-03-22T15:31:29.173876773Z"
     description: Automated reverse proxy solution for Emby, Jellyfin and HTTP/TCP
       services with visual panel management and automatic SSL certificate renewal
@@ -654,4 +672,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-03-22T15:31:29.173890899Z"
+generated: "2026-03-28T14:09:44.993001258Z"

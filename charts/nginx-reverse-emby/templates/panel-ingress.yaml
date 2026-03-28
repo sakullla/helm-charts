@@ -1,0 +1,43 @@
+{{- if .Values.panelIngress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "nginx-reverse-emby.fullname" . }}-panel
+  labels:
+    {{- include "nginx-reverse-emby.labels" . | nindent 4 }}
+  {{- with .Values.panelIngress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.panelIngress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  {{- if .Values.panelIngress.tls }}
+  tls:
+    {{- range .Values.panelIngress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.panelIngress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            {{- with .pathType }}
+            pathType: {{ . }}
+            {{- end }}
+            backend:
+              service:
+                name: {{ include "nginx-reverse-emby.fullname" $ }}
+                port:
+                  number: {{ $.Values.service.panelPort }}
+          {{- end }}
+    {{- end }}
+{{- end }}

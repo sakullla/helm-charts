@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "deer-flow.fullname" . }}-gateway
+  labels:
+    {{- include "deer-flow.componentLabels" (list "gateway" .) | nindent 4 }}
+spec:
+  type: {{ .Values.gateway.service.type }}
+  ports:
+    - port: {{ .Values.gateway.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "deer-flow.componentSelectorLabels" (list "gateway" .) | nindent 4 }}

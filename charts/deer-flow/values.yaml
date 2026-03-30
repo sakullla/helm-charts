@@ -1,0 +1,290 @@
+# Default values for deer-flow.
+# Multi-service chart: nginx (proxy) + frontend (Next.js) + gateway (FastAPI) + langgraph + optional provisioner
+
+nameOverride: ""
+fullnameOverride: ""
+
+imagePullSecrets: []
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+# ── Nginx reverse proxy ───────────────────────────────────────────────────────
+nginx:
+  image:
+    repository: nginx
+    pullPolicy: IfNotPresent
+    tag: "alpine"
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 2026
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# ── Frontend (Next.js) ────────────────────────────────────────────────────────
+# Build from: frontend/Dockerfile  target: prod
+frontend:
+  image:
+    repository: ghcr.io/sakullla/deer-flow-frontend
+    pullPolicy: IfNotPresent
+    tag: ""
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 3000
+  resources: {}
+  startupProbe:
+    tcpSocket:
+      port: 3000
+    failureThreshold: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+  livenessProbe:
+    tcpSocket:
+      port: 3000
+    initialDelaySeconds: 15
+    periodSeconds: 20
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    tcpSocket:
+      port: 3000
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# ── Gateway (FastAPI backend) ─────────────────────────────────────────────────
+# Build from: backend/Dockerfile
+# Command: cd backend && PYTHONPATH=. uv run uvicorn app.gateway.app:app --host 0.0.0.0 --port 8001 --workers 2
+gateway:
+  image:
+    repository: ghcr.io/sakullla/deer-flow-backend
+    pullPolicy: IfNotPresent
+    tag: ""
+  replicaCount: 1
+  command: ["sh", "-c"]
+  args: ["cd backend && PYTHONPATH=. uv run uvicorn app.gateway.app:app --host 0.0.0.0 --port 8001 --workers 2"]
+  service:
+    type: ClusterIP
+    port: 8001
+  resources: {}
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 80
+  startupProbe:
+    tcpSocket:
+      port: 8001
+    failureThreshold: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 8001
+    initialDelaySeconds: 15
+    periodSeconds: 20
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: 8001
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# ── LangGraph server ──────────────────────────────────────────────────────────
+# Build from: backend/Dockerfile (same image, different command)
+# Command: cd /app/backend && uv run langgraph dev --no-browser --allow-blocking --no-reload --host 0.0.0.0 --port 2024
+langgraph:
+  image:
+    repository: ghcr.io/sakullla/deer-flow-backend
+    pullPolicy: IfNotPresent
+    tag: ""
+  replicaCount: 1
+  command: ["sh", "-c"]
+  args: ["cd /app/backend && uv run langgraph dev --no-browser --allow-blocking --no-reload --host 0.0.0.0 --port 2024 --n-jobs-per-worker 10"]
+  service:
+    type: ClusterIP
+    port: 2024
+  resources: {}
+  startupProbe:
+    tcpSocket:
+      port: 2024
+    failureThreshold: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+  livenessProbe:
+    tcpSocket:
+      port: 2024
+    initialDelaySeconds: 15
+    periodSeconds: 20
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    tcpSocket:
+      port: 2024
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# ── Provisioner (optional, K8s sandbox mode) ──────────────────────────────────
+provisioner:
+  enabled: false
+  image:
+    repository: ghcr.io/sakullla/deer-flow-provisioner
+    pullPolicy: IfNotPresent
+    tag: ""
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 8002
+  resources: {}
+  env:
+    K8S_NAMESPACE: deer-flow
+    SANDBOX_IMAGE: "enterprise-public-cn-beijing.cr.volces.com/vefaas-public/all-in-one-sandbox:latest"
+    NODE_HOST: "host.docker.internal"
+  startupProbe:
+    tcpSocket:
+      port: 8002
+    failureThreshold: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 8002
+    initialDelaySeconds: 15
+    periodSeconds: 20
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: 8002
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# ── Ingress (points to nginx) ─────────────────────────────────────────────────
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+# ── Gateway API HTTPRoute (points to nginx) ───────────────────────────────────
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - chart-example.local
+  rules: []
+
+# ── Persistence for DEER_FLOW_HOME ────────────────────────────────────────────
+# Shared between gateway and langgraph. Requires ReadWriteMany for multi-node clusters.
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  existingClaim: ""
+
+# ── DeerFlow config.yaml content (optional) ──────────────────────────────────
+# This file is mounted at /app/backend/config.yaml in gateway and langgraph.
+# See https://github.com/bytedance/deer-flow for the full config schema.
+deerflowConfig: ""
+  # Example:
+  # SEARCH_API: tavily
+  # LLM_PROVIDER: openai
+
+# ── LLM provider custom base URLs (ConfigMap) ────────────────────────────────
+# Override default API endpoints for OpenAI-compatible or self-hosted providers.
+llm:
+  openaiBaseUrl: ""          # e.g. http://ollama:11434/v1 or https://api.deepseek.com/v1
+  azureOpenaiEndpoint: ""    # e.g. https://<your-resource>.openai.azure.com
+  azureOpenaiApiVersion: ""  # e.g. 2024-02-01
+  volcengineBaseUrl: ""      # Volcengine / Doubao endpoint
+  minimaxBaseUrl: ""         # MiniMax OpenAI-compatible endpoint
+  novitaBaseUrl: ""          # Novita AI OpenAI-compatible endpoint
+
+# ── Shared non-sensitive env (ConfigMap) ──────────────────────────────────────
+env:
+  CORS_ORIGINS: ""
+  LANGSMITH_TRACING: "false"
+  CI: "true"
+  # LANGSMITH_ENDPOINT: "https://api.smith.langchain.com"
+  # LANGSMITH_PROJECT: ""
+
+# ── Shared sensitive env (Secret) ─────────────────────────────────────────────
+secrets:
+  # Required for search:
+  TAVILY_API_KEY: ""
+  JINA_API_KEY: ""
+  # Required for frontend auth:
+  BETTER_AUTH_SECRET: ""
+  # Optional LLM providers:
+  OPENAI_API_KEY: ""
+  GEMINI_API_KEY: ""
+  DEEPSEEK_API_KEY: ""
+  NOVITA_API_KEY: ""
+  VOLCENGINE_API_KEY: ""
+  FIRECRAWL_API_KEY: ""
+  INFOQUEST_API_KEY: ""
+  # Optional integrations:
+  FEISHU_APP_ID: ""
+  FEISHU_APP_SECRET: ""
+  SLACK_BOT_TOKEN: ""
+  SLACK_APP_TOKEN: ""
+  TELEGRAM_BOT_TOKEN: ""
+  LANGSMITH_API_KEY: ""
+  GITHUB_TOKEN: ""

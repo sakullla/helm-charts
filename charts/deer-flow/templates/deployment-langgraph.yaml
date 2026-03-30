@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "deer-flow.fullname" . }}-langgraph
+  labels:
+    {{- include "deer-flow.componentLabels" (list "langgraph" .) | nindent 4 }}
+spec:
+  replicas: {{ .Values.langgraph.replicaCount }}
+  {{- if .Values.persistence.enabled }}
+  strategy:
+    type: Recreate
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "deer-flow.componentSelectorLabels" (list "langgraph" .) | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "deer-flow.componentLabels" (list "langgraph" .) | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "deer-flow.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: langgraph
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.langgraph.image.repository }}:{{ .Values.langgraph.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.langgraph.image.pullPolicy }}
+          {{- with .Values.langgraph.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.langgraph.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.langgraph.service.port }}
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "deer-flow.fullname" . }}-config
+            - secretRef:
+                name: {{ include "deer-flow.fullname" . }}-secret
+          env:
+            - name: DEER_FLOW_CONFIG_PATH
+              value: /app/config.yaml
+            - name: DEER_FLOW_EXTENSIONS_CONFIG_PATH
+              value: /app/extensions_config.json
+          {{- with .Values.langgraph.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.langgraph.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.langgraph.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.langgraph.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: deer-flow-data
+              mountPath: {{ include "deer-flow.homeDir" . }}
+            {{- if .Values.deerflowConfig }}
+            - name: deerflow-config
+              mountPath: /app/config.yaml
+              subPath: config.yaml
+              readOnly: true
+            {{- end }}
+      volumes:
+        - name: deer-flow-data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-data" (include "deer-flow.fullname" .)) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- if .Values.deerflowConfig }}
+        - name: deerflow-config
+          configMap:
+            name: {{ include "deer-flow.fullname" . }}-deerflow-config
+        {{- end }}
+      {{- with .Values.langgraph.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.langgraph.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.langgraph.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

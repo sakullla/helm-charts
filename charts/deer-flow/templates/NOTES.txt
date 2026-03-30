@@ -1,0 +1,49 @@
+NOTES:
+1. DeerFlow has been deployed successfully.
+
+2. Get the application URL:
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}
+{{- end }}
+{{- else if .Values.httpRoute.enabled }}
+{{- range .Values.httpRoute.hostnames }}
+  http://{{ . }}
+{{- end }}
+{{- else if contains "NodePort" .Values.nginx.service.type }}
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "deer-flow.fullname" . }}-nginx)
+  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
+{{- else if contains "LoadBalancer" .Values.nginx.service.type }}
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "deer-flow.fullname" . }}-nginx --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
+  echo http://$SERVICE_IP:{{ .Values.nginx.service.port }}
+{{- else if contains "ClusterIP" .Values.nginx.service.type }}
+  kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ include "deer-flow.fullname" . }}-nginx {{ .Values.nginx.service.port }}:{{ .Values.nginx.service.port }}
+  echo "Visit http://127.0.0.1:{{ .Values.nginx.service.port }}"
+{{- end }}
+
+3. Architecture:
+   nginx (port {{ .Values.nginx.service.port }}) → routes to:
+   - frontend (Next.js, port {{ .Values.frontend.service.port }})         - /
+   - gateway  (FastAPI,  port {{ .Values.gateway.service.port }})   - /api/*, /health, /docs
+   - langgraph (LangGraph, port {{ .Values.langgraph.service.port }}) - /api/langgraph/*
+   {{- if .Values.provisioner.enabled }}
+   - provisioner (K8s, port {{ .Values.provisioner.service.port }})  - /api/sandboxes
+   {{- end }}
+
+4. Required secrets (set before deploying):
+   - TAVILY_API_KEY, JINA_API_KEY      (search APIs)
+   - BETTER_AUTH_SECRET                (frontend auth)
+   - At least one LLM key: OPENAI_API_KEY, GEMINI_API_KEY, or DEEPSEEK_API_KEY
+
+   Example:
+   helm upgrade --install my-deer-flow charts/deer-flow \
+     --set secrets.TAVILY_API_KEY=tvly-xxx \
+     --set secrets.BETTER_AUTH_SECRET=$(openssl rand -hex 32) \
+     --set secrets.OPENAI_API_KEY=sk-xxx
+
+5. Images must be built from https://github.com/sakullla/deer-flow:
+   - backend/Dockerfile  → gateway.image.repository + langgraph.image.repository
+   - frontend/Dockerfile → frontend.image.repository
+   - docker/provisioner/Dockerfile → provisioner.image.repository (if enabled)

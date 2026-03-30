@@ -1,0 +1,17 @@
+apiVersion: v2
+name: deer-flow
+description: DeerFlow - Open-source long-horizon AI research and coding agent with multi-service architecture
+
+type: application
+
+keywords:
+  - ai
+  - agent
+  - research
+  - llm
+  - langgraph
+  - deerflow
+  - bytedance
+
+version: 0.0.1
+appVersion: "latest"

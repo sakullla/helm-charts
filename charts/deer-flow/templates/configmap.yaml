@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "deer-flow.fullname" . }}-config
+  labels:
+    {{- include "deer-flow.labels" . | nindent 4 }}
+data:
+  DEER_FLOW_HOME: {{ include "deer-flow.homeDir" . | quote }}
+  DEER_FLOW_CONFIG_PATH: "/app/backend/config.yaml"
+  DEER_FLOW_EXTENSIONS_CONFIG_PATH: "/app/backend/extensions_config.json"
+  DEER_FLOW_CHANNELS_GATEWAY_URL: {{ include "deer-flow.gatewayURL" . | quote }}
+  DEER_FLOW_CHANNELS_LANGGRAPH_URL: {{ include "deer-flow.langgraphURL" . | quote }}
+  LANGSMITH_TRACING: {{ .Values.env.LANGSMITH_TRACING | default "false" | quote }}
+  {{- if .Values.env.CORS_ORIGINS }}
+  CORS_ORIGINS: {{ .Values.env.CORS_ORIGINS | quote }}
+  {{- end }}
+  {{- range $key, $val := .Values.env }}
+  {{- if and (ne $key "LANGSMITH_TRACING") (ne $key "CORS_ORIGINS") }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+  {{- end }}
+  {{- /* LLM custom base URLs — only injected when non-empty */}}
+  {{- if .Values.llm.openaiBaseUrl }}
+  OPENAI_BASE_URL: {{ .Values.llm.openaiBaseUrl | quote }}
+  {{- end }}
+  {{- if .Values.llm.azureOpenaiEndpoint }}
+  AZURE_OPENAI_ENDPOINT: {{ .Values.llm.azureOpenaiEndpoint | quote }}
+  {{- end }}
+  {{- if .Values.llm.azureOpenaiApiVersion }}
+  AZURE_OPENAI_API_VERSION: {{ .Values.llm.azureOpenaiApiVersion | quote }}
+  {{- end }}
+  {{- if .Values.llm.volcengineBaseUrl }}
+  VOLCENGINE_BASE_URL: {{ .Values.llm.volcengineBaseUrl | quote }}
+  {{- end }}
+  {{- if .Values.llm.minimaxBaseUrl }}
+  MINIMAX_BASE_URL: {{ .Values.llm.minimaxBaseUrl | quote }}
+  {{- end }}
+  {{- if .Values.llm.novitaBaseUrl }}
+  NOVITA_BASE_URL: {{ .Values.llm.novitaBaseUrl | quote }}
+  {{- end }}

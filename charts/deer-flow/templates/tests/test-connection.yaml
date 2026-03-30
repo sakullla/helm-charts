@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "deer-flow.fullname" . }}-test-connection
+  labels:
+    {{- include "deer-flow.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['--spider', '--timeout=10', 'http://{{ include "deer-flow.fullname" . }}-nginx:{{ .Values.nginx.service.port }}/health']
+  restartPolicy: Never

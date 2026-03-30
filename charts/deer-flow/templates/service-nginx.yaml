@@ -1,0 +1,18 @@
+{{- if not .Values.httpRoute.enabled }}
+# Main user-facing service — routes to nginx reverse proxy
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "deer-flow.fullname" . }}-nginx
+  labels:
+    {{- include "deer-flow.componentLabels" (list "nginx" .) | nindent 4 }}
+spec:
+  type: {{ .Values.nginx.service.type }}
+  ports:
+    - port: {{ .Values.nginx.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "deer-flow.componentSelectorLabels" (list "nginx" .) | nindent 4 }}
+{{- end }}

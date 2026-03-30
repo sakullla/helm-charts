@@ -178,6 +178,25 @@ entries:
   deer-flow:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-03-30T14:05:09.229276982Z"
+    description: DeerFlow - Open-source long-horizon AI research and coding agent
+      with multi-service architecture
+    digest: 1e62c6c8fdf302ac11829296f4c504896fdeb79becda80762925539bf7a624f4
+    keywords:
+    - ai
+    - agent
+    - research
+    - llm
+    - langgraph
+    - deerflow
+    - bytedance
+    name: deer-flow
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/deer-flow-0.0.2/deer-flow-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-03-30T13:14:09.862859066Z"
     description: DeerFlow - Open-source long-horizon AI research and coding agent
       with multi-service architecture
@@ -674,4 +693,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-03-30T13:14:09.862873322Z"
+generated: "2026-03-30T14:05:09.229287893Z"

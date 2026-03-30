@@ -10,12 +10,14 @@ DeerFlow 是字节跳动开源的长时程 AI 研究与编码 Agent 系统，基
 用户请求
     │
     ▼
-nginx (端口 2026) — 反向代理
+Ingress / HTTPRoute (路径路由)
     ├── /api/langgraph/*  → langgraph (LangGraph Server, 2024)
     ├── /api/*            → gateway   (FastAPI Backend, 8001)
-    ├── /health /docs     → gateway
+    ├── /health /docs /redoc /openapi.json → gateway
     └── /                 → frontend  (Next.js, 3000)
 ```
+
+Ingress 和 HTTPRoute 均直接路由到各后端服务，无需额外的反向代理层。
 
 ## 前置条件
 
@@ -60,11 +62,11 @@ helm install my-deer-flow charts/deer-flow \
 
 ## 访问服务
 
-默认以 `ClusterIP` 暴露，通过端口转发访问：
+默认以 `ClusterIP` 暴露，通过端口转发访问前端：
 
 ```bash
-kubectl port-forward -n deer-flow svc/my-deer-flow-deer-flow-nginx 2026:2026
-# 访问 http://localhost:2026
+kubectl port-forward -n deer-flow svc/my-deer-flow-deer-flow-frontend 3000:3000
+# 访问 http://localhost:3000
 ```
 
 或启用 Ingress：
@@ -73,9 +75,17 @@ kubectl port-forward -n deer-flow svc/my-deer-flow-deer-flow-nginx 2026:2026
 helm upgrade my-deer-flow charts/deer-flow \
   --set ingress.enabled=true \
   --set ingress.className=nginx \
-  --set "ingress.hosts[0].host=deer-flow.example.com" \
-  --set "ingress.hosts[0].paths[0].path=/" \
-  --set "ingress.hosts[0].paths[0].pathType=Prefix"
+  --set "ingress.hosts[0].host=deer-flow.example.com"
+```
+
+或启用 Gateway API HTTPRoute：
+
+```bash
+helm upgrade my-deer-flow charts/deer-flow \
+  --set httpRoute.enabled=true \
+  --set "httpRoute.hostnames[0]=deer-flow.example.com" \
+  --set "httpRoute.parentRefs[0].name=gateway" \
+  --set "httpRoute.parentRefs[0].sectionName=http"
 ```
 
 ## 关键配置项
@@ -86,13 +96,17 @@ helm upgrade my-deer-flow charts/deer-flow \
 | `gateway.image.tag` | Gateway 镜像 Tag | `""` (使用 appVersion) |
 | `langgraph.image.repository` | LangGraph 镜像 | `ghcr.io/sakullla/deer-flow-backend` |
 | `frontend.image.repository` | Frontend 镜像 | `ghcr.io/sakullla/deer-flow-frontend` |
-| `nginx.service.port` | Nginx 监听端口 | `2026` |
+| `frontend.service.port` | Frontend 端口 | `3000` |
+| `gateway.service.port` | Gateway 端口 | `8001` |
+| `langgraph.service.port` | LangGraph 端口 | `2024` |
 | `persistence.enabled` | 启用数据持久化 | `true` |
 | `persistence.size` | 存储容量 | `10Gi` |
 | `persistence.accessMode` | 存储访问模式 | `ReadWriteOnce` |
 | `ingress.enabled` | 启用 Ingress | `false` |
 | `httpRoute.enabled` | 启用 Gateway API HTTPRoute | `false` |
 | `provisioner.enabled` | 启用 K8s 沙箱 Provisioner | `false` |
+| `llm.openaiBaseUrl` | OpenAI 兼容端点（如 Ollama、DeepSeek） | `""` |
+| `llm.azureOpenaiEndpoint` | Azure OpenAI 端点 | `""` |
 | `secrets.TAVILY_API_KEY` | Tavily 搜索 API Key（必填） | `""` |
 | `secrets.JINA_API_KEY` | Jina 搜索 API Key（必填） | `""` |
 | `secrets.BETTER_AUTH_SECRET` | Frontend 鉴权密钥（必填） | `""` |
@@ -102,14 +116,45 @@ helm upgrade my-deer-flow charts/deer-flow \
 
 ## DeerFlow 配置文件
 
-通过 `deerflowConfig` 传入 `config.yaml` 内容，挂载至 gateway 和 langgraph 容器：
+通过 `deerflowConfig` 传入 `config.yaml` 内容，挂载至 gateway 和 langgraph 容器。
+
+### 自定义 LLM 端点
+
+要使用自建或第三方 LLM 端点，需在 `deerflowConfig` 中配置 `models`：
 
 ```yaml
 deerflowConfig: |
-  SEARCH_API: tavily
-  LLM_PROVIDER: openai
-  # 更多配置项参考上游文档
+  models:
+    - name: ollama-llama
+      display_name: Ollama Llama
+      use: langchain_openai:ChatOpenAI
+      model: llama3
+      api_key: ollama
+      base_url: http://ollama:11434/v1
+      request_timeout: 600.0
+      max_retries: 2
 ```
+
+### 自建 Firecrawl 服务
+
+> **注意**：当前版本的 deer-flow（`deerflow.community.firecrawl.tools`）在初始化 `FirecrawlApp` 时只读取 `api_key`，不支持自定义 `api_url`。如需使用自建 Firecrawl，需要修改上游镜像的源码，或等待上游支持。
+
+`FIRECRAWL_API_KEY` 可通过 `secrets` 配置传入：
+
+```yaml
+secrets:
+  FIRECRAWL_API_KEY: "your-api-key"
+```
+
+### 关于 `llm.*` 配置项
+
+`llm.*` 配置项（如 `llm.openaiBaseUrl`）会被注入为环境变量（如 `OPENAI_BASE_URL`），但：
+
+- **不会覆盖** `deerflowConfig` 中的 `models` 配置
+- **可能被某些 SDK 自动读取**（如 OpenAI Python SDK 会读取 `OPENAI_BASE_URL`）
+- **不保证所有场景生效**
+
+要确保自定义端点生效，请在 `deerflowConfig` 中显式配置 `models` 的 `base_url` 字段。
 
 ## 数据持久化
 

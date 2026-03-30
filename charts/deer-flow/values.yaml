@@ -1,5 +1,5 @@
 # Default values for deer-flow.
-# Multi-service chart: nginx (proxy) + frontend (Next.js) + gateway (FastAPI) + langgraph + optional provisioner
+# Multi-service chart: frontend (Next.js) + gateway (FastAPI) + langgraph + optional provisioner
 
 nameOverride: ""
 fullnameOverride: ""
@@ -16,21 +16,6 @@ podAnnotations: {}
 podLabels: {}
 podSecurityContext: {}
 securityContext: {}
-
-# ── Nginx reverse proxy ───────────────────────────────────────────────────────
-nginx:
-  image:
-    repository: nginx
-    pullPolicy: IfNotPresent
-    tag: "alpine"
-  replicaCount: 1
-  service:
-    type: ClusterIP
-    port: 2026
-  resources: {}
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
 
 # ── Frontend (Next.js) ────────────────────────────────────────────────────────
 # Build from: frontend/Dockerfile  target: prod
@@ -207,19 +192,16 @@ provisioner:
   tolerations: []
   affinity: {}
 
-# ── Ingress (points to nginx) ─────────────────────────────────────────────────
+# ── Ingress (path-based routing to frontend/gateway/langgraph) ────────────────
 ingress:
   enabled: false
   className: ""
   annotations: {}
   hosts:
     - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
   tls: []
 
-# ── Gateway API HTTPRoute (points to nginx) ───────────────────────────────────
+# ── Gateway API HTTPRoute (path-based routing to frontend/gateway/langgraph) ──
 httpRoute:
   enabled: false
   annotations: {}
@@ -242,10 +224,19 @@ persistence:
 # ── DeerFlow config.yaml content (optional) ──────────────────────────────────
 # This file is mounted at /app/backend/config.yaml in gateway and langgraph.
 # See https://github.com/bytedance/deer-flow for the full config schema.
+#
+# IMPORTANT: To use self-hosted LLM endpoints, configure them here in the models
+# section. The llm.* fields below only set environment variables that may be read
+# by some SDKs, but do NOT override config.yaml.
 deerflowConfig: ""
-  # Example:
-  # SEARCH_API: tavily
-  # LLM_PROVIDER: openai
+  # Example: Custom OpenAI-compatible endpoint
+  # models:
+  #   - name: my-llm
+  #     display_name: My LLM
+  #     use: langchain_openai:ChatOpenAI
+  #     model: gpt-4
+  #     api_key: $OPENAI_API_KEY
+  #     base_url: http://ollama:11434/v1
 
 # ── LLM provider custom base URLs (ConfigMap) ────────────────────────────────
 # Override default API endpoints for OpenAI-compatible or self-hosted providers.

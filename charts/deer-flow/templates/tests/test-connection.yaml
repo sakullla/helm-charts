@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['--spider', '--timeout=10', 'http://{{ include "deer-flow.fullname" . }}-nginx:{{ .Values.nginx.service.port }}/health']
+      args: ['--spider', '--timeout=10', 'http://{{ include "deer-flow.fullname" . }}-gateway:{{ .Values.gateway.service.port }}/health']
   restartPolicy: Never

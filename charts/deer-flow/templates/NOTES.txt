@@ -10,27 +10,22 @@ NOTES:
 {{- range .Values.httpRoute.hostnames }}
   http://{{ . }}
 {{- end }}
-{{- else if contains "NodePort" .Values.nginx.service.type }}
-  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "deer-flow.fullname" . }}-nginx)
-  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
-  echo http://$NODE_IP:$NODE_PORT
-{{- else if contains "LoadBalancer" .Values.nginx.service.type }}
-  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "deer-flow.fullname" . }}-nginx --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
-  echo http://$SERVICE_IP:{{ .Values.nginx.service.port }}
-{{- else if contains "ClusterIP" .Values.nginx.service.type }}
-  kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ include "deer-flow.fullname" . }}-nginx {{ .Values.nginx.service.port }}:{{ .Values.nginx.service.port }}
-  echo "Visit http://127.0.0.1:{{ .Values.nginx.service.port }}"
+{{- else }}
+  kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ include "deer-flow.fullname" . }}-frontend {{ .Values.frontend.service.port }}:{{ .Values.frontend.service.port }}
+  echo "Visit http://127.0.0.1:{{ .Values.frontend.service.port }}"
 {{- end }}
 
-3. Architecture:
-   nginx (port {{ .Values.nginx.service.port }}) → routes to:
-   - frontend (Next.js, port {{ .Values.frontend.service.port }})         - /
-   - gateway  (FastAPI,  port {{ .Values.gateway.service.port }})   - /api/*, /health, /docs
-   - langgraph (LangGraph, port {{ .Values.langgraph.service.port }}) - /api/langgraph/*
+3. Architecture (path-based routing):
+   - /                    → frontend  (Next.js,   port {{ .Values.frontend.service.port }})
+   - /api/*, /health, /docs, /redoc, /openapi.json
+                          → gateway   (FastAPI,    port {{ .Values.gateway.service.port }})
+   - /api/langgraph/*     → langgraph (LangGraph,  port {{ .Values.langgraph.service.port }})
    {{- if .Values.provisioner.enabled }}
-   - provisioner (K8s, port {{ .Values.provisioner.service.port }})  - /api/sandboxes
+   - /api/sandboxes       → provisioner (K8s,      port {{ .Values.provisioner.service.port }})
    {{- end }}
+
+   Note: Ingress and HTTPRoute both route directly to the backend services.
+   Path /api/langgraph/* routes to langgraph; all /api/* routes to gateway.
 
 4. Required secrets (set before deploying):
    - TAVILY_API_KEY, JINA_API_KEY      (search APIs)

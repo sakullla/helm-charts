@@ -1,8 +1,9 @@
-{{- if and .Values.ingress.enabled (not .Values.httpRoute.enabled) -}}
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "deer-flow.fullname" . -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "deer-flow.fullname" . }}
+  name: {{ $fullName }}
   labels:
     {{- include "deer-flow.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
@@ -28,16 +29,57 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- with .pathType }}
-            pathType: {{ . }}
-            {{- end }}
+          # LangGraph API — forward to langgraph service
+          - path: /api/langgraph/
+            pathType: Prefix
             backend:
               service:
-                name: {{ include "deer-flow.fullname" $ }}-nginx
+                name: {{ $fullName }}-langgraph
                 port:
-                  number: {{ $.Values.nginx.service.port }}
-          {{- end }}
+                  number: {{ $.Values.langgraph.service.port }}
+          # Gateway API — /api/* and documentation endpoints
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-gateway
+                port:
+                  number: {{ $.Values.gateway.service.port }}
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-gateway
+                port:
+                  number: {{ $.Values.gateway.service.port }}
+          - path: /docs
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-gateway
+                port:
+                  number: {{ $.Values.gateway.service.port }}
+          - path: /redoc
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-gateway
+                port:
+                  number: {{ $.Values.gateway.service.port }}
+          - path: /openapi.json
+            pathType: Exact
+            backend:
+              service:
+                name: {{ $fullName }}-gateway
+                port:
+                  number: {{ $.Values.gateway.service.port }}
+          # Frontend — all remaining requests
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-frontend
+                port:
+                  number: {{ $.Values.frontend.service.port }}
     {{- end }}
 {{- end }}

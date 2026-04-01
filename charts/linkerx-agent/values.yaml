@@ -8,7 +8,7 @@ backend:
     repository: azzmb/linkerx-backend
     pullPolicy: IfNotPresent
     tag: ""
-  command:
+  args:
     - "-c"
     - "/etc/linkerx/linkerx_conf.json"
   service:

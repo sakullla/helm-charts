@@ -1,0 +1,52 @@
+{{- $fullName := include "linkerx-agent.fullname" . -}}
+{{- $backendService := include "linkerx-agent.backendFullname" . -}}
+{{- $downloadSecret := .Values.agentUpdate.downloadSecret | default (include "linkerx-agent.randHex" .) -}}
+{{- $passwordPepper := .Values.auth.passwordPepper | default (include "linkerx-agent.randHex" .) -}}
+{{- $grpcPort := .Values.app.grpcPort | toString -}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullName }}-config
+  labels:
+    {{- include "linkerx-agent.labels" . | nindent 4 }}
+data:
+  linkerx_conf.json: |
+    {
+      "http_addr": ":8000",
+      "monitor_grpc": {
+        "addr": ":{{ $grpcPort }}",
+        "tls_cert_file": "/data/certs/monitor-grpc/server.crt",
+        "tls_key_file": "/data/certs/monitor-grpc/server.key",
+        "tls_ca_file": "/data/certs/monitor-grpc/ca.crt",
+        "cert_out_dir": "/data/certs/monitor-grpc",
+        "cert_ips": "",
+        "cert_dns": "",
+        "ca_compat_minutes": 1440,
+        "ca_version": 0,
+        "ca_rotation_pending_until_unix_millis": 0
+      },
+      "retention": {
+        "raw_retention_days": {{ .Values.retention.rawRetentionDays }},
+        "rollup_retention_days": {{ .Values.retention.rollupRetentionDays }},
+        "rollup_bucket": {{ .Values.retention.rollupBucket | quote }},
+        "loop_interval": {{ .Values.retention.loopInterval | quote }},
+        "vacuum_interval": {{ .Values.retention.vacuumInterval | quote }}
+      },
+      "agent_update": {
+        "base_url": {{ .Values.app.publicBaseUrl | quote }},
+        "expires_seconds": 300,
+        "download_path_prefix": "/downloads/agent",
+        "download_secret": {{ $downloadSecret | quote }},
+        "release": {
+          "artifacts": []
+        }
+      },
+      "licensing": {
+        "license_id": {{ .Values.licensing.licenseId | quote }},
+        "enroll_token": {{ .Values.licensing.enrollToken | quote }}
+      },
+      "auth": {
+        "password_pepper": {{ $passwordPepper | quote }}
+      }
+    }

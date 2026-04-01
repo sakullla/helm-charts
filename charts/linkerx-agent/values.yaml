@@ -1,0 +1,234 @@
+# Default values for linkerx-agent.
+
+replicaCount: 1
+
+# Backend configuration
+backend:
+  image:
+    repository: azzmb/linkerx-backend
+    pullPolicy: IfNotPresent
+    tag: ""
+  command:
+    - "-c"
+    - "/etc/linkerx/linkerx_conf.json"
+  service:
+    type: ClusterIP
+    httpPort: 8000
+    grpcPort: 6080
+    annotations: {}
+
+# Frontend configuration
+frontend:
+  image:
+    repository: azzmb/linkerx-frontend
+    pullPolicy: IfNotPresent
+    tag: ""
+  command:
+    - "nginx"
+    - "-g"
+    - "daemon off;"
+  service:
+    type: ClusterIP
+    port: 80
+    annotations: {}
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Service Account
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+
+backendSecurityContext: {}
+frontendSecurityContext: {}
+
+# Ingress configuration (routes /api/ and /downloads/agent/ to backend, others to frontend)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: linkerx.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+    # - secretName: linkerx-tls
+    #   hosts:
+    #     - linkerx.local
+
+# gRPC Ingress (separate from HTTP ingress, routes gRPC traffic to backend)
+grpcIngress:
+  enabled: false
+  className: ""
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+  hosts:
+    - linkerx.local
+  tls: []
+    # - secretName: linkerx-tls
+    #   hosts:
+    #     - linkerx.local
+
+# Gateway API HTTPRoute (routes /api/ and /downloads/agent/ to backend, others to frontend)
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - linkerx.local
+  rules: []
+    # - matches:
+    #     - path:
+    #         type: PathPrefix
+    #         value: /
+
+# Gateway API GRPCRoute (routes gRPC traffic to backend)
+grpcRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: grpc
+  hostnames:
+    - linkerx.local
+  rules: []
+    # - matches:
+    #     - method:
+    #         service: linkerx.monitor.MonitorService
+
+# Health probes - backend
+backendStartupProbe:
+  tcpSocket:
+    port: http
+  failureThreshold: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+
+backendLivenessProbe:
+  tcpSocket:
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+backendReadinessProbe:
+  tcpSocket:
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+# Health probes - frontend
+frontendStartupProbe:
+  tcpSocket:
+    port: http
+  failureThreshold: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+
+frontendLivenessProbe:
+  tcpSocket:
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+frontendReadinessProbe:
+  tcpSocket:
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+# Resource limits
+backendResources: {}
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+frontendResources: {}
+  # limits:
+  #   cpu: 200m
+  #   memory: 256Mi
+  # requests:
+  #   cpu: 50m
+  #   memory: 64Mi
+
+# Autoscaling (applies to backend only)
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+# Persistence (backend data directory)
+persistence:
+  enabled: false
+  size: 5Gi
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  existingClaim: ""
+  annotations: {}
+
+# Scheduling
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Application configuration
+app:
+  publicBaseUrl: ""
+  grpcPort: 6080
+
+# Licensing (required)
+licensing:
+  licenseId: ""
+  enrollToken: ""
+
+# Auth configuration
+auth:
+  passwordPepper: ""
+
+# Agent update configuration
+agentUpdate:
+  downloadSecret: ""
+
+# Data retention
+retention:
+  rawRetentionDays: 7
+  rollupRetentionDays: 30
+  rollupBucket: "1m"
+  loopInterval: "10m"
+  vacuumInterval: "24h"
+
+# gRPC TLS certificates
+grpc:
+  tlsCaCert: ""
+  tlsServerCert: ""
+  tlsServerKey: ""

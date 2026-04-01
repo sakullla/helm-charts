@@ -1,0 +1,41 @@
+{{- if .Values.grpcIngress.enabled -}}
+{{- $backendName := include "linkerx-agent.backendFullname" . -}}
+{{- $grpcPort := .Values.backend.service.grpcPort -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "linkerx-agent.fullname" . }}-grpc
+  labels:
+    {{- include "linkerx-agent.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.grpcIngress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- with .Values.grpcIngress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  {{- if .Values.grpcIngress.tls }}
+  tls:
+    {{- range .Values.grpcIngress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.grpcIngress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $backendName }}
+                port:
+                  number: {{ $grpcPort }}
+    {{- end }}
+{{- end }}

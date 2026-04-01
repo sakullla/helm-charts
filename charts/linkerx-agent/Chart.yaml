@@ -1,0 +1,11 @@
+apiVersion: v2
+name: linkerx-agent
+description: LinkerX Agent - network monitoring platform with backend API and frontend dashboard
+keywords:
+  - linkerx
+  - monitoring
+  - agent
+  - grpc
+type: application
+version: 0.0.1
+appVersion: "latest"

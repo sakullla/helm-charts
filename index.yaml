@@ -357,6 +357,22 @@ entries:
   linkerx-agent:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-04-01T13:56:23.222944319Z"
+    description: LinkerX Agent - network monitoring platform with backend API and
+      frontend dashboard
+    digest: 2b31b68a5f38becf403591d76a47c5983c6f399cd335d52bdbacc04efc51abef
+    keywords:
+    - linkerx
+    - monitoring
+    - agent
+    - grpc
+    name: linkerx-agent
+    type: application
+    urls:
+    - https://github.com/sakullla/helm-charts/releases/download/linkerx-agent-0.0.2/linkerx-agent-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-04-01T13:44:08.388188154Z"
     description: LinkerX Agent - network monitoring platform with backend API and
       frontend dashboard
@@ -691,4 +707,4 @@ entries:
     urls:
     - https://github.com/sakullla/helm-charts/releases/download/yamtrack-0.0.4/yamtrack-0.0.4.tgz
     version: 0.0.4
-generated: "2026-04-01T13:44:08.388209394Z"
+generated: "2026-04-01T13:56:23.222959257Z"

@@ -50,3 +50,46 @@ data:
         "password_pepper": {{ $passwordPepper | quote }}
       }
     }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullName }}-nginx
+  labels:
+    {{- include "linkerx-agent.frontendLabels" . | nindent 4 }}
+data:
+  nginx.conf: |
+    events {}
+    http {
+      include /etc/nginx/mime.types;
+      default_type application/octet-stream;
+      charset utf-8;
+
+      server {
+        listen 80;
+        server_name _;
+        root /usr/share/nginx/html;
+        index index.html;
+        absolute_redirect off;
+
+        location /_next/ {
+          try_files $uri =404;
+        }
+
+        location = / {
+          return 302 /dashboard/user;
+        }
+
+        location ^~ /server/monitor/ {
+          try_files /server/monitor/[id].html =404;
+        }
+
+        location ^~ /user/group/ {
+          try_files /user/group/[id].html =404;
+        }
+
+        location / {
+          try_files $uri $uri.html $uri/ /index.html;
+        }
+      }
+    }

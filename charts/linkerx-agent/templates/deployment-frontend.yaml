@@ -63,11 +63,17 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
             - name: data
               mountPath: /srv/downloads/agent
               subPath: downloads/agent
               readOnly: true
       volumes:
+        - name: nginx-config
+          configMap:
+            name: {{ include "linkerx-agent.fullname" . }}-nginx
         {{- if .Values.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
